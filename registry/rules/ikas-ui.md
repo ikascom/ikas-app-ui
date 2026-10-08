@@ -45,6 +45,9 @@ Kendin yazmadan önce eksik olanı `npx shadcn@latest add @ikas/<name>` ile kur.
 - **Durum renklerinin anlamı var.** `status` değerleri: `success` = tamamlandı/sağlıklı,
   `warning` = yakında ilgi istiyor, `danger` = bozuk/engellendi/geri alınamaz, `info` = bilgi,
   `neutral` = durum yok. Bunları süs için kullanma.
+- **Banner aksiyonlarına renk verme, banner verir.** `Banner` `actions` içindeki butonlara `color` verme:
+  soft banner'da varsayılan renkli butonlar durumun rengini kendiliğinden alır (solid → durum dolgusu,
+  outline/soft/ghost → tonlu). Metne veya butonlara elle `text-amber-*`, `bg-red-*` gibi sınıf ekleme.
 - **Yüzeyler:** önce açık tema. Sayfa arka planı `bg-background`; içerik `Card` üzerinde durur
   (beyaz, katmanlı ince gölge). `backdrop-blur`, glassmorphism veya renkli kart arka planı yok.
 - **Köşe yarıçapı:** bileşenlerin varsayılanlarını kullan. `rounded-2xl`/`rounded-3xl` ekleme.

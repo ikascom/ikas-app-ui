@@ -32,7 +32,8 @@ const statusColor = {
 type BadgeStatus = keyof typeof statusColor
 
 const badgeVariants = cva(
-  "group/badge inline-flex h-5.5 w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-md px-1.5 text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-3 focus-visible:ring-ring/30 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  // Dot: halfway between the solid color and the tinted text, so amber and lime stay 3:1 on white and on their fill.
+  "[--c-dot:color-mix(in_oklab,var(--c)_50%,var(--c-subtle-fg))] group/badge inline-flex h-5.5 w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-md px-1.5 text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-3 focus-visible:ring-ring/30 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       variant: {
@@ -79,7 +80,7 @@ function Badge({ className, status = "neutral", color, variant = "soft", size, d
       className={cn(badgeVariants({ variant, color: resolved, size }), className)}
       {...props}
     >
-      {showDot && <span aria-hidden className={cn("size-1.5 shrink-0 rounded-full", variant === "solid" ? "bg-current/80" : "bg-(--c)")} />}
+      {showDot && <span aria-hidden className={cn("size-1.5 shrink-0 rounded-full", variant === "solid" ? "bg-current/80" : "bg-(--c-dot)")} />}
       {children}
     </Comp>
   )

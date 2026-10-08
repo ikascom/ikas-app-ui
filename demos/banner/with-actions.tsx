@@ -17,23 +17,38 @@ export default function BannerWithActions() {
   }
 
   return (
-    <Banner
-      status="warning"
-      title="Paketiniz 3 gün içinde yenilenecek"
-      className="max-w-xl"
-      onDismiss={() => setVisible(false)}
-      actions={
-        <>
-          <Button size="sm" variant="outline">
-            Paketi yönet
-          </Button>
-          <Button size="sm" variant="ghost">
-            Faturaları görüntüle
-          </Button>
-        </>
-      }
-    >
-      Sonu 4242 ile biten karttan ₺499,00 tahsil edilecek.
-    </Banner>
+    <div className="grid w-full max-w-xl gap-3">
+      <Banner
+        status="warning"
+        title="Paketiniz 3 gün içinde yenilenecek"
+        onDismiss={() => setVisible(false)}
+        actions={
+          <>
+            <Button size="sm" variant="outline">
+              Paketi yönet
+            </Button>
+            <Button size="sm" variant="ghost">
+              Faturaları görüntüle
+            </Button>
+          </>
+        }
+      >
+        Sonu 4242 ile biten karttan ₺499,00 tahsil edilecek.
+      </Banner>
+      <Banner
+        status="danger"
+        title="Eşitleme durdu"
+        actions={
+          <>
+            <Button size="sm">Anahtarı güncelle</Button>
+            <Button size="sm" variant="soft">
+              Tekrar dene
+            </Button>
+          </>
+        }
+      >
+        Pazaryeri API anahtarını reddetti. Son başarılı eşitleme 2 saat önce.
+      </Banner>
+    </div>
   )
 }

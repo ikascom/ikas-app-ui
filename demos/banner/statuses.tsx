@@ -13,7 +13,7 @@ export default function BannerStatuses() {
         Barkod eklenene kadar bu ürünler atlanacak.
       </Banner>
       <Banner status="danger" title="Eşitleme başarısız">
-        Pazaryeri API anahtarını reddetti. Eşitlemeye devam etmek için ayarlardan güncelleyin.
+        Pazaryeri API anahtarını reddetti. Eşitlemeye devam etmek için <a href="#">ayarlardan</a> güncelleyin.
       </Banner>
     </div>
   )

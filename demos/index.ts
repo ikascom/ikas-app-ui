@@ -38,6 +38,7 @@ import UnsavedBarSettingsForm from "./unsaved-bar/settings-form"
 import SettingRowList from "./setting-row/list"
 import StatCardRow from "./stat-card/row"
 import ToastActions from "./toast/actions"
+import ToastPreview from "./toast/preview"
 import ToastTypes from "./toast/types"
 
 export const demos = {
@@ -78,6 +79,7 @@ export const demos = {
   "setting-row/list": SettingRowList,
   "stat-card/row": StatCardRow,
   "toast/actions": ToastActions,
+  "toast/preview": ToastPreview,
   "toast/types": ToastTypes,
 } satisfies Record<string, () => React.ReactNode>
 

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import { Banner } from "@/components/ikas/banner"
 
 export default function BannerSurface() {
@@ -8,6 +9,18 @@ export default function BannerSurface() {
       </Banner>
       <Banner variant="surface" status="success" title="Webhook doğrulandı">
         Sipariş güncellemeleri anlık olarak iletilir.
+      </Banner>
+      <Banner
+        variant="surface"
+        status="warning"
+        title="3 kategori eşleşmedi"
+        actions={
+          <Button size="sm" variant="outline">
+            Kategorileri eşle
+          </Button>
+        }
+      >
+        Bu kategorilerdeki ürünler <a href="#">varsayılan kategoriye</a> gönderilir.
       </Banner>
     </div>
   )
