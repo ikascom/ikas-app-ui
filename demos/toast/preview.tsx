@@ -12,7 +12,7 @@ export default function ToastPreview() {
   React.useEffect(() => {
     // Fixed ids keep StrictMode's double effect from stacking duplicates.
     const options = { toasterId: TOASTER, duration: Infinity }
-    toast.info("Eşitleme sıraya alındı", { ...options, id: "preview-info", description: "Yaklaşık 2 dakika içinde başlar." })
+    toast.error("Kaydedilemedi", { ...options, id: "preview-error", description: "Bağlantı koptu. Değişiklikleriniz bu cihazda duruyor." })
     toast.warning("3 ürün atlandı", { ...options, id: "preview-warning", description: "Barkodu olmayan ürünler gönderilmedi." })
     toast.success("Kural silindi", {
       ...options,
@@ -24,7 +24,7 @@ export default function ToastPreview() {
 
   return (
     <div className="relative mx-auto h-64 w-full max-w-[400px]">
-      <Toaster id={TOASTER} expand position="bottom-center" offset={0} className="toaster group absolute! inset-0! w-full! transform-none!" />
+      <Toaster id={TOASTER} expand position="bottom-center" offset={0} className="absolute! inset-0! w-full! transform-none!" />
     </div>
   )
 }

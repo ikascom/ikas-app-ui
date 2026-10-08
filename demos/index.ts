@@ -7,7 +7,7 @@ import { chartDemosB } from "./index-charts-b"
 import { chartDemosC } from "./index-charts-c"
 import { patternDemos } from "./index-patterns"
 
-import BadgeAppearances from "./badge/appearances"
+import BadgeVariants from "./badge/variants"
 import BadgeColors from "./badge/colors"
 import BadgeOrderStatuses from "./badge/order-statuses"
 import BadgeStatuses from "./badge/statuses"
@@ -23,6 +23,7 @@ import ButtonWithIcon from "./button/with-icon"
 import CardBasic from "./card/basic"
 import DescriptionListHorizontal from "./description-list/horizontal"
 import DescriptionListStacked from "./description-list/stacked"
+import EmptyStateError from "./empty-state/error"
 import EmptyStatePage from "./empty-state/page"
 import EmptyStateSection from "./empty-state/section"
 import FormControls from "./form/controls"
@@ -32,6 +33,7 @@ import LayoutSettingsGroup from "./layout/settings-group"
 import LayoutMainAside from "./layout/main-aside"
 import PageHeaderDemo from "./page/header"
 import PageSimple from "./page/simple"
+import RecordTableError from "./record-table/error"
 import RecordTableOrders from "./record-table/orders"
 import RecordTableStates from "./record-table/states"
 import UnsavedBarSettingsForm from "./unsaved-bar/settings-form"
@@ -39,6 +41,8 @@ import SettingRowList from "./setting-row/list"
 import StatCardRow from "./stat-card/row"
 import ToastActions from "./toast/actions"
 import ToastPreview from "./toast/preview"
+import ToastProgress from "./toast/progress"
+import ToastSoft from "./toast/soft"
 import ToastTypes from "./toast/types"
 
 export const demos = {
@@ -48,7 +52,7 @@ export const demos = {
   ...chartDemosB,
   ...chartDemosC,
   ...patternDemos,
-  "badge/appearances": BadgeAppearances,
+  "badge/variants": BadgeVariants,
   "badge/colors": BadgeColors,
   "badge/order-statuses": BadgeOrderStatuses,
   "badge/statuses": BadgeStatuses,
@@ -64,6 +68,7 @@ export const demos = {
   "card/basic": CardBasic,
   "description-list/horizontal": DescriptionListHorizontal,
   "description-list/stacked": DescriptionListStacked,
+  "empty-state/error": EmptyStateError,
   "empty-state/page": EmptyStatePage,
   "empty-state/section": EmptyStateSection,
   "form/controls": FormControls,
@@ -73,6 +78,7 @@ export const demos = {
   "layout/main-aside": LayoutMainAside,
   "page/header": PageHeaderDemo,
   "page/simple": PageSimple,
+  "record-table/error": RecordTableError,
   "record-table/orders": RecordTableOrders,
   "record-table/states": RecordTableStates,
   "unsaved-bar/settings-form": UnsavedBarSettingsForm,
@@ -80,6 +86,8 @@ export const demos = {
   "stat-card/row": StatCardRow,
   "toast/actions": ToastActions,
   "toast/preview": ToastPreview,
+  "toast/progress": ToastProgress,
+  "toast/soft": ToastSoft,
   "toast/types": ToastTypes,
 } satisfies Record<string, () => React.ReactNode>
 

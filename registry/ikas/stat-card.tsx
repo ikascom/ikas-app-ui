@@ -2,6 +2,7 @@ import * as React from "react"
 import { ArrowDownRightIcon, ArrowUpRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { statusTint } from "@/lib/status"
 
 type StatCardProps = React.ComponentProps<"div"> & {
   label: React.ReactNode
@@ -43,11 +44,11 @@ function StatCard({
         <p className="flex items-center gap-1.5 text-[13px]">
           <span
             className={cn(
-              "inline-flex items-center gap-0.5 font-medium tabular-nums",
-              isFlat ? "text-muted-foreground" : isGood ? "text-success-subtle-foreground" : "text-danger-subtle-foreground"
+              "inline-flex items-center gap-0.5 font-medium tabular-nums [&>svg]:size-3.5 [&>svg]:text-(--s-icon)",
+              isFlat ? "text-muted-foreground" : cn(isGood ? statusTint.success : statusTint.danger, "text-(--s-text)")
             )}
           >
-            {!isFlat && (isUp ? <ArrowUpRightIcon className="size-3.5" /> : <ArrowDownRightIcon className="size-3.5" />)}
+            {!isFlat && (isUp ? <ArrowUpRightIcon /> : <ArrowDownRightIcon />)}
             {/* Turkish percent: sign, then %, then the number (+%12,4). */}
             {isUp ? "+" : change < 0 ? "−" : ""}%{Math.abs(change).toLocaleString("tr-TR", { maximumFractionDigits: 1 })}
           </span>

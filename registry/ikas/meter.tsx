@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from "motion/react"
 
 import { springOrInstant } from "@/lib/motion"
 import { cn } from "@/lib/utils"
+import { statusTint } from "@/lib/status"
 import { AnimatedNumber } from "@/components/ikas/animated-number"
 import { defaultNumberFormat } from "@/components/ikas/chart-kit"
 
@@ -20,10 +21,10 @@ const statusColors: Record<MeterStatus, { fill: string; track: string }> = {
   danger: { fill: "var(--danger)", track: track("var(--danger)", 16) },
 }
 
-/** Status is never color alone: warning and danger carry an icon and words. */
+/** Status is never color alone: warning and danger carry an icon and words. Icon and text use the Banner tint. */
 const statusNote: Partial<Record<MeterStatus, { icon: React.ElementType; label: string; className: string }>> = {
-  warning: { icon: AlertTriangleIcon, label: "Limite yaklaşıyor", className: "text-warning-subtle-foreground" },
-  danger: { icon: OctagonAlertIcon, label: "Limit doldu", className: "text-danger-subtle-foreground" },
+  warning: { icon: AlertTriangleIcon, label: "Limite yaklaşıyor", className: statusTint.warning },
+  danger: { icon: OctagonAlertIcon, label: "Limit doldu", className: statusTint.danger },
 }
 
 /** auto: ≥ 90% danger, ≥ 75% warning, otherwise neutral. */
@@ -83,8 +84,8 @@ function Meter({ value, max, label, status = "auto", valueFormat = defaultNumber
         />
       </div>
       {note && (
-        <span className={cn("flex items-center gap-1.5 text-[12px] font-medium", note.className)}>
-          <note.icon className="size-3.5" aria-hidden />
+        <span className={cn("flex items-center gap-1.5 text-[12px] font-medium text-(--s-text)", note.className)}>
+          <note.icon className="size-3.5 text-(--s-icon)" aria-hidden />
           {note.label}
         </span>
       )}

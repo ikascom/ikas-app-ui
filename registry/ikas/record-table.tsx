@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { EmptyState } from "@/components/ikas/empty-state"
 
 type RecordTableColumn<T> = {
   id: string
@@ -38,6 +39,13 @@ type RecordTableProps<T> = {
   loading?: boolean
   /** Shown when `rows` is empty and not loading. Usually an EmptyState size="section". */
   emptyState?: React.ReactNode
+  /**
+   * The rows failed to load: replaces them with a danger EmptyState. `true` uses the
+   * default message; a string or node becomes its description. `loading` wins while set.
+   */
+  error?: React.ReactNode
+  /** Adds "Tekrar dene" to the error state. Set `loading` while the retry runs. */
+  onRetry?: () => void
   /** Search, filters, tabs. Rendered above the table inside the same card. */
   toolbar?: React.ReactNode
   pagination?: {
@@ -61,10 +69,13 @@ function RecordTable<T>({
   onRowClick,
   loading = false,
   emptyState,
+  error,
+  onRetry,
   toolbar,
   pagination,
   className,
 }: RecordTableProps<T>) {
+  const failed = !loading && Boolean(error)
   const selectable = Boolean(selectedIds && onSelectedIdsChange)
   const selected = React.useMemo(() => new Set(selectedIds ?? []), [selectedIds])
   const pageIds = rows.map(getRowId)
@@ -111,7 +122,7 @@ function RecordTable<T>({
                   aria-label="Bu sayfadaki tüm satırları seç"
                   checked={allSelected ? true : someSelected ? "indeterminate" : false}
                   onCheckedChange={(value) => toggleAll(value === true)}
-                  disabled={loading || rows.length === 0}
+                  disabled={loading || failed || rows.length === 0}
                 />
               </TableHead>
             )}
@@ -140,7 +151,7 @@ function RecordTable<T>({
             )}
           </TableRow>
         </TableHeader>
-        <TableBody key={loading ? "loading" : "rows"} className="animate-in duration-200 ease-(--ease-out) fade-in-0 motion-reduce:animate-none">
+        <TableBody key={loading ? "loading" : failed ? "error" : "rows"} className="animate-in duration-200 ease-(--ease-out) fade-in-0 motion-reduce:animate-none">
           {loading ? (
             Array.from({ length: 5 }, (_, i) => (
               <TableRow key={`skeleton-${i}`} className="hover:bg-transparent">
@@ -159,6 +170,17 @@ function RecordTable<T>({
                 ))}
               </TableRow>
             ))
+          ) : failed ? (
+            <TableRow data-slot="record-table-error" className="hover:bg-transparent">
+              <TableCell colSpan={colSpan} className="p-0 whitespace-normal">
+                <EmptyState
+                  status="danger"
+                  title="Kayıtlar yüklenemedi"
+                  description={error === true ? "Bağlantınızı kontrol edip tekrar deneyin." : error}
+                  onRetry={onRetry}
+                />
+              </TableCell>
+            </TableRow>
           ) : rows.length === 0 ? (
             <TableRow className="hover:bg-transparent">
               <TableCell colSpan={colSpan} className="p-0 whitespace-normal">
@@ -205,7 +227,7 @@ function RecordTable<T>({
           )}
         </TableBody>
       </Table>
-      {pagination && pagination.pageCount > 1 && (
+      {pagination && pagination.pageCount > 1 && !failed && (
         <div className="flex items-center justify-between gap-3 border-t px-4 py-2.5">
           <p className="text-[13px] text-muted-foreground tabular-nums">
             {pagination.summary ?? `Sayfa ${pagination.page} / ${pagination.pageCount}`}

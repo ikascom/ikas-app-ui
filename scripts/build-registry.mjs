@@ -33,7 +33,9 @@ const docsPages = new Set(
     : []
 )
 for (const name of ["badge", "button", "card"]) docsPages.add(name)
-const docsUrl = (name) => (docsPages.has(name) ? `${DOCS}/components/${name}` : DOCS)
+/** Items documented on a page with another path. */
+const docsPaths = { sonner: "components/toast", status: "tokens" }
+const docsUrl = (name) => (docsPaths[name] ? `${DOCS}/${docsPaths[name]}` : docsPages.has(name) ? `${DOCS}/components/${name}` : DOCS)
 
 /**
  * Fixed category vocabulary. Every item gets one or two of these in `meta`;
@@ -64,6 +66,7 @@ const meta = {
   theme: { title: "ikas Theme", description: "Light-first neutral theme tokens: surfaces, six-color palette, status colors, radius and elevation. Install first.", categories: ["theme"] },
   utils: { description: "The cn() helper that merges Tailwind class names; used by every component.", categories: ["utilities"] },
   motion: { description: "Shared spring and easing tokens so all animations in the app move the same way.", categories: ["motion", "utilities"] },
+  status: { description: "Status tint classes: color variables per status for surfaces, text, icons and actions.", categories: ["utilities", "feedback"] },
   "ui-rules": { title: "UI Rules for AI agents", description: "ikas-ui.md design rules for AI coding agents; reference it from AGENTS.md or CLAUDE.md.", categories: ["ai"] },
 
   // Primitives (registry/ui)
@@ -89,7 +92,7 @@ const meta = {
   separator: { description: "Thin horizontal or vertical line that divides content.", categories: ["primitives", "layout"] },
   sheet: { description: "Panel that slides in from a screen edge for side tasks and details.", categories: ["primitives", "overlays"] },
   skeleton: { description: "Pulsing placeholder block shown while content loads.", categories: ["primitives", "feedback"] },
-  sonner: { description: "Toast notifications for short confirmations that need no follow-up, styled with theme tokens.", categories: ["primitives", "feedback"] },
+  sonner: { description: "Toast notifications in status colors, with soft variant, countdown bar and automatic dark theme.", categories: ["primitives", "feedback"] },
   spinner: { description: "Animated loading indicator for buttons and pending sections.", categories: ["primitives", "feedback"] },
   switch: { description: "Toggle switch for settings that turn on or off immediately.", categories: ["primitives", "forms"] },
   table: { description: "Basic table building blocks: header, body, rows, cells, footer and caption.", categories: ["primitives", "data-display"] },
@@ -111,14 +114,14 @@ const meta = {
   "confirm-button": { description: "Two-click inline confirm for destructive actions that do not need a dialog.", categories: ["forms", "feedback"] },
   "description-list": { title: "Description List", description: "Key/value pairs for detail pages.", categories: ["data-display"] },
   "donut-chart": { description: "Donut chart for part-to-whole data, with the total in the center and a legend.", categories: ["charts"] },
-  "empty-state": { title: "Empty State", description: "Explains an empty view and offers the next step. Page, section and inline sizes.", categories: ["feedback"] },
+  "empty-state": { title: "Empty State", description: "Explains an empty or failed view and offers the next step or a retry.", categories: ["feedback"] },
   "expandable-search": { description: "Search icon that expands into a text input and stays open while filled.", categories: ["forms", "navigation"] },
   launchpad: { title: "Launchpad", description: "First-run steps on a vertical rail; the active step opens in place with its actions.", categories: ["feedback", "layout"] },
   layout: { title: "Layout", description: "Column presets (main-aside, half, third) and numbered SettingsGroup sections for settings screens.", categories: ["layout"] },
   meter: { description: "Usage against a limit as a bar or ring, with warning and danger states.", categories: ["data-display", "feedback"] },
   "number-stepper": { description: "Number input with minus and plus buttons; click the value to type it.", categories: ["forms"] },
   page: { title: "Page", description: "Screen wrapper with width presets and a PageHeader with back link, badges and actions.", categories: ["layout"] },
-  "record-table": { title: "Record Table", description: "Table for lists of records with selection, bulk actions, loading, empty state and pagination.", categories: ["data-display"] },
+  "record-table": { title: "Record Table", description: "Table for lists of records with selection, bulk actions, loading, empty, error and pagination.", categories: ["data-display"] },
   "unsaved-bar": { title: "Unsaved Bar", description: "Bar with save and discard that appears while a form has unsaved changes.", categories: ["forms", "feedback"] },
   "script-installer": { description: "Installs, updates and removes the app's storefront script, one row per storefront.", categories: ["forms"] },
   "segmented-control": { description: "Pick one of two to five options, as view tabs or a radio choice.", categories: ["forms", "navigation"] },

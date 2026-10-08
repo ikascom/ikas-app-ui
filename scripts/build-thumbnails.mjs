@@ -23,6 +23,7 @@
  *   node scripts/build-thumbnails.mjs --strict   # fails when Chrome is missing
  *   node scripts/build-thumbnails.mjs --only=orders,page/simple
  *   node scripts/build-thumbnails.mjs --light-only   # skip the dark variants
+ *   THUMBNAILS_CONCURRENCY=1 node scripts/build-thumbnails.mjs   # tabs in parallel (default 2)
  *
  * Needs `pnpm preview:build` first. Serves preview/out under /ui-preview on a free
  * local port and drives headless Chrome (CHROME_PATH to override) over the DevTools
@@ -46,7 +47,8 @@ const args = process.argv.slice(2)
 const strict = args.includes("--strict")
 const withDark = !args.includes("--light-only")
 const only = args.find((a) => a.startsWith("--only="))?.slice("--only=".length).split(",").filter(Boolean)
-const CONCURRENCY = Number(process.env.THUMBNAILS_CONCURRENCY ?? 4)
+/** Tabs captured in parallel in the one Chrome. Low by default: each tab holds a full page in memory. */
+const CONCURRENCY = Math.max(1, Number(process.env.THUMBNAILS_CONCURRENCY ?? process.env.THUMBS_CONCURRENCY ?? 2) || 2)
 
 /** Viewports. DEMO_WIDTH is the docs content column (builders.ikas.com at 1440px wide). */
 const EXAMPLE = { width: 1280, height: 800, scale: 0.625 } // -> 800×500 image

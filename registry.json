@@ -474,6 +474,24 @@
       ]
     },
     {
+      "name": "status",
+      "type": "registry:lib",
+      "title": "Status",
+      "description": "Status tint classes: color variables per status for surfaces, text, icons and actions.",
+      "categories": [
+        "utilities",
+        "feedback"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/tokens",
+      "files": [
+        {
+          "path": "registry/lib/status.ts",
+          "type": "registry:lib",
+          "target": "@lib/status.ts"
+        }
+      ]
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
@@ -1009,12 +1027,12 @@
       "name": "sonner",
       "type": "registry:ui",
       "title": "Sonner",
-      "description": "Toast notifications for short confirmations that need no follow-up, styled with theme tokens.",
+      "description": "Toast notifications in status colors, with soft variant, countdown bar and automatic dark theme.",
       "categories": [
         "primitives",
         "feedback"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/toast",
       "dependencies": [
         "lucide-react",
         "sonner"
@@ -1023,6 +1041,7 @@
         "@ikas/animated-check",
         "@ikas/button",
         "@ikas/spinner",
+        "@ikas/status",
         "@ikas/utils"
       ],
       "files": [
@@ -1282,6 +1301,7 @@
       ],
       "registryDependencies": [
         "@ikas/button",
+        "@ikas/status",
         "@ikas/utils"
       ],
       "files": [
@@ -1503,15 +1523,18 @@
       "name": "empty-state",
       "type": "registry:component",
       "title": "Empty State",
-      "description": "Explains an empty view and offers the next step. Page, section and inline sizes.",
+      "description": "Explains an empty or failed view and offers the next step or a retry.",
       "categories": [
         "feedback"
       ],
       "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/empty-state",
       "dependencies": [
-        "class-variance-authority"
+        "class-variance-authority",
+        "lucide-react"
       ],
       "registryDependencies": [
+        "@ikas/button",
+        "@ikas/status",
         "@ikas/utils"
       ],
       "files": [
@@ -1617,6 +1640,7 @@
         "@ikas/animated-number",
         "@ikas/chart-kit",
         "@ikas/motion",
+        "@ikas/status",
         "@ikas/utils"
       ],
       "files": [
@@ -1681,7 +1705,7 @@
       "name": "record-table",
       "type": "registry:component",
       "title": "Record Table",
-      "description": "Table for lists of records with selection, bulk actions, loading, empty state and pagination.",
+      "description": "Table for lists of records with selection, bulk actions, loading, empty, error and pagination.",
       "categories": [
         "data-display"
       ],
@@ -1692,6 +1716,7 @@
       "registryDependencies": [
         "@ikas/button",
         "@ikas/checkbox",
+        "@ikas/empty-state",
         "@ikas/skeleton",
         "@ikas/table",
         "@ikas/utils"
@@ -1815,6 +1840,7 @@
         "lucide-react"
       ],
       "registryDependencies": [
+        "@ikas/status",
         "@ikas/utils"
       ],
       "files": [

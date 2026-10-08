@@ -64,7 +64,8 @@ function UnsavedBar({
           >
             {discardLabel}
           </Button>
-          <Button size="sm" onClick={onSave} loading={saving}>
+          {/* Inverted like the bar: a neutral solid would be dark on dark (light) and white on white (dark). */}
+          <Button size="sm" onClick={onSave} loading={saving} className="[--c-fg:var(--foreground)] [--c:var(--background)]">
             {saveLabel}
           </Button>
         </div>

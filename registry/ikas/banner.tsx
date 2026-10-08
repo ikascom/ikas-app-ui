@@ -5,35 +5,22 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { AlertTriangleIcon, CheckCircle2Icon, InfoIcon, XIcon, OctagonAlertIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { statusTint } from "@/lib/status"
 import { Button } from "@/components/ui/button"
 
 /**
- * Each status points the local --b-* variables at one status color; everything
- * else (title, body, links, icon, buttons in `actions`) reads only those:
- *   --b         solid status color      --b-text    tinted text (subtle-foreground)
- *   --b-fg      text on the solid        --b-border  hairline on the soft fill
- *   --b-subtle  soft fill
+ * Each status sets the shared --s-* tint variables (see @/lib/status); title,
+ * body, links, icon and buttons in `actions` read only those.
  */
 const bannerVariants = cva(
   [
     "group/banner relative flex w-full gap-3 rounded-xl p-3.5 text-sm",
-    // Icon: halfway between the solid color and the tinted text, so amber stays 3:1 on its fill.
-    "[--b-icon:color-mix(in_oklab,var(--b)_50%,var(--b-text))] [&>[data-slot=banner-icon]]:mt-px [&>[data-slot=banner-icon]]:size-4.5 [&>[data-slot=banner-icon]]:shrink-0 [&>[data-slot=banner-icon]]:text-(--b-icon)",
-    "[&_a]:font-medium [&_a]:text-(--b-link) [&_a]:underline [&_a]:decoration-(--b-icon)/50 [&_a]:underline-offset-3 [&_a]:transition-colors [&_a:hover]:decoration-current",
+    "[&>[data-slot=banner-icon]]:mt-px [&>[data-slot=banner-icon]]:size-4.5 [&>[data-slot=banner-icon]]:shrink-0 [&>[data-slot=banner-icon]]:text-(--s-icon)",
+    "[&_a]:font-medium [&_a]:text-(--s-link) [&_a]:underline [&_a]:decoration-(--s-icon)/50 [&_a]:underline-offset-3 [&_a]:transition-colors [&_a:hover]:decoration-current",
   ],
   {
     variants: {
-      status: {
-        info: "[--b:var(--info)] [--b-fg:var(--info-foreground)] [--b-subtle:var(--info-subtle)] [--b-text:var(--info-subtle-foreground)] [--b-border:var(--info-border)]",
-        success:
-          "[--b:var(--success)] [--b-fg:var(--success-foreground)] [--b-subtle:var(--success-subtle)] [--b-text:var(--success-subtle-foreground)] [--b-border:var(--success-border)]",
-        warning:
-          "[--b:var(--warning)] [--b-fg:var(--warning-foreground)] [--b-subtle:var(--warning-subtle)] [--b-text:var(--warning-subtle-foreground)] [--b-border:var(--warning-border)]",
-        danger:
-          "[--b:var(--danger)] [--b-fg:var(--danger-foreground)] [--b-subtle:var(--danger-subtle)] [--b-text:var(--danger-subtle-foreground)] [--b-border:var(--danger-border)]",
-        neutral:
-          "[--b:var(--neutral)] [--b-fg:var(--neutral-foreground)] [--b-subtle:var(--muted)] [--b-text:var(--neutral-subtle-foreground)] [--b-border:var(--border)] [--b-icon:var(--icon)]",
-      },
+      status: statusTint,
       variant: {
         /**
          * Tinted fill, tinted text. Page-level messages that must be noticed.
@@ -42,16 +29,15 @@ const bannerVariants = cva(
          * a translucent raised surface with a status hairline.
          */
         soft: [
-          "bg-(--b-subtle) shadow-[inset_0_0_0_1px_var(--b-border)]",
-          "[--b-title:color-mix(in_oklab,var(--b-text),var(--foreground)_30%)] [--b-body:color-mix(in_oklab,var(--b-text),var(--foreground)_12%)] [--b-link:var(--b-title)] [--b-hover:color-mix(in_oklab,var(--b-subtle),var(--b)_18%)]",
-          "[&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c:var(--b)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-fg:var(--b-fg)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-subtle:var(--b-hover)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-subtle-fg:var(--b-title)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-text:var(--b-title)]",
-          "[&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral][data-variant=outline]]:bg-tint-surface [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral][data-variant=outline]]:shadow-[inset_0_0_0_1px_var(--b-border),0_1px_2px_0_var(--shade-1)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral][data-variant=outline]:hover]:bg-tint-surface-hover",
+          "bg-(--s-subtle) shadow-[inset_0_0_0_1px_var(--s-border)] [--s-link:var(--s-title)]",
+          "[&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c:var(--s)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-fg:var(--s-fg)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-subtle:var(--s-hover)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-subtle-fg:var(--s-title)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]]:[--c-text:var(--s-title)]",
+          "[&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral][data-variant=outline]]:bg-tint-surface [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral][data-variant=outline]]:shadow-[inset_0_0_0_1px_var(--s-border),0_1px_2px_0_var(--shade-1)] [&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral][data-variant=outline]:hover]:bg-tint-surface-hover",
           // Focus ring in the status color: the default blue ring all but disappears on amber and red fills.
-          "[&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]:focus-visible]:ring-(--b-icon)/50 [&>[data-banner-dismiss]:focus-visible]:ring-(--b-icon)/50",
+          "[&_[data-slot=banner-actions]_[data-slot=button][data-color=neutral]:focus-visible]:ring-(--s-icon)/50 [&>[data-banner-dismiss]:focus-visible]:ring-(--s-icon)/50",
         ],
         /** White card, colored icon, neutral text. Quieter, for messages inside a section. */
         surface:
-          "bg-card shadow-card [--b-title:var(--foreground)] [--b-body:color-mix(in_oklab,var(--foreground)_80%,transparent)] [--b-link:var(--b-text)] [--b-hover:var(--muted)]",
+          "bg-card shadow-card [--s-title:var(--foreground)] [--s-body:color-mix(in_oklab,var(--foreground)_80%,transparent)] [--s-link:var(--s-text)] [--s-hover:var(--muted)]",
       },
     },
     defaultVariants: {
@@ -108,12 +94,12 @@ function Banner({
       {icon !== false && (icon ? <span data-slot="banner-icon">{icon}</span> : <Icon data-slot="banner-icon" aria-hidden />)}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         {title && (
-          <p data-slot="banner-title" className="font-medium text-(--b-title)">
+          <p data-slot="banner-title" className="font-medium text-(--s-title)">
             {title}
           </p>
         )}
         {children && (
-          <div data-slot="banner-description" className="text-(--b-body)">
+          <div data-slot="banner-description" className="text-(--s-body)">
             {children}
           </div>
         )}
@@ -130,7 +116,7 @@ function Banner({
           aria-label="Kapat"
           data-banner-dismiss=""
           onClick={onDismiss}
-          className="absolute top-2.5 right-2.5 [--c-subtle:var(--b-hover)] [--c-text:color-mix(in_oklab,var(--b-title)_60%,transparent)] hover:text-(--b-title)"
+          className="absolute top-2.5 right-2.5 [--c-subtle:var(--s-hover)] [--c-text:color-mix(in_oklab,var(--s-title)_60%,transparent)] hover:text-(--s-title)"
         >
           <XIcon />
         </Button>

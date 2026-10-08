@@ -13,6 +13,7 @@ açılır; ekranları panelle aynı tip ölçeğini, yoğunluğu ve yüzeyleri k
 | Ayar formları | `SettingsGroup` (`label`, `hint`, uzun sayfada `index`) + `Card` + `Field` | Ortalanmış tek kartta dev bir form |
 | Kayıt listesi | `RecordTable` | Tablo verisi için kart grid'i |
 | Gösterilecek bir şey yok | `EmptyState` | Gri bir "Veri yok" yazısı |
+| Liste veya bölüm yüklenemedi | `RecordTable error` + `onRetry`, bölümde `EmptyState status="danger"` + `onRetry` | Boş tablo, kırmızı düz metin |
 | Kalıcı geri bildirim | `status` ile `Banner` | Renkli `<div>`'ler, emoji, alert() |
 | Geçici geri bildirim | `sonner` içinden `toast` | "Kaydedildi!" için banner |
 | Kaydedilmemiş form değişiklikleri | `UnsavedBar` | Uzun formun en altında Kaydet butonu |
@@ -45,6 +46,9 @@ Kendin yazmadan önce eksik olanı `npx shadcn@latest add @ikas/<name>` ile kur.
 - **Durum renklerinin anlamı var.** `status` değerleri: `success` = tamamlandı/sağlıklı,
   `warning` = yakında ilgi istiyor, `danger` = bozuk/engellendi/geri alınamaz, `info` = bilgi,
   `neutral` = durum yok. Bunları süs için kullanma.
+- **Toast'ı renklendirme, durum verir.** `toast.success/info/warning/error` yeterli: ikon (warning ve error'da ince
+  bir kenar) durumu taşır. Daha belirgin toast'lar için tek yerde `<Toaster variant="soft" />`; toast başına
+  `className` ile renk verme.
 - **Banner aksiyonlarına renk verme, banner verir.** `Banner` `actions` içindeki butonlara `color` verme:
   soft banner'da varsayılan renkli butonlar durumun rengini kendiliğinden alır (solid → durum dolgusu,
   outline/soft/ghost → tonlu). Metne veya butonlara elle `text-amber-*`, `bg-red-*` gibi sınıf ekleme.
@@ -73,7 +77,8 @@ Kendin yazmadan önce eksik olanı `npx shadcn@latest add @ikas/<name>` ile kur.
 
 Veriye dayalı her ekran şunları karşılar: **yükleniyor** (sayfanın ortasında spinner değil,
 `RecordTable loading` veya `Skeleton` ile iskeletler), **boş** (`EmptyState`), **hata**
-(tekrar dene aksiyonlu `Banner status="danger"`) ve **başarı** (`toast`).
+(veri gelmediyse yerinde `RecordTable error` / `EmptyState status="danger"` + `onRetry`; sayfanın geri kalanı
+çalışıyorsa tekrar dene aksiyonlu `Banner status="danger"`) ve **başarı** (`toast`).
 
 ## 5. Sayfa tarifleri
 
