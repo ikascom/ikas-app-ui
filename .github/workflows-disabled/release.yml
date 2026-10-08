@@ -1,0 +1,146 @@
+name: Release
+
+# Nothing is published to npm. Changesets is used only for versioning and CHANGELOG.md.
+#
+# 1. While .changeset/*.md files exist on main, changesets/action opens (or updates)
+#    a "Version packages" PR that bumps package.json and writes CHANGELOG.md.
+# 2. When that PR is merged there are no pending changesets and package.json carries
+#    a version without a tag. This workflow then builds everything, attaches
+#    ikas-app-ui-v<version>.tar.gz (r/, ui-preview/, manifest/) to a GitHub release
+#    and creates the v<version> tag.
+# 3. Optionally (needs setup, see the last job) it opens a PR on ikascom/ikas-builders
+#    that bumps the ui-kit version, so builders.ikas.com serves the new release.
+#
+# Repo setting required: Settings > Actions > General > "Allow GitHub Actions to create
+# and approve pull requests". Note that PRs opened with GITHUB_TOKEN do not trigger CI;
+# re-run CI on the version PR by closing and reopening it, or switch to an App token.
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Version or release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      released: ${{ steps.check.outputs.release }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Create or update the version PR
+        id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          version-script: pnpm version-packages
+          pr-title: Version packages
+          commit-message: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Is there an untagged version?
+        id: check
+        if: steps.changesets.outputs.has-changesets == 'false'
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if git rev-parse -q --verify "refs/tags/v$version" >/dev/null; then
+            echo "v$version is already tagged, nothing to release."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        if: steps.check.outputs.release == 'true'
+        run: pnpm build
+
+      - name: Package
+        if: steps.check.outputs.release == 'true'
+        env:
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          mkdir -p release
+          cp -R dist/r release/r
+          cp -R dist/manifest release/manifest
+          cp -R preview/out release/ui-preview
+          tar -czf "ikas-app-ui-v$VERSION.tar.gz" -C release r ui-preview manifest
+
+      - name: Create GitHub release
+        if: steps.check.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          # Release notes: this version's section of CHANGELOG.md.
+          awk -v v="## $VERSION" '$0 == v {found=1; next} found && /^## / {exit} found {print}' CHANGELOG.md > notes.md || true
+          [ -s notes.md ] || echo "Release v$VERSION" > notes.md
+          gh release create "v$VERSION" "ikas-app-ui-v$VERSION.tar.gz" \
+            --target "$GITHUB_SHA" --title "v$VERSION" --notes-file notes.md
+
+  bump-builders:
+    # TODO(needs-setup): create a GitHub App with contents + pull-requests write access on
+    # ikascom/ikas-builders, install it there, and add the repo secrets BUILDERS_APP_ID
+    # (the App's client ID) and BUILDERS_APP_PRIVATE_KEY. Until BUILDERS_APP_ID exists this
+    # job is skipped. Also confirm where ikas-builders keeps `ui-kit.version`
+    # (assumed: the "ui-kit" key in its package.json).
+    name: Bump ui-kit on ikas-builders
+    needs: release
+    if: needs.release.outputs.released == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {}
+    env:
+      HAS_APP: ${{ secrets.BUILDERS_APP_ID != '' }}
+      VERSION: ${{ needs.release.outputs.version }}
+      UI_KIT_FILE: package.json
+    steps:
+      - name: Skip (BUILDERS_APP_ID not configured)
+        if: env.HAS_APP != 'true'
+        run: echo "BUILDERS_APP_ID is not set; open the ikas-builders version bump PR by hand."
+
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: token
+        if: env.HAS_APP == 'true'
+        with:
+          client-id: ${{ secrets.BUILDERS_APP_ID }}
+          private-key: ${{ secrets.BUILDERS_APP_PRIVATE_KEY }}
+          owner: ikascom
+          repositories: ikas-builders
+
+      - name: Open version bump PR
+        if: env.HAS_APP == 'true'
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+        run: |
+          branch="ui-kit/v$VERSION"
+          gh auth setup-git
+          gh repo clone ikascom/ikas-builders builders -- --depth 1
+          cd builders
+          git checkout -b "$branch"
+          jq --arg v "$VERSION" '."ui-kit".version = $v' "$UI_KIT_FILE" > tmp.json && mv tmp.json "$UI_KIT_FILE"
+          git -c user.name="ikas-app-ui release" -c user.email="noreply@ikas.com" commit -am "chore: ikas-app-ui v$VERSION"
+          git push origin "$branch"
+          gh pr create --repo ikascom/ikas-builders --head "$branch" \
+            --title "ui-kit v$VERSION" \
+            --body "Bumps ui-kit to [v$VERSION](https://github.com/${GITHUB_REPOSITORY}/releases/tag/v$VERSION)."
