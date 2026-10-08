@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "../../registry/theme.css";
+
+@source "../../registry";
+@source "../../demos";
+@source "../../examples";
+@source "../components";
+
+/* Demo alignment, set from ?align= by <AlignFromQuery /> (static export has no searchParams on the server). */
+[data-demo-root] {
+  align-items: center;
+  justify-content: center;
+}
+html[data-align="start"] [data-demo-root] {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+html[data-align="stretch"] [data-demo-root] {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}

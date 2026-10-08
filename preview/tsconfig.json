@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".."
+  },
+  "include": [
+    "../registry/**/*.ts",
+    "../registry/**/*.tsx",
+    "../demos/**/*.ts",
+    "../demos/**/*.tsx",
+    "../examples/**/*.ts",
+    "../examples/**/*.tsx",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next-env.d.ts"
+  ],
+  "exclude": ["out"]
+}
