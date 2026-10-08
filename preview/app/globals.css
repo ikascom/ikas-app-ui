@@ -8,7 +8,7 @@
 @source "../../examples";
 @source "../components";
 
-/* Demo alignment, set from ?align= by <AlignFromQuery /> (static export has no searchParams on the server). */
+/* Demo alignment, set from ?align= by <PreviewQueryScript /> before paint (static export has no searchParams on the server). */
 [data-demo-root] {
   align-items: center;
   justify-content: center;

@@ -8,3 +8,7 @@ dist/
 .DS_Store
 .env*
 !.env.example
+
+# Written by `next dev`; the repo-level AGENTS.md is the source of truth.
+preview/AGENTS.md
+preview/CLAUDE.md

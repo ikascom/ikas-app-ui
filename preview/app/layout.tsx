@@ -3,6 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google"
 
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { PreviewQueryScript } from "@/preview/preview-query-script"
 import "./globals.css"
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin", "latin-ext"] })
@@ -15,7 +16,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="tr" className={`${inter.variable} ${geistMono.variable} light`}>
+    // PreviewQueryScript sets `dark` and data-align on <html> before hydration.
+    <html lang="tr" className={`${inter.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      <head>
+        <PreviewQueryScript />
+      </head>
       <body className="min-h-full">
         <TooltipProvider delayDuration={300}>
           {children}

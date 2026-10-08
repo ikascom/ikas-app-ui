@@ -6,7 +6,7 @@ name: Release
 #    a "Version packages" PR that bumps package.json and writes CHANGELOG.md.
 # 2. When that PR is merged there are no pending changesets and package.json carries
 #    a version without a tag. This workflow then builds everything, attaches
-#    ikas-app-ui-v<version>.tar.gz (r/, ui-preview/, manifest/) to a GitHub release
+#    ikas-app-ui-v<version>.tar.gz (r/, ui-preview/, manifest/, thumbnails/) to a GitHub release
 #    and creates the v<version> tag.
 # 3. Optionally (needs setup, see the last job) it opens a PR on ikascom/ikas-builders
 #    that bumps the ui-kit version, so builders.ikas.com serves the new release.
@@ -81,7 +81,9 @@ jobs:
           cp -R dist/r release/r
           cp -R dist/manifest release/manifest
           cp -R preview/out release/ui-preview
-          tar -czf "ikas-app-ui-v$VERSION.tar.gz" -C release r ui-preview manifest
+          parts="r ui-preview manifest"
+          if [ -f dist/thumbnails/index.json ]; then cp -R dist/thumbnails release/thumbnails; parts="$parts thumbnails"; fi
+          tar -czf "ikas-app-ui-v$VERSION.tar.gz" -C release $parts
 
       - name: Create GitHub release
         if: steps.check.outputs.release == 'true'

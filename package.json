@@ -7,11 +7,12 @@
   "type": "module",
   "scripts": {
     "dev": "next dev preview --port 3001",
-    "build": "pnpm registry:build && pnpm manifest:build && pnpm preview:build",
+    "build": "pnpm registry:build && pnpm manifest:build && pnpm preview:build && pnpm thumbnails:build",
     "registry:build": "node scripts/build-registry.mjs && shadcn build --output dist/r",
     "registry:validate": "shadcn registry validate",
     "manifest:build": "node scripts/build-manifest.mjs",
     "preview:build": "next build preview",
+    "thumbnails:build": "node scripts/build-thumbnails.mjs",
     "smoke": "node scripts/smoke-install.mjs",
     "health": "node scripts/health-check.mjs",
     "typecheck": "next typegen preview && tsc --noEmit",
