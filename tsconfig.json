@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
+    "paths": {
+      "@/components/ui/*": ["registry/ui/*"],
+      "@/components/ikas/*": ["registry/ikas/*"],
+      "@/lib/*": ["registry/lib/*"],
+      "@/hooks/*": ["registry/hooks/*"],
+      "@/locales/*": ["registry/locales/*"],
+      "@/demos": ["demos"],
+      "@/demos/*": ["demos/*"],
+      "@/examples": ["examples"],
+      "@/examples/*": ["examples/*"],
+      "@/preview/*": ["preview/components/*"]
+    }
+  },
+  "include": [
+    "registry/**/*.ts",
+    "registry/**/*.tsx",
+    "demos/**/*.ts",
+    "demos/**/*.tsx",
+    "examples/**/*.ts",
+    "examples/**/*.tsx",
+    "preview/**/*.ts",
+    "preview/**/*.tsx",
+    "preview/.next/types/**/*.ts",
+    "preview/.next/dev/types/**/*.ts",
+    "preview/next-env.d.ts"
+  ],
+  "exclude": ["node_modules", "preview/out"]
+}
