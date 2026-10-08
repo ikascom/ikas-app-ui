@@ -1,0 +1,43 @@
+name: Bug report
+description: Something in an @ikas component or the theme does not work as documented.
+labels: ["bug"]
+body:
+  - type: input
+    id: item
+    attributes:
+      label: Item
+      description: Which registry item? (e.g. @ikas/resource-table)
+      placeholder: "@ikas/..."
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Minimal code or steps. A link to a repo is ideal.
+      render: tsx
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: shadcn CLI, Next.js, React and Tailwind versions, browser. Light or dark theme.
+      placeholder: |
+        shadcn: 4.x
+        next: 16.x
+        react: 19.x
+        tailwindcss: 4.x
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots

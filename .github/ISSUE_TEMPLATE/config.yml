@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ikas UI Kit docs
+    url: https://builders.ikas.com/tr/docs/app-development/ui-kit
+    about: Usage, props and live previews for every component.
+  - name: Security vulnerability
+    url: https://github.com/ikascom/ikas-app-ui/blob/main/SECURITY.md
+    about: Please do not open a public issue. Follow SECURITY.md instead.

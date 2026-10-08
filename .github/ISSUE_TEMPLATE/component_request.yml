@@ -1,0 +1,28 @@
+name: Component request
+description: Propose a new component or screen pattern for apps built on ikas.
+labels: ["component request"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What screen or problem is this for?
+      description: Describe the app screen you are building and what is missing today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API
+      description: Name, props and a usage example. Screenshots or sketches help.
+      render: tsx
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What do you use today?
+      description: Existing components you combined, or workarounds.
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: Contribution
+      options:
+        - label: I would like to open a PR for this (see CONTRIBUTING.md).

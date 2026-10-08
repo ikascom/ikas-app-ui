@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      react-next:
+        patterns: ["react", "react-dom", "@types/react", "@types/react-dom", "next", "eslint-config-next"]
+      radix-shadcn:
+        patterns: ["radix-ui", "shadcn", "class-variance-authority", "tailwind-merge", "clsx"]
+      tailwind:
+        patterns: ["tailwindcss", "@tailwindcss/*", "tw-animate-css"]
+      dev-dependencies:
+        dependency-type: development
+      dependencies:
+        dependency-type: production
+    commit-message:
+      prefix: "chore(deps)"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore(ci)"
