@@ -99,7 +99,7 @@ write(
   JSON.stringify(
     {
       name: "@ikas",
-      homepage: "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      homepage: "https://builders.ikas.com/docs/app-development/ui-kit",
       url: "https://builders.ikas.com/r/{name}.json",
       description: "UI components and screen patterns for building apps on ikas.",
       logo: svgs["logo.svg"],
