@@ -244,7 +244,6 @@ function registryCss(css) {
 function themeItem() {
   const css = read("registry/theme.css")
   const theme = cssBlock(css, "@theme inline")
-  for (const key of Object.keys(theme)) if (key.startsWith("font-")) delete theme[key]
   return {
     name: "theme",
     type: "registry:theme",
