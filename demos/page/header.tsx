@@ -11,17 +11,19 @@ export default function PageHeaderDemo() {
   return (
     <Page width="full" className="p-0 sm:p-0">
       <PageHeader
-        backAction={{ label: "Siparişler", onClick: () => {} }}
-        title="#1048"
-        titleMeta={
+        back={{ label: "Siparişler", onClick: () => {} }}
+        title="IK-1048"
+        badges={
           <>
-            <Badge tone="success" dot>
-              Ödendi
+            <Badge status="warning" dot>
+              Hazırlanıyor
             </Badge>
-            <Badge tone="warning">Gönderilmedi</Badge>
+            <Badge variant="surface" status="success">
+              Pazaryerine iletildi
+            </Badge>
           </>
         }
-        description="6 Ekim 2026, 12:24 · Online Mağaza"
+        description="6 Ekim 2026, 12:24 · Pazaryeri A"
         actions={
           <>
             <DropdownMenu>
@@ -36,8 +38,8 @@ export default function PageHeaderDemo() {
                 <DropdownMenuItem variant="destructive">Siparişi iptal et</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="outline">İade et</Button>
-            <Button>Ürünleri gönder</Button>
+            <Button variant="outline">Faturayı görüntüle</Button>
+            <Button>Kargoya ver</Button>
           </>
         }
       />

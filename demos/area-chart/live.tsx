@@ -41,7 +41,7 @@ export default function AreaChartLive() {
           <span className="text-[13px] text-muted-foreground">Anlık ziyaretçi</span>
           <AnimatedNumber value={data[data.length - 1].visitors} className="text-2xl font-semibold tracking-[-0.02em]" />
         </div>
-        <Badge tone="success" dot className="[&>span:first-child]:animate-pulse motion-reduce:[&>span:first-child]:animate-none">
+        <Badge status="success" dot className="[&>span:first-child]:animate-pulse motion-reduce:[&>span:first-child]:animate-none">
           Canlı
         </Badge>
       </div>

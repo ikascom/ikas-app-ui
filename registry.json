@@ -7,7 +7,7 @@
       "name": "theme",
       "type": "registry:theme",
       "title": "ikas Theme",
-      "description": "Light-first neutral theme tokens: surfaces, six-color palette, semantic tones, radius and elevation. Install first.",
+      "description": "Light-first neutral theme tokens: surfaces, six-color palette, status colors, radius and elevation. Install first.",
       "categories": [
         "theme"
       ],
@@ -201,11 +201,11 @@
           "color-warning-subtle": "var(--warning-subtle)",
           "color-warning-subtle-foreground": "var(--warning-subtle-foreground)",
           "color-warning-border": "var(--warning-border)",
-          "color-critical": "var(--critical)",
-          "color-critical-foreground": "var(--critical-foreground)",
-          "color-critical-subtle": "var(--critical-subtle)",
-          "color-critical-subtle-foreground": "var(--critical-subtle-foreground)",
-          "color-critical-border": "var(--critical-border)",
+          "color-danger": "var(--danger)",
+          "color-danger-foreground": "var(--danger-foreground)",
+          "color-danger-subtle": "var(--danger-subtle)",
+          "color-danger-subtle-foreground": "var(--danger-subtle-foreground)",
+          "color-danger-border": "var(--danger-border)",
           "color-chart-1": "var(--chart-1)",
           "color-chart-2": "var(--chart-2)",
           "color-chart-3": "var(--chart-3)",
@@ -323,11 +323,11 @@
           "warning-subtle": "var(--amber-subtle)",
           "warning-subtle-foreground": "var(--amber-subtle-foreground)",
           "warning-border": "var(--amber-border)",
-          "critical": "var(--red)",
-          "critical-foreground": "var(--red-foreground)",
-          "critical-subtle": "var(--red-subtle)",
-          "critical-subtle-foreground": "var(--red-subtle-foreground)",
-          "critical-border": "var(--red-border)",
+          "danger": "var(--red)",
+          "danger-foreground": "var(--red-foreground)",
+          "danger-subtle": "var(--red-subtle)",
+          "danger-subtle-foreground": "var(--red-subtle-foreground)",
+          "danger-border": "var(--red-border)",
           "chart-ink": "oklch(0.205 0 0)",
           "chart-1": "#2867e4",
           "chart-2": "#dd6f23",
@@ -423,11 +423,11 @@
           "warning-subtle": "var(--amber-subtle)",
           "warning-subtle-foreground": "var(--amber-subtle-foreground)",
           "warning-border": "var(--amber-border)",
-          "critical": "var(--red)",
-          "critical-foreground": "var(--red-foreground)",
-          "critical-subtle": "var(--red-subtle)",
-          "critical-subtle-foreground": "var(--red-subtle-foreground)",
-          "critical-border": "var(--red-border)",
+          "danger": "var(--red)",
+          "danger-foreground": "var(--red-foreground)",
+          "danger-subtle": "var(--red-subtle)",
+          "danger-subtle-foreground": "var(--red-subtle-foreground)",
+          "danger-border": "var(--red-border)",
           "chart-ink": "oklch(0.96 0 0)",
           "chart-1": "#4a81eb",
           "chart-2": "#d8732b",
@@ -538,7 +538,7 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Small status or count label in semantic tones and palette colors, with optional dot.",
+      "description": "Small status or count label in status or palette colors, with optional dot.",
       "categories": [
         "primitives",
         "data-display"
@@ -1265,7 +1265,7 @@
       "name": "banner",
       "type": "registry:component",
       "title": "Banner",
-      "description": "Persistent, toned message with optional actions and dismiss.",
+      "description": "Persistent message colored by status, with optional actions and dismiss.",
       "categories": [
         "feedback"
       ],
@@ -1543,10 +1543,38 @@
       ]
     },
     {
+      "name": "launchpad",
+      "type": "registry:component",
+      "title": "Launchpad",
+      "description": "First-run steps on a vertical rail; the active step opens in place with its actions.",
+      "categories": [
+        "feedback",
+        "layout"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/launchpad",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/collapse",
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/launchpad.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/launchpad.tsx"
+        }
+      ]
+    },
+    {
       "name": "layout",
       "type": "registry:component",
       "title": "Layout",
-      "description": "Column presets (main-aside, half, third) and AnnotatedSection for settings screens.",
+      "description": "Column presets (main-aside, half, third) and numbered SettingsGroup sections for settings screens.",
       "categories": [
         "layout"
       ],
@@ -1569,7 +1597,7 @@
       "name": "meter",
       "type": "registry:component",
       "title": "Meter",
-      "description": "Usage against a limit as a bar or ring, with warning and critical states.",
+      "description": "Usage against a limit as a bar or ring, with warning and danger states.",
       "categories": [
         "data-display",
         "feedback"
@@ -1622,7 +1650,7 @@
       "name": "page",
       "type": "registry:component",
       "title": "Page",
-      "description": "Screen wrapper with width presets and a PageHeader with back action, title meta and actions.",
+      "description": "Screen wrapper with width presets and a PageHeader with back link, badges and actions.",
       "categories": [
         "layout"
       ],
@@ -1644,14 +1672,14 @@
       ]
     },
     {
-      "name": "resource-table",
+      "name": "record-table",
       "type": "registry:component",
-      "title": "Resource Table",
+      "title": "Record Table",
       "description": "Table for lists of records with selection, bulk actions, loading, empty state and pagination.",
       "categories": [
         "data-display"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/resource-table",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/record-table",
       "dependencies": [
         "lucide-react"
       ],
@@ -1664,31 +1692,9 @@
       ],
       "files": [
         {
-          "path": "registry/ikas/resource-table.tsx",
+          "path": "registry/ikas/record-table.tsx",
           "type": "registry:component",
-          "target": "@components/ikas/resource-table.tsx"
-        }
-      ]
-    },
-    {
-      "name": "save-bar",
-      "type": "registry:component",
-      "title": "Save Bar",
-      "description": "Contextual bar that appears while a form has unsaved changes.",
-      "categories": [
-        "forms",
-        "feedback"
-      ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/save-bar",
-      "registryDependencies": [
-        "@ikas/button",
-        "@ikas/utils"
-      ],
-      "files": [
-        {
-          "path": "registry/ikas/save-bar.tsx",
-          "type": "registry:component",
-          "target": "@components/ikas/save-bar.tsx"
+          "target": "@components/ikas/record-table.tsx"
         }
       ]
     },
@@ -1767,35 +1773,6 @@
       ]
     },
     {
-      "name": "setup-guide",
-      "type": "registry:component",
-      "title": "Setup Guide",
-      "description": "First-run checklist of setup steps with progress, shown after the app is installed.",
-      "categories": [
-        "feedback",
-        "layout"
-      ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/setup-guide",
-      "dependencies": [
-        "lucide-react",
-        "motion"
-      ],
-      "registryDependencies": [
-        "@ikas/animated-check",
-        "@ikas/button",
-        "@ikas/collapse",
-        "@ikas/motion",
-        "@ikas/utils"
-      ],
-      "files": [
-        {
-          "path": "registry/ikas/setup-guide.tsx",
-          "type": "registry:component",
-          "target": "@components/ikas/setup-guide.tsx"
-        }
-      ]
-    },
-    {
       "name": "sparkline",
       "type": "registry:component",
       "title": "Sparkline",
@@ -1862,6 +1839,28 @@
           "path": "registry/ikas/toggle-section.tsx",
           "type": "registry:component",
           "target": "@components/ikas/toggle-section.tsx"
+        }
+      ]
+    },
+    {
+      "name": "unsaved-bar",
+      "type": "registry:component",
+      "title": "Unsaved Bar",
+      "description": "Bar with save and discard that appears while a form has unsaved changes.",
+      "categories": [
+        "forms",
+        "feedback"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/unsaved-bar",
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/unsaved-bar.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/unsaved-bar.tsx"
         }
       ]
     },

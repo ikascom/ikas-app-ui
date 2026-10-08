@@ -4,7 +4,7 @@ import * as React from "react"
 import { MegaphoneIcon, PauseIcon, PlusIcon, SettingsIcon } from "lucide-react"
 import { toast } from "sonner"
 
-import { Badge, type BadgeTone } from "@/components/ui/badge"
+import { Badge, type BadgeStatus } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Banner } from "@/components/ikas/banner"
 import { BarChart } from "@/components/ikas/bar-chart"
@@ -15,7 +15,7 @@ import { SegmentedControl } from "@/components/ikas/segmented-control"
 import { Sparkline } from "@/components/ikas/sparkline"
 import { Layout } from "@/components/ikas/layout"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { ResourceTable, type ResourceTableColumn } from "@/components/ikas/resource-table"
+import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
 import { StatCard } from "@/components/ikas/stat-card"
 
 type CampaignStatus = "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED"
@@ -30,11 +30,11 @@ type Campaign = {
   addToCarts: number
 }
 
-const status: Record<CampaignStatus, { label: string; tone: BadgeTone }> = {
-  DRAFT: { label: "Taslak", tone: "neutral" },
-  ACTIVE: { label: "Yayında", tone: "success" },
-  PAUSED: { label: "Duraklatıldı", tone: "warning" },
-  ENDED: { label: "Sona erdi", tone: "neutral" },
+const campaignStatus: Record<CampaignStatus, { label: string; status: BadgeStatus }> = {
+  DRAFT: { label: "Taslak", status: "neutral" },
+  ACTIVE: { label: "Yayında", status: "success" },
+  PAUSED: { label: "Duraklatıldı", status: "warning" },
+  ENDED: { label: "Sona erdi", status: "neutral" },
 }
 
 const campaigns: Campaign[] = [
@@ -85,9 +85,9 @@ export default function CampaignsExample() {
     { impressions: 0, opens: 0, addToCarts: 0 }
   )
 
-  const columns: ResourceTableColumn<Campaign>[] = [
+  const columns: RecordTableColumn<Campaign>[] = [
     { id: "name", header: "Kampanya", cell: (c) => <span className="font-medium">{c.name}</span> },
-    { id: "status", header: "Durum", cell: (c) => <Badge tone={status[c.status].tone} dot={c.status === "ACTIVE"}>{status[c.status].label}</Badge> },
+    { id: "status", header: "Durum", cell: (c) => <Badge status={campaignStatus[c.status].status} dot={c.status === "ACTIVE"}>{campaignStatus[c.status].label}</Badge> },
     { id: "impressions", header: "Görüntülenme", align: "end", cell: (c) => <FunnelCell value={c.impressions} total={c.impressions} /> },
     { id: "opens", header: "Açılma", align: "end", hideOnMobile: true, cell: (c) => <FunnelCell value={c.opens} total={c.impressions} /> },
     { id: "clicks", header: "Tıklama", align: "end", hideOnMobile: true, cell: (c) => <FunnelCell value={c.clicks} total={c.impressions} /> },
@@ -113,7 +113,7 @@ export default function CampaignsExample() {
       />
 
       <Banner
-        tone="warning"
+        status="warning"
         title="Eksik izinler var"
         actions={
           <Button size="sm" variant="outline">
@@ -142,7 +142,7 @@ export default function CampaignsExample() {
           <BarChart data={daily} index="day" series={[{ key: "impressions", label: "Görüntülenme" }]} incompleteLast height={200} aria-label="Son 14 günde günlük görüntülenme" />
         </ChartCard>
 
-        <ResourceTable
+        <RecordTable
           label="Kampanyalar"
           columns={columns}
           rows={rows}

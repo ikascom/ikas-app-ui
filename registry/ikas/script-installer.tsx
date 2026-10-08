@@ -29,10 +29,10 @@ type ScriptInstallerProps = {
   className?: string
 }
 
-const statusBadge: Record<ScriptStatus, { label: string; tone: "success" | "warning" | "neutral" }> = {
-  installed: { label: "Kurulu", tone: "success" },
-  outdated: { label: "Güncel değil", tone: "warning" },
-  "not-installed": { label: "Kurulu değil", tone: "neutral" },
+const statusBadge: Record<ScriptStatus, { label: string; status: "success" | "warning" | "neutral" }> = {
+  installed: { label: "Kurulu", status: "success" },
+  outdated: { label: "Güncel değil", status: "warning" },
+  "not-installed": { label: "Kurulu değil", status: "neutral" },
 }
 
 /**
@@ -61,7 +61,7 @@ function ScriptInstaller({ scriptUrl, storefronts, onInstall, onRemove, classNam
       </div>
 
       {isLocal && (
-        <Banner tone="critical" variant="surface" title="Script storefront tarafından yüklenemez">
+        <Banner status="danger" variant="surface" title="Script storefront tarafından yüklenemez">
           Adres localhost olduğu için tarayıcı storefront&apos;tan erişimi engeller. Uygulamayı bir tünel veya genel bir domain üzerinden açıp script&apos;i yeniden kurun.
         </Banner>
       )}
@@ -79,7 +79,7 @@ function ScriptInstaller({ scriptUrl, storefronts, onInstall, onRemove, classNam
                 <span className="truncate text-sm font-medium">{s.name}</span>
                 {s.domain && <span className="truncate text-[13px] text-muted-foreground">{s.domain}</span>}
               </div>
-              <Badge tone={badge.tone} dot={s.status === "installed"}>
+              <Badge status={badge.status} dot={s.status === "installed"}>
                 {badge.label}
               </Badge>
               <div className="flex items-center gap-2">

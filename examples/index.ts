@@ -8,21 +8,21 @@ import DashboardExample from "./dashboard"
 import EInvoiceAppExample from "./einvoice-app"
 import MarketplaceHealthExample from "./marketplace-health"
 import OrderActionExample from "./order-action"
-import OrderDetailExample from "./order-detail"
 import OrdersExample from "./orders"
 import PixelAppExample from "./pixel-app"
 import SettingsExample from "./settings"
+import SyncDetailExample from "./sync-detail"
 import WidgetAppExample from "./widget-app"
 
 export const examples = {
   "app-home": {
     title: "Uygulama ana sayfası",
-    description: "Kurulumdan hemen sonraki ana sayfa: kurulum rehberi, sıfırdaki metrikler, ilk kullanım boş durumu ve yardım kartı.",
+    description: "Kurulumdan hemen sonraki ana sayfa: Launchpad adımları, sıfırdaki metrikler, ilk kullanım boş durumu ve yardım kartı.",
     Component: AppHomeExample,
   },
   "widget-app": {
     title: "Destek butonu",
-    description: "Script ile çalışan bir storefront uygulaması: kurulum rehberi, mağaza başına script kur/güncelle/kaldır, aç-kapa modüller, canlı buton önizlemesi ve tıklama grafiği.",
+    description: "Script ile çalışan bir storefront uygulaması: Launchpad adımları, mağaza başına script kur/güncelle/kaldır, aç-kapa modüller, canlı buton önizlemesi ve tıklama grafiği.",
     Component: WidgetAppExample,
   },
   "marketplace-health": {
@@ -50,9 +50,17 @@ export const examples = {
     description: "Olay başına aç/kapa ayarları, sunucu tarafı ve KVKK opt-in alanları, olay hacmi grafiği ve canlı olay akışıyla bir pazarlama pikseli uygulaması.",
     Component: PixelAppExample,
   },
-  orders: { title: "Sipariş listesi", description: "Sekmeler, arama, toplu işlemler ve uyarı banner'ı ile Page + ResourceTable.", Component: OrdersExample },
-  "order-detail": { title: "Sipariş detayı", description: "Geri aksiyonu, durum rozetleri, ana/yan sütun düzeni ve açıklama listeleri.", Component: OrderDetailExample },
-  settings: { title: "Ayarlar", description: "Dar sayfa, açıklamalı bölümler, ayar satırları ve değişiklik durumuna bağlı kaydetme çubuğu.", Component: SettingsExample },
+  orders: { title: "Sipariş listesi", description: "Sekmeler, arama, toplu işlemler ve uyarı banner'ı ile Page + RecordTable.", Component: OrdersExample },
+  "sync-detail": {
+    title: "Eşitleme detayı",
+    description: "Bir ürünün pazaryeri eşitlemesi: kanal başına durum, yeniden denenebilen hata kaydı, eşitleme akışı ve IK kimlikleri.",
+    Component: SyncDetailExample,
+  },
+  settings: {
+    title: "Ayarlar",
+    description: "Numaralı SettingsGroup'lar, yapışkan bölüm menüsü, ayar satırları ve değişiklik olunca beliren UnsavedBar.",
+    Component: SettingsExample,
+  },
   campaigns: {
     title: "Kampanyalar",
     description: "Bir kampanya uygulamasının liste sayfası: istatistik kartları, günlük grafik ve huni sütunlu kampanya tablosu. Ana aksiyon color=\"lime\".",

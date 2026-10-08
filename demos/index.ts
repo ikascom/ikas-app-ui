@@ -9,10 +9,10 @@ import { patternDemos } from "./index-patterns"
 
 import BadgeAppearances from "./badge/appearances"
 import BadgeColors from "./badge/colors"
-import BadgeStatus from "./badge/status"
-import BadgeTones from "./badge/tones"
+import BadgeOrderStatuses from "./badge/order-statuses"
+import BadgeStatuses from "./badge/statuses"
 import BannerSurface from "./banner/surface"
-import BannerTones from "./banner/tones"
+import BannerStatuses from "./banner/statuses"
 import BannerWithActions from "./banner/with-actions"
 import ButtonActions from "./button/actions"
 import ButtonColors from "./button/colors"
@@ -28,17 +28,17 @@ import EmptyStateSection from "./empty-state/section"
 import FormControls from "./form/controls"
 import FormField from "./form/field"
 import FormInputGroup from "./form/input-group"
-import LayoutAnnotatedSection from "./layout/annotated-section"
+import LayoutSettingsGroup from "./layout/settings-group"
 import LayoutMainAside from "./layout/main-aside"
 import PageHeaderDemo from "./page/header"
 import PageSimple from "./page/simple"
-import ResourceTableOrders from "./resource-table/orders"
-import ResourceTableStates from "./resource-table/states"
-import SaveBarSettingsForm from "./save-bar/settings-form"
+import RecordTableOrders from "./record-table/orders"
+import RecordTableStates from "./record-table/states"
+import UnsavedBarSettingsForm from "./unsaved-bar/settings-form"
 import SettingRowList from "./setting-row/list"
 import StatCardRow from "./stat-card/row"
 import ToastActions from "./toast/actions"
-import ToastTones from "./toast/tones"
+import ToastTypes from "./toast/types"
 
 export const demos = {
   ...motionDemosA,
@@ -49,10 +49,10 @@ export const demos = {
   ...patternDemos,
   "badge/appearances": BadgeAppearances,
   "badge/colors": BadgeColors,
-  "badge/status": BadgeStatus,
-  "badge/tones": BadgeTones,
+  "badge/order-statuses": BadgeOrderStatuses,
+  "badge/statuses": BadgeStatuses,
   "banner/surface": BannerSurface,
-  "banner/tones": BannerTones,
+  "banner/statuses": BannerStatuses,
   "banner/with-actions": BannerWithActions,
   "button/actions": ButtonActions,
   "button/colors": ButtonColors,
@@ -68,17 +68,17 @@ export const demos = {
   "form/controls": FormControls,
   "form/field": FormField,
   "form/input-group": FormInputGroup,
-  "layout/annotated-section": LayoutAnnotatedSection,
+  "layout/settings-group": LayoutSettingsGroup,
   "layout/main-aside": LayoutMainAside,
   "page/header": PageHeaderDemo,
   "page/simple": PageSimple,
-  "resource-table/orders": ResourceTableOrders,
-  "resource-table/states": ResourceTableStates,
-  "save-bar/settings-form": SaveBarSettingsForm,
+  "record-table/orders": RecordTableOrders,
+  "record-table/states": RecordTableStates,
+  "unsaved-bar/settings-form": UnsavedBarSettingsForm,
   "setting-row/list": SettingRowList,
   "stat-card/row": StatCardRow,
   "toast/actions": ToastActions,
-  "toast/tones": ToastTones,
+  "toast/types": ToastTypes,
 } satisfies Record<string, () => React.ReactNode>
 
 export type DemoId = keyof typeof demos

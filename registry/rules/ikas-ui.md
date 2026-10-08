@@ -1,8 +1,8 @@
 # ikas App UI kuralları
 
-Bu kurallar bu ikas uygulamasının her ekranı için geçerlidir. Amaç, uygulamanın sıradan
-bir AI çıktısı gibi değil, ikas panelinin bir parçası gibi görünmesidir. Arayüz kodu
-yazarken veya değiştirirken bu kurallara uy.
+Bu kurallar bu ikas uygulamasının her ekranı için geçerlidir. Uygulama ikas panelinin içinde
+açılır; ekranları panelle aynı tip ölçeğini, yoğunluğu ve yüzeyleri kullanmalı, sıradan bir AI
+çıktısı gibi durmamalıdır. Arayüz kodu yazarken veya değiştirirken bu kurallara uy.
 
 ## 1. Yapı taşlarını kullan, yeniden icat etme
 
@@ -10,19 +10,19 @@ yazarken veya değiştirirken bu kurallara uy.
 | --- | --- | --- |
 | Ekran sarmalayıcı + başlık + aksiyonlar | `@/components/ikas/page` içinden `Page` + `PageHeader` | `<h1>` içeren özel bir `<div className="container">` |
 | Sütunlar | `Layout` / `LayoutColumn` (`columns="main-aside"`, `"half"`, `"third"`) | Her sayfada elle yazılmış `grid-cols-*` |
-| Ayar formları | `AnnotatedSection` + `Card` + `Field` | Ortalanmış tek kartta dev bir form |
-| Kayıt listesi | `ResourceTable` | Tablo verisi için kart grid'i |
+| Ayar formları | `SettingsGroup` (`label`, `hint`, uzun sayfada `index`) + `Card` + `Field` | Ortalanmış tek kartta dev bir form |
+| Kayıt listesi | `RecordTable` | Tablo verisi için kart grid'i |
 | Gösterilecek bir şey yok | `EmptyState` | Gri bir "Veri yok" yazısı |
-| Kalıcı geri bildirim | `tone` ile `Banner` | Renkli `<div>`'ler, emoji, alert() |
+| Kalıcı geri bildirim | `status` ile `Banner` | Renkli `<div>`'ler, emoji, alert() |
 | Geçici geri bildirim | `sonner` içinden `toast` | "Kaydedildi!" için banner |
-| Kaydedilmemiş form değişiklikleri | `SaveBar` | Uzun formun en altında Kaydet butonu |
-| Durum | `tone` ile `Badge` (canlı durumlar için + `dot`) | Özel renkli hap etiketler |
+| Kaydedilmemiş form değişiklikleri | `UnsavedBar` | Uzun formun en altında Kaydet butonu |
+| Durum | `status` ile `Badge` (canlı durumlar için + `dot`) | Özel renkli hap etiketler |
 | Aksiyonlar | `variant` + `color` ile `Button` | Özel `<button>` stilleri, ekstra gölgeler |
 | Önemli sayılar | `StatCard` | Gradient metinli dev hero sayıları |
 | Anahtar/değer detayları | `DescriptionList` | Elle hizalanmış flex satırları |
 | Tek bir açma/kapama ayarı | `SettingRow` | Rastgele bir flex içinde label + switch |
 | Aç/kapa özellik + ayarları | `ToggleSection` | Switch'in yanında hep görünen ayar formu |
-| İlk kurulum adımları | `SetupGuide` | Ekranda dağınık "önce şunu yapın" banner'ları |
+| İlk kurulum adımları | `Launchpad` (adım başına `eta`, sıra gerekiyorsa `requires`) | Ekranda dağınık "önce şunu yapın" banner'ları |
 | Storefront script kur/güncelle/kaldır | `ScriptInstaller` | Elle yazılmış kur butonu, onaysız kaldırma |
 | Grafik çerçevesi (başlık, değer, aralık) | `ChartCard` | Her grafik için özel kart başlığı |
 
@@ -42,8 +42,9 @@ Kendin yazmadan önce eksik olanı `npx shadcn@latest add @ikas/<name>` ile kur.
 - **Varsayılan nötr.** Renk bir anlam taşımıyorsa butonlar `color="neutral"` olur:
   geri alınamaz onaylar için `red`, uygulamanın ana çağrısı için tek bir vurgu rengi (ör. `blue`).
   Aynı ekranda birden fazla vurgu rengini asla karıştırma.
-- **Tonların anlamı var.** `success` = tamamlandı/sağlıklı, `warning` = yakında ilgi istiyor,
-  `critical` = bozuk/engellendi/geri alınamaz, `info` = nötr bilgi. Tonları süs için kullanma.
+- **Durum renklerinin anlamı var.** `status` değerleri: `success` = tamamlandı/sağlıklı,
+  `warning` = yakında ilgi istiyor, `danger` = bozuk/engellendi/geri alınamaz, `info` = bilgi,
+  `neutral` = durum yok. Bunları süs için kullanma.
 - **Yüzeyler:** önce açık tema. Sayfa arka planı `bg-background`; içerik `Card` üzerinde durur
   (beyaz, katmanlı ince gölge). `backdrop-blur`, glassmorphism veya renkli kart arka planı yok.
 - **Köşe yarıçapı:** bileşenlerin varsayılanlarını kullan. `rounded-2xl`/`rounded-3xl` ekleme.
@@ -57,26 +58,31 @@ Kendin yazmadan önce eksik olanı `npx shadcn@latest add @ikas/<name>` ile kur.
 ## 3. Metin kuralları
 
 - Her yerde yalnızca ilk harf büyük: "Kampanya oluştur", "Kampanya Oluştur" değil.
-- Butonlar nesne + fiildir: "Ayarları kaydet", "Siparişleri dışa aktar". "Gönder", "Tamam", "Buraya tıkla" değil.
-- Boş durumlar şeyin ne olduğunu açıklar ve sonraki adımı verir. Şaka yok, "Hay aksi!" yok.
-- Hatalar ne olduğunu ve nasıl düzeltileceğini söyler. Mağaza sahiplerine asla ham hata nesnesi gösterme.
+- Buton metni neyin olacağını söyler: "Ayarları kaydet", "Siparişleri dışa aktar". Tek başına "Gönder",
+  "Tamam", "Buraya tıkla" yazma.
+- Boş durum ekranda neden bir şey olmadığını söyler ve tek bir sonraki adım sunar. Şaka yok, "Hay aksi!" yok.
+- Hata metni önce sonucu (ne kaydedilmedi, ne gönderilmedi), sonra çözümü verir. Mağaza sahiplerine
+  ham hata nesnesi veya stack trace gösterme; hata kodu gerekiyorsa mono yazıyla ekle.
 - Mağaza sahipleri için uygulamanın dilinde yaz (Türkçe uygulamalar: Türkçe metin; sayı ve para
   birimi için `Intl.NumberFormat` ile `tr-TR` biçimlendirmesi).
 
 ## 4. Durumlar isteğe bağlı değil
 
 Veriye dayalı her ekran şunları karşılar: **yükleniyor** (sayfanın ortasında spinner değil,
-`ResourceTable loading` veya `Skeleton` ile iskeletler), **boş** (`EmptyState`), **hata**
-(tekrar dene aksiyonlu `Banner tone="critical"`) ve **başarı** (`toast`).
+`RecordTable loading` veya `Skeleton` ile iskeletler), **boş** (`EmptyState`), **hata**
+(tekrar dene aksiyonlu `Banner status="danger"`) ve **başarı** (`toast`).
 
 ## 5. Sayfa tarifleri
 
 - **Liste sayfası:** `Page width="wide"` → `PageHeader` (başlık, ana aksiyon) →
-  araç çubuklu (arama + filtreler), sayfalamalı ve toplu işlemli `ResourceTable`.
-- **Detay sayfası:** `Page` → `PageHeader` (geri aksiyonu, `titleMeta` rozetleri, aksiyonlar) →
+  araç çubuklu (arama + filtreler), sayfalamalı ve toplu işlemli `RecordTable`.
+- **Detay sayfası:** `Page` → `PageHeader` (`back`, `badges`, aksiyonlar) →
   `Layout columns="main-aside"` → ana sütun: içerik kartları; yan sütun: `DescriptionList` kartları.
 - **Ayarlar sayfası:** `Page width="narrow"` → `PageHeader` → her biri tek `Card` içeren alt alta
-  `AnnotatedSection`'lar → formun değişiklik durumuna bağlı `SaveBar`.
+  `SettingsGroup`'lar → formun değişiklik durumuna bağlı `UnsavedBar`. Dörtten fazla grup varsa
+  `Page` + solda yapışkan bölüm menüsü ve gruplarda `index="01"` gibi numaralar.
+- **Uygulama ana sayfası (ilk kurulum):** `Page width="wide"` → `PageHeader` → en üstte `Launchpad`
+  → metrikler ve ilk kayıt için `EmptyState`. Tüm adımlar bitince `onDismiss` ile kaldırılabilir.
 - **Panel:** `Page width="wide"` → `StatCard`'lardan oluşan `Layout columns="third"` → tablolar / kartlar.
 
 ## 6. Hareket

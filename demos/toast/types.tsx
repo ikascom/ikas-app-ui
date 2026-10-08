@@ -4,7 +4,7 @@ import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 
-export default function ToastTones() {
+export default function ToastTypes() {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <Button variant="outline" onClick={() => toast.success("Ayarlar kaydedildi")}>

@@ -6,7 +6,7 @@ import { CheckIcon, CookieIcon, CreditCardIcon, EyeIcon, FileTextIcon, PauseIcon
 import { toast } from "sonner"
 
 import { EASE_OUT } from "@/lib/motion"
-import { Badge, type BadgeTone } from "@/components/ui/badge"
+import { Badge, type BadgeStatus } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
@@ -61,13 +61,13 @@ const feedSamples: { event: EventKey; product: string; value: number | null }[] 
   { event: "ViewContent", product: "Keten gömlek · Ekru / M", value: 649.9 },
   { event: "AddToCart", product: "Basic oversize tişört · Siyah / L", value: 389 },
   { event: "PageView", product: "Koleksiyon: Yeni sezon", value: null },
-  { event: "Purchase", product: "Sipariş #1049 · 3 ürün", value: 1249.9 },
+  { event: "Purchase", product: "Sipariş IK-1049 · 3 ürün", value: 1249.9 },
   { event: "InitiateCheckout", product: "Sepet · 2 ürün", value: 1038.9 },
   { event: "ViewContent", product: "Wide leg pantolon · Siyah / 38", value: 450 },
   { event: "AddToCart", product: "Kanvas çanta · Naturel", value: 150 },
 ]
 
-const eventTone: Record<EventKey, BadgeTone> = {
+const eventStatus: Record<EventKey, BadgeStatus> = {
   PageView: "neutral",
   ViewContent: "neutral",
   AddToCart: "info",
@@ -104,7 +104,7 @@ function LiveFeed() {
         <CardTitle className="flex items-center gap-2">
           Canlı olay akışı
           {running && (
-            <Badge tone="success" dot size="sm">
+            <Badge status="success" dot size="sm">
               Canlı
             </Badge>
           )}
@@ -130,7 +130,7 @@ function LiveFeed() {
               >
                 {/* Padding sits on the inner div so the li can really collapse to 0. */}
                 <div className="flex items-center gap-3 border-b py-2.5 text-sm">
-                  <Badge tone={eventTone[row.event]} size="sm" className="shrink-0">
+                  <Badge status={eventStatus[row.event]} size="sm" className="shrink-0">
                     {row.event}
                   </Badge>
                   <span className="min-w-0 flex-1 truncate">{row.product}</span>
@@ -187,8 +187,8 @@ export default function PixelAppExample() {
     <Page width="wide">
       <PageHeader
         title="Pazarlama pikseli"
-        titleMeta={
-          <Badge tone="success" dot>
+        badges={
+          <Badge status="success" dot>
             Bağlı
           </Badge>
         }
@@ -256,7 +256,7 @@ export default function PixelAppExample() {
               description={event.description}
               meta={
                 event.lastSeen ? (
-                  <Badge size="sm" variant="surface" tone="success">
+                  <Badge size="sm" variant="surface" status="success">
                     {event.lastSeen}
                   </Badge>
                 ) : (
@@ -325,7 +325,7 @@ export default function PixelAppExample() {
                 Tarayıcı ve sunucudan gelen aynı olay, <code className="font-mono text-[12px] text-foreground">event_id</code> ile eşleştirilip tek
                 sayılır. Ek bir ayar gerekmez.
               </p>
-              <Meter label="Olay eşleşme kalitesi" value={7.4} max={10} tone="success" valueFormat={(v) => v.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} />
+              <Meter label="Olay eşleşme kalitesi" value={7.4} max={10} status="success" valueFormat={(v) => v.toLocaleString("tr-TR", { maximumFractionDigits: 1 })} />
             </div>
           </ToggleSection>
 

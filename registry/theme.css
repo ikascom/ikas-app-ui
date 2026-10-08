@@ -100,11 +100,11 @@
   --color-warning-subtle: var(--warning-subtle);
   --color-warning-subtle-foreground: var(--warning-subtle-foreground);
   --color-warning-border: var(--warning-border);
-  --color-critical: var(--critical);
-  --color-critical-foreground: var(--critical-foreground);
-  --color-critical-subtle: var(--critical-subtle);
-  --color-critical-subtle-foreground: var(--critical-subtle-foreground);
-  --color-critical-border: var(--critical-border);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-danger-subtle-foreground: var(--danger-subtle-foreground);
+  --color-danger-border: var(--danger-border);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -224,7 +224,7 @@
   --red-subtle-foreground: oklch(0.505 0.19 27.5);
   --red-border: oklch(0.9 0.05 18.3);
 
-  /* Semantic tones map onto the palette. */
+  /* Status colors (info, success, warning, danger) map onto the palette. */
   --info: var(--blue);
   --info-foreground: var(--blue-foreground);
   --info-subtle: var(--blue-subtle);
@@ -240,11 +240,11 @@
   --warning-subtle: var(--amber-subtle);
   --warning-subtle-foreground: var(--amber-subtle-foreground);
   --warning-border: var(--amber-border);
-  --critical: var(--red);
-  --critical-foreground: var(--red-foreground);
-  --critical-subtle: var(--red-subtle);
-  --critical-subtle-foreground: var(--red-subtle-foreground);
-  --critical-border: var(--red-border);
+  --danger: var(--red);
+  --danger-foreground: var(--red-foreground);
+  --danger-subtle: var(--red-subtle);
+  --danger-subtle-foreground: var(--red-subtle-foreground);
+  --danger-border: var(--red-border);
 
   /*
    * Categorical chart palette, assigned in this order and never cycled.
@@ -354,11 +354,11 @@
   --warning-subtle: var(--amber-subtle);
   --warning-subtle-foreground: var(--amber-subtle-foreground);
   --warning-border: var(--amber-border);
-  --critical: var(--red);
-  --critical-foreground: var(--red-foreground);
-  --critical-subtle: var(--red-subtle);
-  --critical-subtle-foreground: var(--red-subtle-foreground);
-  --critical-border: var(--red-border);
+  --danger: var(--red);
+  --danger-foreground: var(--red-foreground);
+  --danger-subtle: var(--red-subtle);
+  --danger-subtle-foreground: var(--red-subtle-foreground);
+  --danger-border: var(--red-border);
 
   --chart-ink: oklch(0.96 0 0);
   --chart-1: #4a81eb;

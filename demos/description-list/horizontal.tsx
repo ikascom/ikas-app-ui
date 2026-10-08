@@ -11,7 +11,7 @@ export default function DescriptionListHorizontal() {
       <CardContent>
         <DescriptionList
           items={[
-            { label: "Durum", value: <Badge tone="success" dot>Ödendi</Badge> },
+            { label: "Durum", value: <Badge status="success" dot>Ödendi</Badge> },
             { label: "Yöntem", value: "Kredi kartı · •••• 4242" },
             { label: "Taksit", value: "3" },
             { label: "İşlem numarası", value: <span className="font-mono text-[13px]">TRX-20261006-4821</span> },

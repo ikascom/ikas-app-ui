@@ -11,11 +11,11 @@ const bannerVariants = cva(
   "group/banner relative flex w-full gap-3 rounded-xl p-3.5 text-sm [&>[data-slot=banner-icon]]:mt-px [&>[data-slot=banner-icon]]:size-4.5 [&>[data-slot=banner-icon]]:shrink-0 [&>[data-slot=banner-icon]]:text-(--c-icon)",
   {
     variants: {
-      tone: {
+      status: {
         info: "[--c-bg:var(--info-subtle)] [--c-border:var(--info-border)] [--c-icon:var(--info)]",
         success: "[--c-bg:var(--success-subtle)] [--c-border:var(--success-border)] [--c-icon:var(--success)]",
         warning: "[--c-bg:var(--warning-subtle)] [--c-border:var(--warning-border)] [--c-icon:var(--warning-subtle-foreground)]",
-        critical: "[--c-bg:var(--critical-subtle)] [--c-border:var(--critical-border)] [--c-icon:var(--critical)]",
+        danger: "[--c-bg:var(--danger-subtle)] [--c-border:var(--danger-border)] [--c-icon:var(--danger)]",
         neutral: "[--c-bg:var(--muted)] [--c-border:var(--border)] [--c-icon:var(--icon)]",
       },
       variant: {
@@ -26,24 +26,24 @@ const bannerVariants = cva(
       },
     },
     defaultVariants: {
-      tone: "info",
+      status: "info",
       variant: "soft",
     },
   }
 )
 
-const toneIcon = {
+const statusIcon = {
   info: InfoIcon,
   success: CheckCircle2Icon,
   warning: AlertTriangleIcon,
-  critical: OctagonAlertIcon,
+  danger: OctagonAlertIcon,
   neutral: InfoIcon,
 } as const
 
 type BannerProps = Omit<React.ComponentProps<"div">, "title"> &
   VariantProps<typeof bannerVariants> & {
     title?: React.ReactNode
-    /** Replace the tone icon. Pass `false` to hide it. */
+    /** Replace the status icon. Pass `false` to hide it. */
     icon?: React.ReactNode | false
     /** Buttons rendered under the content. Use size="sm". */
     actions?: React.ReactNode
@@ -53,7 +53,7 @@ type BannerProps = Omit<React.ComponentProps<"div">, "title"> &
 
 function Banner({
   className,
-  tone = "info",
+  status = "info",
   variant = "soft",
   title,
   icon,
@@ -62,14 +62,14 @@ function Banner({
   children,
   ...props
 }: BannerProps) {
-  const Icon = toneIcon[tone ?? "info"]
+  const Icon = statusIcon[status ?? "info"]
 
   return (
     <div
       data-slot="banner"
-      data-tone={tone}
-      role={tone === "critical" || tone === "warning" ? "alert" : "status"}
-      className={cn(bannerVariants({ tone, variant }), onDismiss && "pr-10", className)}
+      data-status={status}
+      role={status === "danger" || status === "warning" ? "alert" : "status"}
+      className={cn(bannerVariants({ status, variant }), onDismiss && "pr-10", className)}
       {...props}
     >
       {icon !== false && (icon ? <span data-slot="banner-icon">{icon}</span> : <Icon data-slot="banner-icon" aria-hidden />)}

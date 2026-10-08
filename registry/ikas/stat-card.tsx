@@ -44,7 +44,7 @@ function StatCard({
           <span
             className={cn(
               "inline-flex items-center gap-0.5 font-medium tabular-nums",
-              isFlat ? "text-muted-foreground" : isGood ? "text-success-subtle-foreground" : "text-critical-subtle-foreground"
+              isFlat ? "text-muted-foreground" : isGood ? "text-success-subtle-foreground" : "text-danger-subtle-foreground"
             )}
           >
             {!isFlat && (isUp ? <ArrowUpRightIcon className="size-3.5" /> : <ArrowDownRightIcon className="size-3.5" />)}

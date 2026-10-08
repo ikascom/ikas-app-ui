@@ -14,10 +14,10 @@ import { DonutChart } from "@/components/ikas/donut-chart"
 import { Layout, LayoutColumn } from "@/components/ikas/layout"
 import { Meter } from "@/components/ikas/meter"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { ResourceTable } from "@/components/ikas/resource-table"
+import { RecordTable } from "@/components/ikas/record-table"
 import { Sparkline } from "@/components/ikas/sparkline"
 import { StatCard } from "@/components/ikas/stat-card"
-import { channelSeries, channels as channelNames, formatMoney, orders, paymentBadge } from "@/demos/_data"
+import { channelSeries, channels as channelNames, formatMoney, orderStatusBadge, orders } from "@/demos/_data"
 
 type Range = "7" | "30" | "90"
 
@@ -181,7 +181,7 @@ export default function DashboardExample() {
               <ArrowRightIcon data-icon="inline-end" data-anim="nudge" />
             </Button>
           </div>
-          <ResourceTable
+          <RecordTable
             label="Son siparişler"
             rows={orders.slice(0, 5)}
             getRowId={(o) => o.id}
@@ -189,11 +189,11 @@ export default function DashboardExample() {
               { id: "number", header: "Sipariş", cell: (o) => <span className="font-medium">{o.number}</span> },
               { id: "customer", header: "Müşteri" },
               {
-                id: "payment",
-                header: "Ödeme",
+                id: "status",
+                header: "Durum",
                 cell: (o) => (
-                  <Badge tone={paymentBadge[o.payment].tone} dot>
-                    {paymentBadge[o.payment].label}
+                  <Badge status={orderStatusBadge[o.status].status} dot>
+                    {orderStatusBadge[o.status].label}
                   </Badge>
                 ),
               },

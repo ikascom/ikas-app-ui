@@ -63,7 +63,7 @@ function ChartCard<T extends string>({
             <div className="flex flex-wrap items-center gap-2">
               <AnimatedNumber value={value} format={valueFormat} className="text-2xl font-semibold tracking-[-0.02em] text-foreground" />
               {hasChange && (
-                <Badge tone={isFlat ? "neutral" : isGood ? "success" : "critical"} size="sm">
+                <Badge status={isFlat ? "neutral" : isGood ? "success" : "danger"} size="sm">
                   {!isFlat && (isUp ? <ArrowUpRightIcon /> : <ArrowDownRightIcon />)}
                   {isUp ? "+" : change < 0 ? "−" : ""}%{Math.abs(change).toLocaleString("tr-TR", { maximumFractionDigits: 1 })}
                 </Badge>

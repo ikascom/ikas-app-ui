@@ -18,10 +18,10 @@ import { ChartCard } from "@/components/ikas/chart-card"
 import { Layout, LayoutColumn } from "@/components/ikas/layout"
 import { NumberStepper } from "@/components/ikas/number-stepper"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { SaveBar } from "@/components/ikas/save-bar"
+import { UnsavedBar } from "@/components/ikas/unsaved-bar"
 import { ScriptInstaller, type Storefront } from "@/components/ikas/script-installer"
 import { SegmentedControl } from "@/components/ikas/segmented-control"
-import { SetupGuide } from "@/components/ikas/setup-guide"
+import { Launchpad } from "@/components/ikas/launchpad"
 import { ToggleSection } from "@/components/ikas/toggle-section"
 import { store, storefronts as storeStorefronts, widgetScriptUrl } from "@/demos/_data"
 
@@ -59,7 +59,7 @@ const initial: Settings = {
 
 const allDays = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"]
 
-/** Brand-neutral swatches a merchant can pick for the floating button. */
+/** Brand-neutral swatches a store owner can pick for the floating button. */
 const swatches = [
   { value: "#16a34a", label: "Yeşil" },
   { value: "#171717", label: "Siyah" },
@@ -121,8 +121,8 @@ export default function WidgetAppExample() {
       <PageHeader
         title="Destek butonu"
         description="Ziyaretçiler tek tıkla destek ekibinize yazsın."
-        titleMeta={
-          <Badge tone="success" dot>
+        badges={
+          <Badge status="success" dot>
             Etkin
           </Badge>
         }
@@ -135,30 +135,33 @@ export default function WidgetAppExample() {
       />
 
       {guideOpen && (
-        <SetupGuide
-          description="Butonu yayına almak için dört adım."
-          onDismiss={Object.keys(done).length >= 4 ? () => setGuideOpen(false) : undefined}
+        <Launchpad
+          title="Yayına alma"
+          onDismiss={() => setGuideOpen(false)}
           steps={[
             {
               id: "phone",
-              title: "Telefon numarasını girin",
+              label: "Telefon numarasını girin",
               description: "Mesajların yönlendirileceği destek hattı numarası.",
-              done: Boolean(done.phone),
-              action: <Button size="sm" onClick={() => markDone("phone")}>Numarayı kaydet</Button>,
+              status: done.phone ? "done" : undefined,
+              eta: "~1 dk",
+              actions: <Button size="sm" onClick={() => markDone("phone")}>Numarayı kaydet</Button>,
             },
             {
               id: "look",
-              title: "Görünümü seçin",
+              label: "Görünümü seçin",
               description: "Renk ve konum aşağıdaki önizlemede anında görünür.",
-              done: Boolean(done.look),
-              action: <Button size="sm" onClick={() => markDone("look")}>Görünümü onayla</Button>,
+              status: done.look ? "done" : undefined,
+              eta: "~1 dk",
+              actions: <Button size="sm" onClick={() => markDone("look")}>Görünümü onayla</Button>,
             },
             {
               id: "script",
-              title: "Script'i mağazaya kurun",
+              label: "Script'i mağazaya kurun",
               description: "Buton, storefront'a eklenen küçük bir script ile çalışır. Aşağıdaki listeden kurabilirsiniz.",
-              done: Boolean(done.script),
-              action: (
+              status: done.script ? "done" : undefined,
+              eta: "~2 dk",
+              actions: (
                 <Button size="sm" onClick={() => install("intl")}>
                   Tüm mağazalara kur
                 </Button>
@@ -166,10 +169,11 @@ export default function WidgetAppExample() {
             },
             {
               id: "test",
-              title: "Test mesajı gönderin",
+              label: "Test mesajı gönderin",
               description: "Numaranıza bir test mesajı gönderip bağlantıyı doğrulayın.",
-              done: Boolean(done.test),
-              action: (
+              status: done.test ? "done" : undefined,
+              requires: ["phone", "script"],
+              actions: (
                 <Button
                   size="sm"
                   onClick={() => {
@@ -422,7 +426,7 @@ export default function WidgetAppExample() {
         </LayoutColumn>
       </Layout>
 
-      <SaveBar
+      <UnsavedBar
         open={dirty}
         saving={saving}
         onDiscard={() => setValues(saved)}

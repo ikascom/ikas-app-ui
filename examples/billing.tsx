@@ -15,7 +15,7 @@ import { ConfirmButton } from "@/components/ikas/confirm-button"
 import { DescriptionList } from "@/components/ikas/description-list"
 import { Meter } from "@/components/ikas/meter"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { ResourceTable, type ResourceTableColumn } from "@/components/ikas/resource-table"
+import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
 import { SegmentedControl } from "@/components/ikas/segmented-control"
 
 type Period = "monthly" | "yearly"
@@ -64,9 +64,9 @@ const invoices: Invoice[] = [
 ]
 
 const invoiceStatus = {
-  paid: { label: "Ödendi", tone: "success" },
-  failed: { label: "Başarısız", tone: "critical" },
-  refunded: { label: "İade edildi", tone: "neutral" },
+  paid: { label: "Ödendi", status: "success" },
+  failed: { label: "Başarısız", status: "danger" },
+  refunded: { label: "İade edildi", status: "neutral" },
 } as const
 
 const usage = [
@@ -83,7 +83,7 @@ export default function BillingExample() {
   const target = plans.find((p) => p.id === selected)
   const current = plans.find((p) => p.id === CURRENT)!
 
-  const columns: ResourceTableColumn<Invoice>[] = [
+  const columns: RecordTableColumn<Invoice>[] = [
     { id: "date", header: "Tarih", cell: (i) => <span className="font-medium">{i.date}</span> },
     { id: "period", header: "Dönem", hideOnMobile: true },
     { id: "amount", header: "Tutar", align: "end", cell: (i) => <span className="tabular-nums">{money(i.amount)}</span> },
@@ -91,7 +91,7 @@ export default function BillingExample() {
       id: "status",
       header: "Durum",
       cell: (i) => (
-        <Badge tone={invoiceStatus[i.status].tone} dot={i.status === "paid"}>
+        <Badge status={invoiceStatus[i.status].status} dot={i.status === "paid"}>
           {invoiceStatus[i.status].label}
         </Badge>
       ),
@@ -126,7 +126,7 @@ export default function BillingExample() {
       <PageHeader title="Plan ve faturalandırma" description="Aboneliğiniz, kullanım limitleriniz ve faturalarınız." />
 
       {nearLimit.length > 0 && (
-        <Banner tone="warning" title="API istek limitinize yaklaştınız" actions={<Button size="sm" variant="outline" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>Planları karşılaştır</Button>}>
+        <Banner status="warning" title="API istek limitinize yaklaştınız" actions={<Button size="sm" variant="outline" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>Planları karşılaştır</Button>}>
           Bu ay {usage[2].max.toLocaleString("tr-TR")} isteğin %{Math.round((usage[2].value / usage[2].max) * 100)}&apos;i kullanıldı. Limit dolarsa eşitleme bir sonraki döneme kadar durur.
         </Banner>
       )}
@@ -135,7 +135,7 @@ export default function BillingExample() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             Büyüme
-            <Badge tone="success" dot>
+            <Badge status="success" dot>
               Aktif
             </Badge>
           </CardTitle>
@@ -228,10 +228,10 @@ export default function BillingExample() {
 
       <section className="flex flex-col gap-3">
         <h2 className="text-[15px] font-semibold">Faturalar</h2>
-        <ResourceTable label="Faturalar" columns={columns} rows={invoices} getRowId={(i) => i.id} />
+        <RecordTable label="Faturalar" columns={columns} rows={invoices} getRowId={(i) => i.id} />
       </section>
 
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-dashed border-critical-border px-5 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-dashed border-danger-border px-5 py-4">
         <div className="flex flex-col gap-0.5">
           <span className="text-sm font-medium">Aboneliği iptal et</span>
           <span className="text-[13px] text-muted-foreground">Dönem sonuna (1 Kasım) kadar kullanmaya devam edersiniz. Verileriniz 30 gün saklanır.</span>

@@ -61,10 +61,10 @@ function DonutChart({ data, valueFormat = defaultNumberFormat, centerLabel = "To
   const [active, setActive] = React.useState<string | null>(null)
   const [progress, setProgress] = React.useState(0)
 
-  // Sweep the ring in once on mount; slices grow clockwise in lockstep.
+  // Sweep the ring in once on mount; slices grow clockwise in lockstep. Reduced motion
+  // (which can resolve after mount) runs it with no duration: the full ring at once.
   React.useEffect(() => {
-    if (reduce) return
-    const controls = animate(0, 1, { duration: 0.9, ease: EASE_OUT, onUpdate: setProgress })
+    const controls = animate(0, 1, { duration: reduce ? 0 : 0.9, ease: EASE_OUT, onUpdate: setProgress })
     return () => controls.stop()
   }, [reduce])
 
@@ -74,8 +74,10 @@ function DonutChart({ data, valueFormat = defaultNumberFormat, centerLabel = "To
   const inner = outer * 0.68
   const activeSlice = slices.find((s) => s.key === active)
 
-  // Reduced motion (which can resolve after mount) shows the full ring at once.
-  const shown = reduce ? 1 : progress
+  // Always the animated progress, never `reduce ? 1 : progress`: the first client
+  // render must match the server's empty ring, or hydration keeps it empty for good.
+  // With reduced motion the effect above jumps it to 1 at once.
+  const shown = progress
   const arcs = slices.map((s, i) => {
     const before = slices.slice(0, i).reduce((sum, d) => sum + d.value, 0)
     const share = total ? s.value / total : 0

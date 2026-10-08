@@ -14,7 +14,7 @@ import { ChartCard } from "@/components/ikas/chart-card"
 import { DonutChart } from "@/components/ikas/donut-chart"
 import { Layout } from "@/components/ikas/layout"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { ResourceTable, type ResourceTableColumn } from "@/components/ikas/resource-table"
+import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
 import { SegmentedControl } from "@/components/ikas/segmented-control"
 import { Sparkline } from "@/components/ikas/sparkline"
 import { StatCard } from "@/components/ikas/stat-card"
@@ -86,7 +86,7 @@ export default function AnalyticsExample() {
   const previousTotal = rows.reduce((sum, r) => sum + r.previous, 0)
   const s = scale[range]
 
-  const columns: ResourceTableColumn<CategoryRow>[] = [
+  const columns: RecordTableColumn<CategoryRow>[] = [
     { id: "name", header: "Kategori", cell: (c) => <span className="font-medium">{c.name}</span> },
     {
       id: "trend",
@@ -105,7 +105,7 @@ export default function AnalyticsExample() {
       header: "Değişim",
       align: "end",
       cell: (c) => (
-        <Badge tone={c.change >= 0 ? "success" : "critical"} variant="soft">
+        <Badge status={c.change >= 0 ? "success" : "danger"} variant="soft">
           {c.change >= 0 ? "+" : "−"}%{Math.abs(c.change).toLocaleString("tr-TR")}
         </Badge>
       ),
@@ -202,7 +202,7 @@ export default function AnalyticsExample() {
       </Layout>
 
       <Layout columns="main-aside">
-        <ResourceTable label="Kategori performansı" columns={columns} rows={categories} getRowId={(c) => c.id} onRowClick={(c) => toast(`${c.name} raporu açılıyor`)} />
+        <RecordTable label="Kategori performansı" columns={columns} rows={categories} getRowId={(c) => c.id} onRowClick={(c) => toast(`${c.name} raporu açılıyor`)} />
         <Card>
           <CardHeader>
             <CardTitle>Trafik kaynakları</CardTitle>

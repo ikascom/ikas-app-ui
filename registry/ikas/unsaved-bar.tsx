@@ -5,7 +5,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-type SaveBarProps = Omit<React.ComponentProps<"div">, "onSubmit"> & {
+type UnsavedBarProps = Omit<React.ComponentProps<"div">, "onSubmit"> & {
   /** Show the bar. Usually `form.formState.isDirty`. */
   open: boolean
   message?: React.ReactNode
@@ -25,7 +25,7 @@ type SaveBarProps = Omit<React.ComponentProps<"div">, "onSubmit"> & {
  * Appears when a form has unsaved changes. Never put Save buttons at the
  * bottom of long settings forms; use this instead.
  */
-function SaveBar({
+function UnsavedBar({
   className,
   open,
   message = "Kaydedilmemiş değişiklikler",
@@ -36,12 +36,12 @@ function SaveBar({
   discardLabel = "Vazgeç",
   position = "fixed",
   ...props
-}: SaveBarProps) {
+}: UnsavedBarProps) {
   if (!open) return null
 
   return (
     <div
-      data-slot="save-bar"
+      data-slot="unsaved-bar"
       role="region"
       aria-label="Kaydedilmemiş değişiklikler"
       className={cn(
@@ -73,4 +73,4 @@ function SaveBar({
   )
 }
 
-export { SaveBar, type SaveBarProps }
+export { UnsavedBar, type UnsavedBarProps }

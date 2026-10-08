@@ -4,7 +4,7 @@ import * as React from "react"
 import { DownloadIcon, FileTextIcon, MoreHorizontalIcon, RotateCcwIcon, SendIcon, ShieldCheckIcon } from "lucide-react"
 import { toast } from "sonner"
 
-import { Badge, type BadgeTone } from "@/components/ui/badge"
+import { Badge, type BadgeStatus } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -16,7 +16,7 @@ import { ChartCard } from "@/components/ikas/chart-card"
 import { Layout } from "@/components/ikas/layout"
 import { Meter } from "@/components/ikas/meter"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { ResourceTable, type ResourceTableColumn } from "@/components/ikas/resource-table"
+import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
 import { SegmentedControl } from "@/components/ikas/segmented-control"
 import { ToggleSection } from "@/components/ikas/toggle-section"
 import { orders } from "@/demos/_data"
@@ -25,11 +25,11 @@ type InvoiceStatus = "sent" | "pending" | "failed" | "draft"
 
 type Invoice = { id: string; number: string; order: string; customer: string; total: number; status: InvoiceStatus }
 
-const statusBadge: Record<InvoiceStatus, { label: string; tone: BadgeTone }> = {
-  sent: { label: "Gönderildi", tone: "success" },
-  pending: { label: "Bekliyor", tone: "warning" },
-  failed: { label: "Hatalı", tone: "critical" },
-  draft: { label: "Taslak", tone: "neutral" },
+const statusBadge: Record<InvoiceStatus, { label: string; status: BadgeStatus }> = {
+  sent: { label: "Gönderildi", status: "success" },
+  pending: { label: "Bekliyor", status: "warning" },
+  failed: { label: "Hatalı", status: "danger" },
+  draft: { label: "Taslak", status: "neutral" },
 }
 
 /** One invoice per order of the shared demo store. */
@@ -69,7 +69,7 @@ export default function EInvoiceAppExample() {
     toast.success(ids.length === 1 ? "Fatura yeniden gönderildi" : `${ids.length} fatura yeniden gönderildi`)
   }
 
-  const columns: ResourceTableColumn<Invoice>[] = [
+  const columns: RecordTableColumn<Invoice>[] = [
     { id: "number", header: "Fatura no", cell: (i) => <span className="font-mono text-[13px] font-medium">{i.number}</span> },
     { id: "order", header: "Sipariş", cell: (i) => <span className="text-muted-foreground">{i.order}</span> },
     { id: "customer", header: "Müşteri", hideOnMobile: true },
@@ -78,7 +78,7 @@ export default function EInvoiceAppExample() {
       id: "status",
       header: "Durum",
       cell: (i) => (
-        <Badge tone={statusBadge[i.status].tone} dot={i.status === "pending"}>
+        <Badge status={statusBadge[i.status].status} dot={i.status === "pending"}>
           {statusBadge[i.status].label}
         </Badge>
       ),
@@ -129,7 +129,7 @@ export default function EInvoiceAppExample() {
 
       {failed > 0 && (
         <Banner
-          tone="critical"
+          status="danger"
           title={`${failed} fatura GİB'e iletilemedi`}
           actions={
             <Button size="sm" variant="outline" onClick={() => resend(invoices.filter((i) => i.status === "failed").map((i) => i.id))}>
@@ -224,7 +224,7 @@ export default function EInvoiceAppExample() {
         />
       </div>
 
-      <ResourceTable
+      <RecordTable
         label="Faturalar"
         columns={columns}
         rows={rows}

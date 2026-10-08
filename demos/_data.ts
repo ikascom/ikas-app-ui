@@ -1,5 +1,9 @@
-export type OrderStatus = "paid" | "pending" | "refunded" | "cancelled"
-export type FulfillmentStatus = "fulfilled" | "unfulfilled" | "partial"
+import type { BadgeStatus } from "@/components/ui/badge"
+
+/** Order lifecycle in the ikas panel. */
+export type OrderStatus = "approved" | "preparing" | "shipped" | "delivered" | "cancelled"
+/** Whether the order's latest change reached its marketplace. Web orders have nothing to forward. */
+export type ChannelSync = "forwarded" | "pending" | "failed" | "none"
 
 export type Order = {
   id: string
@@ -9,32 +13,33 @@ export type Order = {
   date: string
   total: number
   items: number
-  payment: OrderStatus
-  fulfillment: FulfillmentStatus
+  status: OrderStatus
+  sync: ChannelSync
 }
 
 export const orders: Order[] = [
-  { id: "o1", number: "#1048", customer: "Elif Yılmaz", email: "elif@example.com", date: "2026-10-06T09:24:00Z", total: 1249.9, items: 3, payment: "paid", fulfillment: "unfulfilled" },
-  { id: "o2", number: "#1047", customer: "Mert Kaya", email: "mert@example.com", date: "2026-10-06T08:02:00Z", total: 389, items: 1, payment: "pending", fulfillment: "unfulfilled" },
-  { id: "o3", number: "#1046", customer: "Zeynep Demir", email: "zeynep@example.com", date: "2026-10-05T17:45:00Z", total: 2780.5, items: 5, payment: "paid", fulfillment: "partial" },
-  { id: "o4", number: "#1045", customer: "Can Öztürk", email: "can@example.com", date: "2026-10-05T14:11:00Z", total: 560, items: 2, payment: "paid", fulfillment: "fulfilled" },
-  { id: "o5", number: "#1044", customer: "Ayşe Çelik", email: "ayse@example.com", date: "2026-10-05T10:30:00Z", total: 145.75, items: 1, payment: "refunded", fulfillment: "fulfilled" },
-  { id: "o6", number: "#1043", customer: "Burak Şahin", email: "burak@example.com", date: "2026-10-04T19:05:00Z", total: 990, items: 2, payment: "cancelled", fulfillment: "unfulfilled" },
-  { id: "o7", number: "#1042", customer: "Deniz Aydın", email: "deniz@example.com", date: "2026-10-04T12:48:00Z", total: 3420, items: 6, payment: "paid", fulfillment: "fulfilled" },
-  { id: "o8", number: "#1041", customer: "Selin Arslan", email: "selin@example.com", date: "2026-10-04T09:15:00Z", total: 720.4, items: 2, payment: "paid", fulfillment: "fulfilled" },
+  { id: "o1", number: "IK-1048", customer: "Elif Yılmaz", email: "elif@example.com", date: "2026-10-06T09:24:00Z", total: 1249.9, items: 3, status: "approved", sync: "forwarded" },
+  { id: "o2", number: "IK-1047", customer: "Mert Kaya", email: "mert@example.com", date: "2026-10-06T08:02:00Z", total: 389, items: 1, status: "approved", sync: "pending" },
+  { id: "o3", number: "IK-1046", customer: "Zeynep Demir", email: "zeynep@example.com", date: "2026-10-05T17:45:00Z", total: 2780.5, items: 5, status: "preparing", sync: "forwarded" },
+  { id: "o4", number: "IK-1045", customer: "Can Öztürk", email: "can@example.com", date: "2026-10-05T14:11:00Z", total: 560, items: 2, status: "shipped", sync: "failed" },
+  { id: "o5", number: "IK-1044", customer: "Ayşe Çelik", email: "ayse@example.com", date: "2026-10-05T10:30:00Z", total: 145.75, items: 1, status: "delivered", sync: "none" },
+  { id: "o6", number: "IK-1043", customer: "Burak Şahin", email: "burak@example.com", date: "2026-10-04T19:05:00Z", total: 990, items: 2, status: "cancelled", sync: "forwarded" },
+  { id: "o7", number: "IK-1042", customer: "Deniz Aydın", email: "deniz@example.com", date: "2026-10-04T12:48:00Z", total: 3420, items: 6, status: "delivered", sync: "forwarded" },
+  { id: "o8", number: "IK-1041", customer: "Selin Arslan", email: "selin@example.com", date: "2026-10-04T09:15:00Z", total: 720.4, items: 2, status: "shipped", sync: "none" },
 ]
 
-export const paymentBadge: Record<OrderStatus, { label: string; tone: "success" | "warning" | "neutral" | "critical" }> = {
-  paid: { label: "Ödendi", tone: "success" },
-  pending: { label: "Bekliyor", tone: "warning" },
-  refunded: { label: "İade edildi", tone: "neutral" },
-  cancelled: { label: "İptal edildi", tone: "critical" },
+export const orderStatusBadge: Record<OrderStatus, { label: string; status: BadgeStatus }> = {
+  approved: { label: "Onaylandı", status: "info" },
+  preparing: { label: "Hazırlanıyor", status: "warning" },
+  shipped: { label: "Kargoda", status: "neutral" },
+  delivered: { label: "Teslim edildi", status: "success" },
+  cancelled: { label: "İptal edildi", status: "danger" },
 }
 
-export const fulfillmentBadge: Record<FulfillmentStatus, { label: string; tone: "success" | "warning" | "info" }> = {
-  fulfilled: { label: "Gönderildi", tone: "success" },
-  unfulfilled: { label: "Gönderilmedi", tone: "warning" },
-  partial: { label: "Kısmen gönderildi", tone: "info" },
+export const channelSyncBadge: Record<Exclude<ChannelSync, "none">, { label: string; status: BadgeStatus }> = {
+  forwarded: { label: "Pazaryerine iletildi", status: "success" },
+  pending: { label: "İletilmeyi bekliyor", status: "warning" },
+  failed: { label: "İletilemedi", status: "danger" },
 }
 
 const currency = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" })
@@ -104,4 +109,38 @@ export const customer = {
   email: orders[0].email,
   phone: "+90 555 000 00 01",
   address: "Örnek Mah. Çınar Sok. No: 12, Kadıköy / İstanbul",
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * One product as a marketplace integration sees it (sync detail example).
+ * -----------------------------------------------------------------------------------------------*/
+
+export type ChannelState = "live" | "rejected" | "review"
+
+export const syncedProduct = {
+  id: "IK-20418",
+  name: "Keten gömlek",
+  variant: "Ekru / M",
+  sku: "KG-EKRU-M",
+  barcode: "8690000204181",
+  stock: 9,
+  price: 649.9,
+  channels: [
+    { key: "web", state: "live", externalId: "—", syncedAt: "14:31" },
+    { key: "marketplaceA", state: "live", externalId: "PA-55120934", syncedAt: "14:31" },
+    { key: "marketplaceB", state: "rejected", externalId: "PB-0081274", syncedAt: "14:32" },
+    { key: "marketplaceC", state: "review", externalId: "PC-7741-2207", syncedAt: "13:58" },
+  ] satisfies { key: ChannelKey; state: ChannelState; externalId: string; syncedAt: string }[],
+  errors: [
+    { id: "SE-3107", channel: "marketplaceB", code: "IMAGE_TOO_SMALL", message: "Ana görsel 1200×1200 pikselden küçük.", at: "14:32" },
+    { id: "SE-3106", channel: "marketplaceB", code: "ATTRIBUTE_REQUIRED", message: "Zorunlu \"Kumaş\" özelliği boş.", at: "14:32" },
+    { id: "SE-3088", channel: "marketplaceC", code: "RATE_LIMITED", message: "İstek sınırı aşıldı; 15 dakika sonra yeniden denenir.", at: "13:58" },
+  ] satisfies { id: string; channel: ChannelKey; code: string; message: string; at: string }[],
+  timeline: [
+    { at: "14:32", channel: "marketplaceB", text: "Ürün reddedildi: 2 hata", state: "error" },
+    { at: "14:31", channel: "marketplaceA", text: "Stok 12 → 9 gönderildi", state: "ok" },
+    { at: "14:31", channel: "web", text: "Fiyat ₺649,90 olarak güncellendi", state: "ok" },
+    { at: "14:30", channel: null, text: "Ürün ikas'ta düzenlendi", state: "info" },
+    { at: "13:58", channel: "marketplaceC", text: "Onaya gönderildi", state: "info" },
+  ] satisfies { at: string; channel: ChannelKey | null; text: string; state: "ok" | "error" | "info" }[],
 }

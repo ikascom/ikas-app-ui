@@ -15,7 +15,7 @@ import { ChartCard } from "@/components/ikas/chart-card"
 import { ExpandableSearch } from "@/components/ikas/expandable-search"
 import { RadialMeter } from "@/components/ikas/meter"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { ResourceTable, type ResourceTableColumn } from "@/components/ikas/resource-table"
+import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
 import { SegmentedControl } from "@/components/ikas/segmented-control"
 import { Sparkline } from "@/components/ikas/sparkline"
 import { StatCard } from "@/components/ikas/stat-card"
@@ -87,7 +87,7 @@ export default function MarketplaceHealthExample() {
     }, 900)
   }
 
-  const columns: ResourceTableColumn<SyncError>[] = [
+  const columns: RecordTableColumn<SyncError>[] = [
     {
       id: "product",
       header: "Ürün",
@@ -103,7 +103,7 @@ export default function MarketplaceHealthExample() {
       header: "Hata",
       cell: (e) => (
         <div className="flex min-w-0 flex-col items-start gap-1">
-          <Badge tone="critical" size="sm">
+          <Badge status="danger" size="sm">
             {errorLabel[e.type]}
           </Badge>
           <span className="max-w-72 truncate text-[13px] text-muted-foreground">{e.message}</span>
@@ -136,8 +136,8 @@ export default function MarketplaceHealthExample() {
     <Page width="wide">
       <PageHeader
         title={marketplace.name}
-        titleMeta={
-          <Badge tone="success" dot>
+        badges={
+          <Badge status="success" dot>
             Bağlı
           </Badge>
         }
@@ -153,7 +153,7 @@ export default function MarketplaceHealthExample() {
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <Card className="animate-panel-enter justify-center [--stagger:0]">
           <CardContent className="flex items-center gap-4">
-            <RadialMeter value={94} size={72} strokeWidth={7} tone="success" label="Eşitleme sağlığı" />
+            <RadialMeter value={94} size={72} strokeWidth={7} status="success" label="Eşitleme sağlığı" />
             <div className="flex flex-col gap-0.5">
               <span className="text-[13px] text-muted-foreground">Son 24 saat, gönderimlerin %94’ü başarılı</span>
               <span className="text-sm font-medium">İyi durumda</span>
@@ -175,7 +175,7 @@ export default function MarketplaceHealthExample() {
           change={-38}
           invertChange
           changeLabel="son 14 gün"
-          footer={<Sparkline data={[41, 38, 39, 35, 33, 34, 31, 29, 30, 27, 26, 25, 24, 23]} highlightColor="var(--critical)" aria-label="Hatalı ürün azalıyor" />}
+          footer={<Sparkline data={[41, 38, 39, 35, 33, 34, 31, 29, 30, 27, 26, 25, 24, 23]} highlightColor="var(--danger)" aria-label="Hatalı ürün azalıyor" />}
         />
         <StatCard
           className="animate-panel-enter [--stagger:3]"
@@ -188,7 +188,7 @@ export default function MarketplaceHealthExample() {
 
       {errors.length > 0 && (
         <Banner
-          tone="warning"
+          status="warning"
           title={`${23 - (6 - errors.length)} ürün gönderilemedi`}
           actions={
             <Button size="sm" variant="outline" onClick={() => tableRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}>
@@ -201,7 +201,7 @@ export default function MarketplaceHealthExample() {
       )}
 
       <div ref={tableRef} className="scroll-mt-6">
-        <ResourceTable
+        <RecordTable
           label="Gönderilemeyen ürünler"
           columns={columns}
           rows={rows}

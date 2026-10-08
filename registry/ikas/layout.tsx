@@ -37,29 +37,42 @@ function LayoutColumn({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-type AnnotatedSectionProps = Omit<React.ComponentProps<"section">, "title"> & {
-  title: React.ReactNode
-  description?: React.ReactNode
+type SettingsGroupProps = Omit<React.ComponentProps<"section">, "title"> & {
+  /** Group name, rendered as an h2. */
+  label: React.ReactNode
+  /** One or two sentences on what the settings in this group change. */
+  hint?: React.ReactNode
+  /** Optional step index shown above the label in mono, e.g. "01". Use it on long settings pages. */
+  index?: string
 }
 
 /**
- * Settings style row: explanation on the left, controls on the right.
- * Stack several of them inside a narrow Page, separated by nothing but space.
+ * A group of related settings: label column on the left with a ruled top
+ * edge, controls on the right. Stack several inside a narrow Page; number them
+ * with `index` when the page has a section nav.
  */
-function AnnotatedSection({ className, title, description, children, ...props }: AnnotatedSectionProps) {
+function SettingsGroup({ className, label, hint, index, children, ...props }: SettingsGroupProps) {
   return (
     <section
-      data-slot="annotated-section"
+      data-slot="settings-group"
       className={cn("grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-8", className)}
       {...props}
     >
-      <div className="flex flex-col gap-1 md:pt-1">
-        <h2 className="font-heading text-[15px] font-semibold text-foreground">{title}</h2>
-        {description && <p className="text-sm text-muted-foreground">{description}</p>}
+      <div
+        data-slot="settings-group-label"
+        className="relative flex flex-col gap-1 border-t border-border pt-3 before:absolute before:-top-px before:left-0 before:h-0.5 before:w-6 before:rounded-full before:bg-foreground"
+      >
+        {index && (
+          <span data-slot="settings-group-index" className="font-mono text-[11px] font-medium text-muted-foreground tabular-nums">
+            {index}
+          </span>
+        )}
+        <h2 className="font-heading text-[15px] font-semibold text-foreground">{label}</h2>
+        {hint && <p className="text-sm text-muted-foreground">{hint}</p>}
       </div>
       <div className="flex min-w-0 flex-col gap-4">{children}</div>
     </section>
   )
 }
 
-export { Layout, LayoutColumn, AnnotatedSection, layoutVariants }
+export { Layout, LayoutColumn, SettingsGroup, layoutVariants, type SettingsGroupProps }

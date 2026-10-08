@@ -20,16 +20,16 @@ const colors = {
 
 type BadgeColor = keyof typeof colors
 
-/** Semantic tones. Prefer these for statuses so meaning stays consistent across apps. */
-const toneColor = {
+/** Status colors. Prefer these for statuses so meaning stays consistent across apps. */
+const statusColor = {
   neutral: "neutral",
   info: "blue",
   success: "green",
   warning: "amber",
-  critical: "red",
+  danger: "red",
 } as const satisfies Record<string, BadgeColor>
 
-type BadgeTone = keyof typeof toneColor
+type BadgeStatus = keyof typeof statusColor
 
 const badgeVariants = cva(
   "group/badge inline-flex h-5.5 w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-md px-1.5 text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-3 focus-visible:ring-ring/30 [&>svg]:pointer-events-none [&>svg]:size-3!",
@@ -61,14 +61,14 @@ type BadgeProps = Omit<React.ComponentProps<"span">, "color"> &
   VariantProps<typeof badgeVariants> & {
     asChild?: boolean
     /** Semantic status. Maps to a palette color; `color` wins when both are set. */
-    tone?: BadgeTone
+    status?: BadgeStatus
     /** Leading status dot. Always shown for the surface variant. */
     dot?: boolean
   }
 
-function Badge({ className, tone = "neutral", color, variant = "soft", size, dot = false, asChild = false, children, ...props }: BadgeProps) {
+function Badge({ className, status = "neutral", color, variant = "soft", size, dot = false, asChild = false, children, ...props }: BadgeProps) {
   const Comp = asChild ? Slot.Root : "span"
-  const resolved = color ?? toneColor[tone]
+  const resolved = color ?? statusColor[status]
   const showDot = !asChild && (dot || variant === "surface")
 
   return (
@@ -85,4 +85,4 @@ function Badge({ className, tone = "neutral", color, variant = "soft", size, dot
   )
 }
 
-export { Badge, badgeVariants, type BadgeProps, type BadgeTone, type BadgeColor }
+export { Badge, badgeVariants, type BadgeProps, type BadgeStatus, type BadgeColor }

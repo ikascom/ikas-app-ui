@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 
-const tones = ["neutral", "info", "success", "warning", "critical"] as const
+const statuses = ["neutral", "info", "success", "warning", "danger"] as const
 const variants = ["soft", "solid", "surface"] as const
 
 export default function BadgeVariants() {
@@ -9,9 +9,9 @@ export default function BadgeVariants() {
       {variants.map((variant) => (
         <div key={variant} className="contents">
           <span className="pr-2 font-mono text-[11px] text-muted-foreground">{variant}</span>
-          {tones.map((tone) => (
-            <Badge key={tone} tone={tone} variant={variant}>
-              {tone}
+          {statuses.map((status) => (
+            <Badge key={status} status={status} variant={variant}>
+              {status}
             </Badge>
           ))}
         </div>

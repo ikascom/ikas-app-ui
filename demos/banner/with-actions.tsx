@@ -18,7 +18,7 @@ export default function BannerWithActions() {
 
   return (
     <Banner
-      tone="warning"
+      status="warning"
       title="Paketiniz 3 gün içinde yenilenecek"
       className="max-w-xl"
       onDismiss={() => setVisible(false)}

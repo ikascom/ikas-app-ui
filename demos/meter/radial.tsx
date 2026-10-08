@@ -12,9 +12,9 @@ export default function MeterRadial() {
   return (
     <div className="flex flex-col items-center gap-6">
       <div className="flex flex-wrap items-end justify-center gap-10">
-        <RadialMeter value={synced} label={synced >= 100 ? "Senkronizasyon tamamlandı" : "Ürünler senkronize ediliyor"} tone={synced >= 100 ? "success" : "neutral"} size={112} />
+        <RadialMeter value={synced} label={synced >= 100 ? "Senkronizasyon tamamlandı" : "Ürünler senkronize ediliyor"} status={synced >= 100 ? "success" : "neutral"} size={112} />
         <RadialMeter value={38} label="Görsel optimizasyonu" size={80} strokeWidth={6} />
-        <RadialMeter value={94} label="Depolama" tone="auto" size={80} strokeWidth={6} />
+        <RadialMeter value={94} label="Depolama" status="auto" size={80} strokeWidth={6} />
       </div>
       <div className="flex gap-2">
         <Button size="sm" variant="outline" onClick={() => setSynced((v) => Math.max(0, v - 15))}>

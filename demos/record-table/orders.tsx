@@ -9,12 +9,12 @@ import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { EmptyState } from "@/components/ikas/empty-state"
-import { ResourceTable, type ResourceTableColumn } from "@/components/ikas/resource-table"
-import { formatDate, formatMoney, fulfillmentBadge, orders, paymentBadge, type Order } from "@/demos/_data"
+import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
+import { channelSyncBadge, formatDate, formatMoney, orderStatusBadge, orders, type Order } from "@/demos/_data"
 
 const PAGE_SIZE = 5
 
-const columns: ResourceTableColumn<Order>[] = [
+const columns: RecordTableColumn<Order>[] = [
   {
     id: "number",
     header: "Sipariş",
@@ -23,35 +23,40 @@ const columns: ResourceTableColumn<Order>[] = [
   { id: "date", header: "Tarih", cell: (order) => formatDate(order.date), hideOnMobile: true },
   { id: "customer", header: "Müşteri" },
   {
-    id: "payment",
-    header: "Ödeme",
+    id: "status",
+    header: "Durum",
     cell: (order) => (
-      <Badge tone={paymentBadge[order.payment].tone} dot>
-        {paymentBadge[order.payment].label}
+      <Badge status={orderStatusBadge[order.status].status} dot>
+        {orderStatusBadge[order.status].label}
       </Badge>
     ),
   },
   {
-    id: "fulfillment",
-    header: "Gönderim",
+    id: "sync",
+    header: "Pazaryeri",
     hideOnMobile: true,
-    cell: (order) => (
-      <Badge tone={fulfillmentBadge[order.fulfillment].tone}>{fulfillmentBadge[order.fulfillment].label}</Badge>
-    ),
+    cell: (order) =>
+      order.sync === "none" ? (
+        <span className="text-muted-foreground">Web siparişi</span>
+      ) : (
+        <Badge variant="surface" status={channelSyncBadge[order.sync].status}>
+          {channelSyncBadge[order.sync].label}
+        </Badge>
+      ),
   },
   { id: "total", header: "Toplam", align: "end", cell: (order) => formatMoney(order.total) },
 ]
 
-export default function ResourceTableOrders() {
+export default function RecordTableOrders() {
   const [query, setQuery] = React.useState("")
-  const [payment, setPayment] = React.useState("all")
+  const [status, setStatus] = React.useState("all")
   const [page, setPage] = React.useState(1)
   const [selectedIds, setSelectedIds] = React.useState<string[]>([])
   const [loading, setLoading] = React.useState(false)
 
   const filtered = orders.filter(
     (order) =>
-      (payment === "all" || order.payment === payment) &&
+      (status === "all" || order.status === status) &&
       (query === "" || `${order.number} ${order.customer}`.toLowerCase().includes(query.toLowerCase()))
   )
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
@@ -65,7 +70,7 @@ export default function ResourceTableOrders() {
 
   return (
     <div className="flex w-full flex-col gap-3">
-      <ResourceTable
+      <RecordTable
         label="Siparişler"
         columns={columns}
         rows={rows}
@@ -76,8 +81,8 @@ export default function ResourceTableOrders() {
         onRowClick={(order) => toast(`${order.number} açılıyor`)}
         bulkActions={(ids) => (
           <>
-            <Button size="sm" variant="outline" onClick={() => toast.success(`${ids.length} sipariş gönderildi olarak işaretlendi`)}>
-              Gönderildi olarak işaretle
+            <Button size="sm" variant="outline" onClick={() => toast.success(`${ids.length} sipariş kargoya verildi`)}>
+              Kargoya verildi olarak işaretle
             </Button>
             <Button size="sm" variant="outline" onClick={() => toast(`${ids.length} irsaliye yazdırılıyor`)}>
               İrsaliyeleri yazdır
@@ -101,20 +106,20 @@ export default function ResourceTableOrders() {
               />
             </InputGroup>
             <Select
-              value={payment}
+              value={status}
               onValueChange={(value) => {
-                setPayment(value)
+                setStatus(value)
                 setPage(1)
               }}
             >
-              <SelectTrigger aria-label="Ödeme durumu" className="w-40">
+              <SelectTrigger aria-label="Sipariş durumu" className="w-40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent position="popper">
-                <SelectItem value="all">Tüm ödemeler</SelectItem>
-                {Object.entries(paymentBadge).map(([value, status]) => (
+                <SelectItem value="all">Tüm durumlar</SelectItem>
+                {Object.entries(orderStatusBadge).map(([value, badge]) => (
                   <SelectItem key={value} value={value}>
-                    {status.label}
+                    {badge.label}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -125,13 +130,13 @@ export default function ResourceTableOrders() {
           <EmptyState
             media={<InboxIcon />}
             title="Sipariş bulunamadı"
-            description="Aramayı ya da ödeme filtresini değiştirmeyi deneyin."
+            description="Aramayı ya da durum filtresini değiştirmeyi deneyin."
             actions={
               <Button
                 variant="outline"
                 onClick={() => {
                   setQuery("")
-                  setPayment("all")
+                  setStatus("all")
                 }}
               >
                 Filtreleri temizle

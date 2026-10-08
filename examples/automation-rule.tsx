@@ -69,10 +69,10 @@ export default function AutomationRuleExample() {
   return (
     <Page>
       <PageHeader
-        backAction={{ label: "Kurallar", onClick: () => toast("Kurallara dönülüyor") }}
+        back={{ label: "Kurallar", onClick: () => toast("Kurallara dönülüyor") }}
         title="Düşük stok uyarısı"
-        titleMeta={
-          <Badge tone="success" dot>
+        badges={
+          <Badge status="success" dot>
             Etkin
           </Badge>
         }
@@ -168,7 +168,7 @@ export default function AutomationRuleExample() {
                         {match === "all" ? "VE" : "VEYA"}
                       </motion.span>
                     )}
-                    <div className="group/row flex flex-wrap items-center gap-2 rounded-lg bg-muted/60 p-2 has-[[data-remove]:hover]:bg-critical-subtle">
+                    <div className="group/row flex flex-wrap items-center gap-2 rounded-lg bg-muted/60 p-2 has-[[data-remove]:hover]:bg-danger-subtle">
                       <Select value={condition.field} onValueChange={(field) => updateCondition(condition.id, { field })}>
                         <SelectTrigger size="sm" className="w-36" aria-label="Alan">
                           <SelectValue />
@@ -205,7 +205,7 @@ export default function AutomationRuleExample() {
                         variant="ghost"
                         size="icon-sm"
                         aria-label="Koşulu kaldır"
-                        className="text-icon hover:bg-transparent hover:text-critical"
+                        className="text-icon hover:bg-transparent hover:text-danger"
                         onClick={() => setConditions((list) => list.filter((c) => c.id !== condition.id))}
                       >
                         <Trash2Icon data-anim="wiggle" />
@@ -267,13 +267,13 @@ export default function AutomationRuleExample() {
               <span className="w-24 shrink-0 text-[13px] text-muted-foreground tabular-nums">{run.time}</span>
               <span className="min-w-0 flex-1 truncate text-sm">{run.product}</span>
               <span className="text-[13px] text-muted-foreground tabular-nums">{run.stock} adet</span>
-              {run.result === "sent" ? <Badge tone="success">Gönderildi</Badge> : <Badge tone="critical">Başarısız</Badge>}
+              {run.result === "sent" ? <Badge status="success">Gönderildi</Badge> : <Badge status="danger">Başarısız</Badge>}
             </div>
           ))}
         </CardContent>
       </Card>
 
-      <div className="flex items-center justify-between gap-4 rounded-xl border border-dashed border-critical-border px-5 py-4">
+      <div className="flex items-center justify-between gap-4 rounded-xl border border-dashed border-danger-border px-5 py-4">
         <div className="flex flex-col gap-0.5">
           <span className="text-sm font-medium">Kuralı sil</span>
           <span className="text-[13px] text-muted-foreground">Geçmiş kayıtları da silinir. Bu işlem geri alınamaz.</span>

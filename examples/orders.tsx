@@ -11,31 +11,40 @@ import { ExpandableSearch } from "@/components/ikas/expandable-search"
 import { SegmentedControl } from "@/components/ikas/segmented-control"
 import { EmptyState } from "@/components/ikas/empty-state"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { ResourceTable, type ResourceTableColumn } from "@/components/ikas/resource-table"
-import { formatDate, formatMoney, fulfillmentBadge, orders, paymentBadge, type Order } from "@/demos/_data"
+import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
+import { channelSyncBadge, formatDate, formatMoney, orderStatusBadge, orders, type Order } from "@/demos/_data"
 
-const columns: ResourceTableColumn<Order>[] = [
+const columns: RecordTableColumn<Order>[] = [
   { id: "number", header: "Sipariş", cell: (o) => <span className="font-medium text-foreground">{o.number}</span> },
   { id: "date", header: "Tarih", hideOnMobile: true, cell: (o) => formatDate(o.date) },
   { id: "customer", header: "Müşteri" },
   {
-    id: "payment",
-    header: "Ödeme",
+    id: "status",
+    header: "Durum",
     cell: (o) => (
-      <Badge tone={paymentBadge[o.payment].tone} dot>
-        {paymentBadge[o.payment].label}
+      <Badge status={orderStatusBadge[o.status].status} dot>
+        {orderStatusBadge[o.status].label}
       </Badge>
     ),
   },
   {
-    id: "fulfillment",
-    header: "Gönderim",
+    id: "sync",
+    header: "Pazaryeri",
     hideOnMobile: true,
-    cell: (o) => <Badge tone={fulfillmentBadge[o.fulfillment].tone}>{fulfillmentBadge[o.fulfillment].label}</Badge>,
+    cell: (o) =>
+      o.sync === "none" ? (
+        <span className="text-muted-foreground">Web siparişi</span>
+      ) : (
+        <Badge variant="surface" status={channelSyncBadge[o.sync].status}>
+          {channelSyncBadge[o.sync].label}
+        </Badge>
+      ),
   },
   { id: "items", header: "Ürün", align: "end", hideOnMobile: true },
   { id: "total", header: "Toplam", align: "end", cell: (o) => formatMoney(o.total) },
 ]
+
+const toPrepare = (o: Order) => o.status === "approved" || o.status === "preparing"
 
 export default function OrdersExample() {
   const [tab, setTab] = React.useState("all")
@@ -44,7 +53,7 @@ export default function OrdersExample() {
 
   const rows = orders.filter(
     (o) =>
-      (tab === "all" || (tab === "unfulfilled" ? o.fulfillment !== "fulfilled" : o.payment === "pending")) &&
+      (tab === "all" || (tab === "to-prepare" ? toPrepare(o) : o.sync === "failed")) &&
       `${o.number} ${o.customer}`.toLowerCase().includes(query.toLowerCase())
   )
 
@@ -66,10 +75,18 @@ export default function OrdersExample() {
           </>
         }
       />
-      <Banner tone="warning" title="2 sipariş eşitlenemedi" actions={<Button size="sm" variant="outline">Siparişleri incele</Button>}>
-        Pazaryeri bu siparişler için geçersiz adres döndürdü.
+      <Banner
+        status="warning"
+        title="1 siparişin durumu pazaryerine iletilemedi"
+        actions={
+          <Button size="sm" variant="outline" onClick={() => setTab("failed")}>
+            Siparişi incele
+          </Button>
+        }
+      >
+        Pazaryeri kargo takip numarasını geçersiz buldu. Numarayı düzeltip yeniden iletin.
       </Banner>
-      <ResourceTable
+      <RecordTable
         label="Siparişler"
         columns={columns}
         rows={rows}
@@ -78,8 +95,8 @@ export default function OrdersExample() {
         onSelectedIdsChange={setSelectedIds}
         onRowClick={(o) => toast(`${o.number} açılıyor`)}
         bulkActions={(ids) => (
-          <Button size="sm" variant="outline" onClick={() => toast.success(`${ids.length} sipariş gönderildi olarak işaretlendi`)}>
-            Gönderildi olarak işaretle
+          <Button size="sm" variant="outline" onClick={() => toast.success(`${ids.length} sipariş kargoya verildi`)}>
+            Kargoya verildi olarak işaretle
           </Button>
         )}
         toolbar={
@@ -90,8 +107,8 @@ export default function OrdersExample() {
               onValueChange={setTab}
               options={[
                 { value: "all", label: "Tümü" },
-                { value: "unfulfilled", label: "Gönderilmedi", badge: orders.filter((o) => o.fulfillment !== "fulfilled").length },
-                { value: "pending", label: "Ödeme bekleyen", badge: orders.filter((o) => o.payment === "pending").length },
+                { value: "to-prepare", label: "Hazırlanacak", badge: orders.filter(toPrepare).length },
+                { value: "failed", label: "İletilemedi", badge: orders.filter((o) => o.sync === "failed").length },
               ]}
             />
             <ExpandableSearch value={query} onValueChange={setQuery} placeholder="Siparişlerde ara" />

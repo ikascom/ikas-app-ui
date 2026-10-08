@@ -9,47 +9,58 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { EmptyState } from "@/components/ikas/empty-state"
 import { Layout, LayoutColumn } from "@/components/ikas/layout"
 import { Page, PageHeader } from "@/components/ikas/page"
-import { SetupGuide } from "@/components/ikas/setup-guide"
+import { Launchpad, type LaunchpadStep } from "@/components/ikas/launchpad"
 import { StatCard } from "@/components/ikas/stat-card"
 import { store } from "@/demos/_data"
 
 /**
- * App home right after install: a setup guide on top, zeroed metrics and a
- * first-run empty state until the merchant creates their first record.
+ * App home right after install: a Launchpad on top, zeroed metrics and a
+ * first-run empty state until the store owner creates their first record.
  */
 export default function AppHomeExample() {
   const [done, setDone] = React.useState<Record<string, boolean>>({ permissions: true })
   const [guideOpen, setGuideOpen] = React.useState(true)
   const complete = (id: string) => setDone((d) => ({ ...d, [id]: true }))
 
-  const steps = [
+  const status = (id: string): LaunchpadStep["status"] => (done[id] ? "done" : undefined)
+
+  const steps: LaunchpadStep[] = [
     {
       id: "permissions",
-      title: "İzinleri onaylayın",
+      label: "İzinleri onayla",
       description: "Uygulama ürün ve sipariş verilerinizi okuyabilsin.",
-      done: Boolean(done.permissions),
-      action: <Button size="sm" onClick={() => complete("permissions")}>İzinleri onayla</Button>,
+      eta: "~1 dk",
+      status: status("permissions"),
+      actions: <Button size="sm" onClick={() => complete("permissions")}>İzinleri onayla</Button>,
     },
     {
       id: "settings",
-      title: "Temel ayarları yapın",
+      label: "Temel ayarları yap",
       description: "Bildirim e-postası ve para birimi gibi varsayılanları seçin.",
-      done: Boolean(done.settings),
-      action: <Button size="sm" onClick={() => complete("settings")}>Ayarlara git</Button>,
+      eta: "~3 dk",
+      status: status("settings"),
+      actions: (
+        <>
+          <Button size="sm" onClick={() => complete("settings")}>Ayarları aç</Button>
+          <Button size="sm" variant="ghost" onClick={() => complete("settings")}>
+            Varsayılanları kullan
+          </Button>
+        </>
+      ),
     },
     {
       id: "first",
-      title: "İlk kaydınızı oluşturun",
+      label: "İlk kaydı oluştur",
       description: "Bir kayıt oluşturduğunuzda metrikler burada görünmeye başlar.",
-      done: Boolean(done.first),
-      action: (
+      status: status("first"),
+      requires: ["permissions"],
+      actions: (
         <Button size="sm" onClick={() => (complete("first"), toast.success("Kayıt oluşturuldu"))}>
           Kayıt oluştur
         </Button>
       ),
     },
   ]
-  const allDone = steps.every((s) => s.done)
 
   return (
     <Page width="wide">
@@ -64,7 +75,7 @@ export default function AppHomeExample() {
         }
       />
 
-      {guideOpen && <SetupGuide description="Uygulamayı kullanmaya başlamak için üç adım." steps={steps} onDismiss={allDone ? () => setGuideOpen(false) : undefined} />}
+      {guideOpen && <Launchpad steps={steps} onDismiss={() => setGuideOpen(false)} />}
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
         <StatCard label="Kayıtlar" value={done.first ? "1" : "0"} changeLabel="son 30 gün" />

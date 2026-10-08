@@ -20,7 +20,7 @@ export default function ToggleSectionModules() {
         icon={<ClockIcon />}
         title="Mesai saatleri"
         description="Mesai dışında buton gizlenir, yerine e-posta formu çıkar."
-        meta={hours ? <Badge tone="success" size="sm" dot>Etkin</Badge> : undefined}
+        meta={hours ? <Badge status="success" size="sm" dot>Etkin</Badge> : undefined}
         checked={hours}
         onCheckedChange={setHours}
       >

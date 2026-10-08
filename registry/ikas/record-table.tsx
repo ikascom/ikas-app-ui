@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-type ResourceTableColumn<T> = {
+type RecordTableColumn<T> = {
   id: string
   header: React.ReactNode
   /** Cell renderer. Defaults to `String(row[id])`. */
@@ -21,8 +21,8 @@ type ResourceTableColumn<T> = {
   hideOnMobile?: boolean
 }
 
-type ResourceTableProps<T> = {
-  columns: ResourceTableColumn<T>[]
+type RecordTableProps<T> = {
+  columns: RecordTableColumn<T>[]
   rows: T[]
   getRowId: (row: T) => string
   /** Accessible name, e.g. "Orders". */
@@ -50,7 +50,7 @@ type ResourceTableProps<T> = {
   className?: string
 }
 
-function ResourceTable<T>({
+function RecordTable<T>({
   columns,
   rows,
   getRowId,
@@ -64,7 +64,7 @@ function ResourceTable<T>({
   toolbar,
   pagination,
   className,
-}: ResourceTableProps<T>) {
+}: RecordTableProps<T>) {
   const selectable = Boolean(selectedIds && onSelectedIdsChange)
   const selected = React.useMemo(() => new Set(selectedIds ?? []), [selectedIds])
   const pageIds = rows.map(getRowId)
@@ -94,11 +94,11 @@ function ResourceTable<T>({
 
   return (
     <div
-      data-slot="resource-table"
+      data-slot="record-table"
       className={cn("overflow-hidden rounded-xl bg-card shadow-card", className)}
     >
       {toolbar && (
-        <div data-slot="resource-table-toolbar" className="flex flex-wrap items-center gap-2 border-b p-3">
+        <div data-slot="record-table-toolbar" className="flex flex-wrap items-center gap-2 border-b p-3">
           {toolbar}
         </div>
       )}
@@ -162,7 +162,7 @@ function ResourceTable<T>({
           ) : rows.length === 0 ? (
             <TableRow className="hover:bg-transparent">
               <TableCell colSpan={colSpan} className="p-0 whitespace-normal">
-                {emptyState ?? <p className="px-4 py-10 text-center text-sm text-muted-foreground">No results</p>}
+                {emptyState ?? <p className="px-4 py-10 text-center text-sm text-muted-foreground">Sonuç yok</p>}
               </TableCell>
             </TableRow>
           ) : (
@@ -236,4 +236,4 @@ function ResourceTable<T>({
   )
 }
 
-export { ResourceTable, type ResourceTableColumn, type ResourceTableProps }
+export { RecordTable, type RecordTableColumn, type RecordTableProps }

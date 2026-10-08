@@ -94,14 +94,14 @@ export default function CampaignEditorExample() {
   return (
     <Page width="wide">
       <PageHeader
-        backAction={{ label: "Kampanyalara dön", onClick: () => toast("Kampanyalara dönülüyor") }}
+        back={{ label: "Kampanyalara dön", onClick: () => toast("Kampanyalara dönülüyor") }}
         title="Hafta sonu fırsatı"
-        titleMeta={
+        badges={
           <>
-            <Badge tone="success" dot>
+            <Badge status="success" dot>
               Yayında
             </Badge>
-            <Badge variant="surface" tone="warning">
+            <Badge variant="surface" status="warning">
               Yayınlanmamış değişiklikler var
             </Badge>
           </>
@@ -126,7 +126,7 @@ export default function CampaignEditorExample() {
       />
 
       {showErrors && (
-        <Banner tone="critical" title="Yayınlamadan önce şu alanları düzeltin" onDismiss={() => setShowErrors(false)}>
+        <Banner status="danger" title="Yayınlamadan önce şu alanları düzeltin" onDismiss={() => setShowErrors(false)}>
           <ul className="mt-1 list-disc pl-4">
             {selected.length === 0 && (
               <li>

@@ -7,12 +7,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
-import { SaveBar } from "@/components/ikas/save-bar"
+import { UnsavedBar } from "@/components/ikas/unsaved-bar"
 import { SettingRow } from "@/components/ikas/setting-row"
 
 const initial = { senderName: "Moda Butik", autoReply: true }
 
-export default function SaveBarSettingsForm() {
+export default function UnsavedBarSettingsForm() {
   const [saved, setSaved] = React.useState(initial)
   const [values, setValues] = React.useState(initial)
   const [saving, setSaving] = React.useState(false)
@@ -57,7 +57,7 @@ export default function SaveBarSettingsForm() {
       </Card>
       <p className="mt-3 text-center text-[13px] text-muted-foreground">Kaydetme çubuğunu görmek için bir değeri değiştirin.</p>
       <div className="mt-auto">
-        <SaveBar
+        <UnsavedBar
           position="sticky"
           className="px-0 pb-0"
           open={dirty}

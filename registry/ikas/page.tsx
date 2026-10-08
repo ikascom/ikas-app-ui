@@ -41,9 +41,9 @@ type PageHeaderProps = Omit<React.ComponentProps<"header">, "title"> & {
   title: React.ReactNode
   description?: React.ReactNode
   /** Badges or meta shown next to the title, e.g. order status. */
-  titleMeta?: React.ReactNode
-  /** Renders a back button. Pass an element (e.g. next/link) via `backAction.asChild`. */
-  backAction?:
+  badges?: React.ReactNode
+  /** Renders a back button. Pass an element (e.g. next/link) via `back.asChild`. */
+  back?:
     | { label?: string; onClick: () => void }
     | { label?: string; href: string; asChild?: false }
     | { label?: string; children: React.ReactElement; asChild: true }
@@ -55,8 +55,8 @@ function PageHeader({
   className,
   title,
   description,
-  titleMeta,
-  backAction,
+  badges,
+  back,
   actions,
   ...props
 }: PageHeaderProps) {
@@ -67,13 +67,13 @@ function PageHeader({
       {...props}
     >
       <div className="flex min-w-0 items-start gap-3">
-        {backAction && <PageBackButton {...backAction} />}
+        {back && <PageBackButton {...back} />}
         <div className="flex min-w-0 flex-col gap-1">
           <div className="flex min-h-8 flex-wrap items-center gap-x-2.5 gap-y-1">
             <h1 className="truncate font-heading text-xl font-semibold tracking-[-0.01em] text-foreground">
               {title}
             </h1>
-            {titleMeta}
+            {badges}
           </div>
           {description && (
             <p className="max-w-prose text-sm text-muted-foreground">{description}</p>
@@ -89,7 +89,7 @@ function PageHeader({
   )
 }
 
-function PageBackButton(props: NonNullable<PageHeaderProps["backAction"]>) {
+function PageBackButton(props: NonNullable<PageHeaderProps["back"]>) {
   const label = props.label ?? "Geri"
   const icon = <ArrowLeftIcon />
 

@@ -10,8 +10,8 @@ import { AnimatedCheckIcon } from "@/components/ikas/animated-check"
 
 /**
  * Sonner, unstyled and dressed in ikas tokens: a raised card surface, the
- * tone carried by the icon only, our Button for actions. Use it for
- * confirmations that need no follow-up ("Kaydedildi"); anything the merchant
+ * status carried by the icon only, our Button for actions. Use it for
+ * confirmations that need no follow-up ("Kaydedildi"); anything the store owner
  * must act on belongs in a Banner.
  */
 const Toaster = ({ toastOptions, ...props }: ToasterProps) => {
@@ -30,7 +30,7 @@ const Toaster = ({ toastOptions, ...props }: ToasterProps) => {
         ),
         info: <InfoIcon className="size-4.5 text-info" />,
         warning: <TriangleAlertIcon className="size-4.5 text-warning-subtle-foreground" />,
-        error: <OctagonXIcon className="size-4.5 text-critical" />,
+        error: <OctagonXIcon className="size-4.5 text-danger" />,
         loading: <Spinner className="size-4 text-icon" />,
       }}
       toastOptions={{

@@ -21,16 +21,20 @@ async function readTokens() {
   const file = candidates.find((candidate) => existsSync(candidate))
   if (!file) throw new Error("registry/theme.css not found")
   const css = await fs.readFile(file, "utf8")
-  const start = css.indexOf(":root {")
-  const body = css.slice(css.indexOf("{", start) + 1, css.indexOf("\n}", start))
-  return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(([, k, v]) => [k, v.trim()]))
+  const block = (selector: string): Record<string, string> => {
+    const start = css.indexOf(`${selector} {`)
+    const body = css.slice(css.indexOf("{", start) + 1, css.indexOf("\n}", start))
+    return Object.fromEntries([...body.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(([, k, v]) => [k, v.trim()]))
+  }
+  // Light values, and the `.dark` overrides for previews opened with ?theme=dark.
+  return { light: block(":root"), dark: block(".dark") }
 }
 
 function Comparison({ slop, ikas }: { slop: React.ReactNode; ikas: React.ReactNode }) {
   return (
     <div className="grid gap-3 md:grid-cols-2">
       <figure className="flex flex-col overflow-hidden rounded-xl border">
-        <figcaption className="flex items-center gap-1.5 border-b bg-critical-subtle px-3 py-2 text-[13px] font-medium text-critical-subtle-foreground">
+        <figcaption className="flex items-center gap-1.5 border-b bg-danger-subtle px-3 py-2 text-[13px] font-medium text-danger-subtle-foreground">
           <XIcon className="size-3.5" /> Tipik AI çıktısı
         </figcaption>
         <div className="flex flex-1 items-center justify-center bg-white p-6 text-zinc-900">{slop}</div>
@@ -134,7 +138,10 @@ async function TokensSurfaces() {
           <div className="h-12 rounded-lg shadow-[inset_0_0_0_1px_var(--shade-border)]" style={{ background: `var(--${token})` }} />
           <div className="flex flex-col">
             <span className="truncate font-mono text-[11.5px] font-medium">{token}</span>
-            <span className="truncate font-mono text-[11px] text-muted-foreground">{tokens[token]}</span>
+            <span className="truncate font-mono text-[11px] text-muted-foreground dark:hidden">{tokens.light[token]}</span>
+            <span className="hidden truncate font-mono text-[11px] text-muted-foreground dark:block">
+              {tokens.dark[token] ?? tokens.light[token]}
+            </span>
           </div>
         </div>
       ))}
@@ -171,20 +178,20 @@ function TokensPalette() {
   )
 }
 
-const tones = [
-  { tone: "info", color: "blue", use: "Bilgi, planlandı, devam ediyor." },
-  { tone: "success", color: "green", use: "Tamamlandı, sağlıklı, ödendi, aktif." },
-  { tone: "warning", color: "amber", use: "Yakında ilgi istiyor: beklemede, süresi doluyor, kısmi." },
-  { tone: "critical", color: "red", use: "Bozuk, başarısız, geri alınamaz." },
+const statuses = [
+  { status: "info", color: "blue", use: "Bilgi, planlandı, devam ediyor." },
+  { status: "success", color: "green", use: "Tamamlandı, sağlıklı, ödendi, aktif." },
+  { status: "warning", color: "amber", use: "Yakında ilgi istiyor: beklemede, süresi doluyor, kısmi." },
+  { status: "danger", color: "red", use: "Bozuk, başarısız, geri alınamaz." },
 ]
 
-function TokensTones() {
+function TokensStatuses() {
   return (
     <div className="divide-y rounded-lg bg-card shadow-card">
-      {tones.map(({ tone, color, use }) => (
-        <div key={tone} className="flex items-center gap-4 px-4 py-3">
-          <span className="size-3 shrink-0 rounded-full" style={{ background: `var(--${tone})` }} />
-          <code className="w-20 shrink-0 font-mono text-[13px] font-medium">{tone}</code>
+      {statuses.map(({ status, color, use }) => (
+        <div key={status} className="flex items-center gap-4 px-4 py-3">
+          <span className="size-3 shrink-0 rounded-full" style={{ background: `var(--${status})` }} />
+          <code className="w-20 shrink-0 font-mono text-[13px] font-medium">{status}</code>
           <span className="flex-1 text-sm text-muted-foreground">{use}</span>
           <code className="font-mono text-[12px] text-muted-foreground">→ {color}</code>
         </div>
@@ -256,7 +263,7 @@ export const embeds = {
   "comparison-empty": ComparisonEmpty,
   "tokens-surfaces": TokensSurfaces,
   "tokens-palette": TokensPalette,
-  "tokens-tones": TokensTones,
+  "tokens-statuses": TokensStatuses,
   "tokens-chart": TokensChart,
   "tokens-elevation": TokensElevation,
   "tokens-type": TokensType,
