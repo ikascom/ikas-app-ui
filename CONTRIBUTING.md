@@ -160,8 +160,7 @@ Nothing is published to npm. Changesets is used only for versioning and the chan
 ### Update builders.ikas.com
 
 builders.ikas.com serves a pinned release, so each release needs a PR on
-`ikascom/ikas-builders`. (The `bump-builders` job in `release.yml` only runs
-when a `BUILDERS_APP_ID` GitHub App secret is configured, which it is not.)
+`ikascom/ikas-builders`. This is a manual step on purpose; there is no bot.
 
 1. In `ikascom/ikas-builders`, bump the ui-kit version file (name planned) to
    the new tag, `v<version>`.
@@ -183,8 +182,8 @@ when a `BUILDERS_APP_ID` GitHub App secret is configured, which it is not.)
 `.github/workflows/ci.yml` runs on every PR and push to `main` with read-only
 permissions and no secrets: lint, typecheck, `check:content`, `registry:build`
 (and fails if `registry.json` changed), `registry:validate`, `manifest:build`,
-`preview:build`, the smoke test, the registry health check, and a gitleaks
-secret scan. Please run the [checklist](#before-you-open-a-pr) locally before
+`preview:build`, the smoke test and the registry health check. Secret scanning
+is done by GitHub (see below), not in CI. Please run the [checklist](#before-you-open-a-pr) locally before
 opening a PR.
 
 ### Maintainers: secret scanning

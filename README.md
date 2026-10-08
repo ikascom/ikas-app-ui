@@ -128,7 +128,6 @@ Every PR and push to `main` runs, with read-only permissions and no secrets:
 | Lint, typecheck, build | `lint`, `typecheck`, `check:content`, `registry:build` with `registry.json` up to date, `registry:validate`, `manifest:build`, `preview:build` |
 | Install smoke test | `registry:build` + `smoke` against the ikas starter app |
 | Registry health | `registry:build` + `health` (shadcn Registry Health mirror) |
-| Secret scan | gitleaks over the full git history |
 
 ## Repo layout
 

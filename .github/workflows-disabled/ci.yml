@@ -98,25 +98,3 @@ jobs:
       # Mirrors shadcn's Registry Health check: dist/r hygiene, then
       # `shadcn add @ikas/<item> --dry-run --yes` for every item in a bare project.
       - run: pnpm health
-
-  gitleaks:
-    name: Secret scan
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      # The gitleaks CLI needs no license key (gitleaks/gitleaks-action@v2 does for
-      # organization repos), which keeps this workflow secret-free.
-      - name: gitleaks
-        env:
-          GITLEAKS_VERSION: 8.30.1
-        run: |
-          base="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
-          tarball="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
-          curl -sSfLO "$base/$tarball"
-          curl -sSfL "$base/gitleaks_${GITLEAKS_VERSION}_checksums.txt" | grep " $tarball\$" | sha256sum -c -
-          tar -xzf "$tarball" gitleaks
-          ./gitleaks git . --redact --verbose --exit-code 1

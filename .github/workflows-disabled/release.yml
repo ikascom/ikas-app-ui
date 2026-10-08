@@ -34,9 +34,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    outputs:
-      released: ${{ steps.check.outputs.release }}
-      version: ${{ steps.check.outputs.version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -97,50 +94,3 @@ jobs:
           [ -s notes.md ] || echo "Release v$VERSION" > notes.md
           gh release create "v$VERSION" "ikas-app-ui-v$VERSION.tar.gz" \
             --target "$GITHUB_SHA" --title "v$VERSION" --notes-file notes.md
-
-  bump-builders:
-    # TODO(needs-setup): create a GitHub App with contents + pull-requests write access on
-    # ikascom/ikas-builders, install it there, and add the repo secrets BUILDERS_APP_ID
-    # (the App's client ID) and BUILDERS_APP_PRIVATE_KEY. Until BUILDERS_APP_ID exists this
-    # job is skipped. Also confirm where ikas-builders keeps `ui-kit.version`
-    # (assumed: the "ui-kit" key in its package.json).
-    name: Bump ui-kit on ikas-builders
-    needs: release
-    if: needs.release.outputs.released == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions: {}
-    env:
-      HAS_APP: ${{ secrets.BUILDERS_APP_ID != '' }}
-      VERSION: ${{ needs.release.outputs.version }}
-      UI_KIT_FILE: package.json
-    steps:
-      - name: Skip (BUILDERS_APP_ID not configured)
-        if: env.HAS_APP != 'true'
-        run: echo "BUILDERS_APP_ID is not set; open the ikas-builders version bump PR by hand."
-
-      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        id: token
-        if: env.HAS_APP == 'true'
-        with:
-          client-id: ${{ secrets.BUILDERS_APP_ID }}
-          private-key: ${{ secrets.BUILDERS_APP_PRIVATE_KEY }}
-          owner: ikascom
-          repositories: ikas-builders
-
-      - name: Open version bump PR
-        if: env.HAS_APP == 'true'
-        env:
-          GH_TOKEN: ${{ steps.token.outputs.token }}
-        run: |
-          branch="ui-kit/v$VERSION"
-          gh auth setup-git
-          gh repo clone ikascom/ikas-builders builders -- --depth 1
-          cd builders
-          git checkout -b "$branch"
-          jq --arg v "$VERSION" '."ui-kit".version = $v' "$UI_KIT_FILE" > tmp.json && mv tmp.json "$UI_KIT_FILE"
-          git -c user.name="ikas-app-ui release" -c user.email="noreply@ikas.com" commit -am "chore: ikas-app-ui v$VERSION"
-          git push origin "$branch"
-          gh pr create --repo ikascom/ikas-builders --head "$branch" \
-            --title "ui-kit v$VERSION" \
-            --body "Bumps ui-kit to [v$VERSION](https://github.com/${GITHUB_REPOSITORY}/releases/tag/v$VERSION)."
