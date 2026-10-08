@@ -37,6 +37,7 @@ function AnimatedCheckIcon({ className, strokeWidth = 2.25 }: { className?: stri
 }
 
 type CopyIconButtonProps = Omit<ButtonProps, "onClick" | "children" | "asChild"> & {
+  /** Text copied to the clipboard. */
   value: string
   /** Accessible label before copying. */
   label?: string

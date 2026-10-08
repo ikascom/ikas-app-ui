@@ -36,6 +36,7 @@ const badgeVariants = cva(
   "[--c-dot:color-mix(in_oklab,var(--c)_50%,var(--c-subtle-fg))] group/badge inline-flex h-5.5 w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-md px-1.5 text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-3 focus-visible:ring-ring/30 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
+      /** soft for list statuses, solid to stand out, surface for dense tables. */
       variant: {
         /** Tinted fill with a hairline ring. The default for statuses in lists. */
         soft: "bg-(--c-subtle) text-(--c-subtle-fg) shadow-[inset_0_0_0_1px_var(--c-border)]",
@@ -44,6 +45,7 @@ const badgeVariants = cva(
         /** White surface, neutral text, colored dot. Quiet, for dense tables. */
         surface: "bg-card text-foreground shadow-raised",
       },
+      /** Raw palette color. Prefer `status` for statuses. */
       color: colors,
       size: {
         sm: "h-5 gap-1 px-1.5 text-[11px]",

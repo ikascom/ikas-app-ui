@@ -37,6 +37,7 @@ type AreaChartProps<T extends Record<string, unknown>> = {
   series: ChartSeries[]
   /** Fill style. `line` draws the stroke only. */
   variant?: AreaChartVariant
+  /** Line interpolation between points. */
   curve?: "monotone" | "linear" | "step" | "bump"
   /** Stack series on top of each other (parts of a whole over time). */
   stacked?: boolean

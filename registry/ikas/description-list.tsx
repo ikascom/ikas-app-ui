@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 
 const descriptionListVariants = cva("w-full text-sm", {
   variants: {
+    /** horizontal for details in a card, stacked for narrow asides. */
     layout: {
       /** Label left, value right. Order and customer details. */
       horizontal: "divide-y divide-border [&>div]:grid [&>div]:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] [&>div]:gap-4 [&>div]:py-2.5",
@@ -28,6 +29,7 @@ type DescriptionListProps = React.ComponentProps<"dl"> &
     items: DescriptionListItem[]
   }
 
+/** Read-only label and value pairs, like order or customer details. */
 function DescriptionList({ className, layout, items, ...props }: DescriptionListProps) {
   return (
     <dl data-slot="description-list" className={cn(descriptionListVariants({ layout }), className)} {...props}>

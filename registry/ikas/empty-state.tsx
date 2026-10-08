@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 
 const emptyStateVariants = cva("flex w-full flex-col items-center text-center", {
   variants: {
+    /** page for first run, section inside cards, inline in small panels. */
     size: {
       /** First run of a whole page, e.g. "No campaigns yet". */
       page: "gap-4 px-6 py-16",
@@ -46,6 +47,7 @@ type EmptyStateProps = Omit<React.ComponentProps<"div">, "title"> &
     retrying?: boolean
   }
 
+/** No data yet, no results, or a failed load (status="danger"). */
 function EmptyState({
   className,
   size = "section",

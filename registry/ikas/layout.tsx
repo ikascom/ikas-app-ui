@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 
 const layoutVariants = cva("grid w-full items-start gap-5", {
   variants: {
+    /** Column split. Every option stacks to one column on mobile. */
     columns: {
       /** Single column stack. */
       one: "grid-cols-1",
@@ -21,6 +22,7 @@ const layoutVariants = cva("grid w-full items-start gap-5", {
   },
 })
 
+/** Responsive grid of LayoutColumns inside a Page. */
 function Layout({
   className,
   columns,

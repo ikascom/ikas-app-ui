@@ -16,17 +16,23 @@ type ChartCardProps<T extends string> = {
   description?: React.ReactNode
   /** The headline figure for the selected range. Rolls when it changes. */
   value?: number
+  /** Formats `value`. */
   valueFormat?: (value: number) => string
   /** Percent change against the previous period, e.g. 12.4. */
   change?: number
   /** Set when a decrease is good (refunds, errors, response time). */
   invertChange?: boolean
+  /** Comparison period shown after the change. */
   changeLabel?: React.ReactNode
+  /** Options for the range switch. Omit to hide it. */
   ranges?: ChartCardRange<T>[]
+  /** Selected range. Pair with `onRangeChange`. */
   range?: T
   onRangeChange?: (range: T) => void
+  /** Slot under the chart. */
   footer?: React.ReactNode
   className?: string
+  /** The chart, usually AreaChart or BarChart. */
   children: React.ReactNode
 }
 

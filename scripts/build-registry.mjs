@@ -26,7 +26,7 @@ const read = (p) => fs.readFileSync(path.join(root, p), "utf8")
 const NAMESPACE = "@ikas"
 const DOCS = "https://builders.ikas.com/tr/docs/app-development/ui-kit"
 
-/** Builders has a page per pattern; primitives without one point at the overview. */
+/** Builders has a page per pattern; items without one point at the overview. */
 const docsPages = new Set(
   fs.existsSync(path.join(root, "registry/ikas"))
     ? fs.readdirSync(path.join(root, "registry/ikas")).map((f) => f.replace(/\.\w+$/, ""))
@@ -34,7 +34,17 @@ const docsPages = new Set(
 )
 for (const name of ["badge", "button", "card"]) docsPages.add(name)
 /** Items documented on a page with another path. */
-const docsPaths = { sonner: "components/toast", status: "tokens" }
+const docsPaths = {
+  sonner: "components/toast",
+  status: "tokens",
+  theme: "tokens",
+  motion: "motion",
+  "ui-rules": "ai-agent",
+  ...Object.fromEntries(["field", "input", "input-group", "label", "select", "checkbox", "switch", "textarea"].map((n) => [n, "components/form"])),
+  ...Object.fromEntries(
+    ["alert", "avatar", "button-group", "chart", "dialog", "dropdown-menu", "kbd", "popover", "progress", "radio-group", "separator", "sheet", "skeleton", "spinner", "table", "tabs", "tooltip"].map((n) => [n, "components/primitives"])
+  ),
+}
 const docsUrl = (name) => (docsPaths[name] ? `${DOCS}/${docsPaths[name]}` : docsPages.has(name) ? `${DOCS}/components/${name}` : DOCS)
 
 /**
@@ -66,14 +76,14 @@ const meta = {
   theme: { title: "ikas Theme", description: "Light-first neutral theme tokens: surfaces, six-color palette, status colors, radius and elevation. Install first.", categories: ["theme"] },
   utils: { description: "The cn() helper that merges Tailwind class names; used by every component.", categories: ["utilities"] },
   motion: { description: "Shared spring and easing tokens so all animations in the app move the same way.", categories: ["motion", "utilities"] },
-  status: { description: "Status tint classes: color variables per status for surfaces, text, icons and actions.", categories: ["utilities", "feedback"] },
+  status: { description: "Status tint classes (info, success, warning, danger, neutral) for surfaces, text, icons and actions.", categories: ["utilities", "feedback"] },
   "ui-rules": { title: "UI Rules for AI agents", description: "ikas-ui.md design rules for AI coding agents; reference it from AGENTS.md or CLAUDE.md.", categories: ["ai"] },
 
   // Primitives (registry/ui)
-  alert: { description: "Inline callout with icon, title, description and optional action, in default or destructive style.", categories: ["primitives", "feedback"] },
+  alert: { description: "Plain inline callout in default or destructive style; use Banner for status messages.", categories: ["primitives", "feedback"] },
   avatar: { description: "Round user or store image with fallback initials, badge, and stacked groups.", categories: ["primitives", "data-display"] },
-  badge: { description: "Small status or count label in status or palette colors, with optional dot.", categories: ["primitives", "data-display"] },
-  button: { description: "Button in several variants and palette colors, with sizes, icons and asChild support.", categories: ["primitives", "forms"] },
+  badge: { description: "Small label for statuses (info, success, warning, danger) or counts, with optional dot.", categories: ["primitives", "data-display"] },
+  button: { description: "Button in solid, soft, outline, ghost and link variants, any palette color, loading state.", categories: ["primitives", "forms"] },
   "button-group": { description: "Joins buttons, inputs or selects into one connected horizontal or vertical group.", categories: ["primitives", "forms"] },
   card: { description: "Raised surface with header, title, description, action, content and footer slots.", categories: ["primitives", "layout"] },
   chart: { description: "Recharts container, tooltip and legend wired to theme colors; base for the ikas charts.", categories: ["primitives", "charts"] },
@@ -92,7 +102,7 @@ const meta = {
   separator: { description: "Thin horizontal or vertical line that divides content.", categories: ["primitives", "layout"] },
   sheet: { description: "Panel that slides in from a screen edge for side tasks and details.", categories: ["primitives", "overlays"] },
   skeleton: { description: "Pulsing placeholder block shown while content loads.", categories: ["primitives", "feedback"] },
-  sonner: { description: "Toast notifications in status colors, with soft variant, countdown bar and automatic dark theme.", categories: ["primitives", "feedback"] },
+  sonner: { description: "Toaster for short confirmations: status types, surface or soft variant, optional countdown bar.", categories: ["primitives", "feedback"] },
   spinner: { description: "Animated loading indicator for buttons and pending sections.", categories: ["primitives", "feedback"] },
   switch: { description: "Toggle switch for settings that turn on or off immediately.", categories: ["primitives", "forms"] },
   table: { description: "Basic table building blocks: header, body, rows, cells, footer and caption.", categories: ["primitives", "data-display"] },
@@ -105,18 +115,18 @@ const meta = {
   "animated-check": { description: "Self-drawing check icon, plus a copy-to-clipboard button that confirms with it.", categories: ["motion", "forms"] },
   "animated-number": { description: "Number that rolls up or down when its value changes.", categories: ["motion", "data-display"] },
   "area-chart": { description: "Area or line chart over time, with stacking, legend, tooltip and estimated points.", categories: ["charts"] },
-  banner: { title: "Banner", description: "Persistent message colored by status, with optional actions and dismiss.", categories: ["feedback"] },
+  banner: { title: "Banner", description: "Persistent message in info, success, warning or danger, with optional actions and dismiss.", categories: ["feedback"] },
   "bar-chart": { description: "Vertical or horizontal bar chart, grouped or stacked, with hover trace and in-progress bars.", categories: ["charts"] },
   "bar-list": { description: "Ranked list of labels with proportional bars and values, e.g. top products.", categories: ["charts", "data-display"] },
   "chart-card": { description: "Dashboard chart frame with title, headline value, change and a time range switch.", categories: ["charts", "layout"] },
   "chart-kit": { description: "Shared chart parts: colors, fills, legend, tooltip, loading and reveal used by ikas charts.", categories: ["charts", "utilities"] },
   collapse: { description: "Animates content open and closed between zero and full height.", categories: ["motion", "layout"] },
   "confirm-button": { description: "Two-click inline confirm for destructive actions that do not need a dialog.", categories: ["forms", "feedback"] },
-  "description-list": { title: "Description List", description: "Key/value pairs for detail pages.", categories: ["data-display"] },
+  "description-list": { title: "Description List", description: "Label and value pairs for detail pages, side by side or stacked.", categories: ["data-display"] },
   "donut-chart": { description: "Donut chart for part-to-whole data, with the total in the center and a legend.", categories: ["charts"] },
   "empty-state": { title: "Empty State", description: "Explains an empty or failed view and offers the next step or a retry.", categories: ["feedback"] },
   "expandable-search": { description: "Search icon that expands into a text input and stays open while filled.", categories: ["forms", "navigation"] },
-  launchpad: { title: "Launchpad", description: "First-run steps on a vertical rail; the active step opens in place with its actions.", categories: ["feedback", "layout"] },
+  launchpad: { title: "Launchpad", description: "First-run setup steps for the app home; the active step opens with its actions.", categories: ["feedback", "layout"] },
   layout: { title: "Layout", description: "Column presets (main-aside, half, third) and numbered SettingsGroup sections for settings screens.", categories: ["layout"] },
   meter: { description: "Usage against a limit as a bar or ring, with warning and danger states.", categories: ["data-display", "feedback"] },
   "number-stepper": { description: "Number input with minus and plus buttons; click the value to type it.", categories: ["forms"] },
@@ -125,9 +135,9 @@ const meta = {
   "unsaved-bar": { title: "Unsaved Bar", description: "Bar with save and discard that appears while a form has unsaved changes.", categories: ["forms", "feedback"] },
   "script-installer": { description: "Installs, updates and removes the app's storefront script, one row per storefront.", categories: ["forms"] },
   "segmented-control": { description: "Pick one of two to five options, as view tabs or a radio choice.", categories: ["forms", "navigation"] },
-  "setting-row": { title: "Setting Row", description: "A single setting with its control aligned right.", categories: ["forms", "layout"] },
+  "setting-row": { title: "Setting Row", description: "One setting row: title, description and its control aligned right.", categories: ["forms", "layout"] },
   sparkline: { description: "Tiny trend line without axes for stat cards and table cells.", categories: ["charts"] },
-  "stat-card": { title: "Stat Card", description: "A metric with label, value and period-over-period change.", categories: ["data-display"] },
+  "stat-card": { title: "Stat Card", description: "KPI card: label, value and change against the previous period.", categories: ["data-display"] },
   "toggle-section": { description: "Feature section with an on/off switch that reveals its settings when on.", categories: ["forms", "layout"] },
 }
 
@@ -241,6 +251,7 @@ function themeItem() {
     title: meta.theme?.title,
     description: meta.theme?.description,
     categories: meta.theme?.categories,
+    docs: docsUrl("theme"),
     dependencies: ["shadcn", "tw-animate-css"],
     css: {
       '@import "tw-animate-css"': {},
@@ -267,6 +278,7 @@ const items = [
     title: meta["ui-rules"]?.title,
     description: meta["ui-rules"]?.description,
     categories: meta["ui-rules"]?.categories,
+    docs: docsUrl("ui-rules"),
     files: [{ path: "registry/rules/ikas-ui.md", type: "registry:file", target: "~/ikas-ui.md" }],
   },
 ]

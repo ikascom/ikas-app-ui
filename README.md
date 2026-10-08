@@ -103,7 +103,7 @@ Each release attaches them as `ikas-app-ui-v<version>.tar.gz` (`r/`, `manifest/`
 | Step | Where |
 | --- | --- |
 | 1. Write the component | `registry/ikas/<name>.tsx` (patterns) or `registry/ui/<name>.tsx` (primitives). Import siblings via `@/components/ui/*`, `@/components/ikas/*`, `@/lib/*`. Use theme tokens, never raw colors. |
-| 2. Add a demo | `demos/<name>/<variant>.tsx`, registered in `demos/index.ts` as `"<name>/<variant>"`. |
+| 2. Add a demo | `demos/<name>/<variant>.tsx`, registered in `demos/index*.ts` as `"<name>/<variant>"`. |
 | 3. Metadata (required) | In the `meta` map of `scripts/build-registry.mjs`: a description (≤ 15 words) and 1–2 categories from `CATEGORIES`. |
 | 4. Build and test | The [Before you open a PR](CONTRIBUTING.md#before-you-open-a-pr) checklist. Commit `registry.json`. |
 | 5. Changeset | `pnpm changeset` (minor for a new item). |
@@ -140,7 +140,7 @@ Every PR and push to `main` runs, with read-only permissions and no secrets:
 | `registry/ikas/` | Screen patterns, installed to `components/ikas` |
 | `registry/lib/`, `registry/hooks/` | Shared helpers, installed to `lib` / `hooks` |
 | `registry/rules/ikas-ui.md` | UI rules for AI agents (`@ikas/ui-rules`) |
-| `demos/` | One file per demo, registered in `demos/index.ts` |
+| `demos/` | One file per demo, registered in `demos/index*.ts` |
 | `examples/` | Full example screens, registered in `examples/index.ts` |
 | `preview/` | Next.js app that renders demos and examples (static export) |
 | `scripts/` | Registry, manifest, thumbnails, content check, smoke, health and brand scripts |

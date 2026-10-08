@@ -15,7 +15,7 @@ açılır; ekranları panelle aynı tip ölçeğini, yoğunluğu ve yüzeyleri k
 | Gösterilecek bir şey yok | `EmptyState` | Gri bir "Veri yok" yazısı |
 | Liste veya bölüm yüklenemedi | `RecordTable error` + `onRetry`, bölümde `EmptyState status="danger"` + `onRetry` | Boş tablo, kırmızı düz metin |
 | Kalıcı geri bildirim | `status` ile `Banner` | Renkli `<div>`'ler, emoji, alert() |
-| Geçici geri bildirim | `sonner` içinden `toast` | "Kaydedildi!" için banner |
+| Geçici geri bildirim | `sonner` paketinden `toast`; kökte bir kez `@/components/ui/sonner` içinden `Toaster` | "Kaydedildi!" için banner |
 | Kaydedilmemiş form değişiklikleri | `UnsavedBar` | Uzun formun en altında Kaydet butonu |
 | Durum | `status` ile `Badge` (canlı durumlar için + `dot`) | Özel renkli hap etiketler |
 | Aksiyonlar | `variant` + `color` ile `Button` | Özel `<button>` stilleri, ekstra gölgeler |
@@ -77,8 +77,8 @@ Kendin yazmadan önce eksik olanı `npx shadcn@latest add @ikas/<name>` ile kur.
 
 Veriye dayalı her ekran şunları karşılar: **yükleniyor** (sayfanın ortasında spinner değil,
 `RecordTable loading` veya `Skeleton` ile iskeletler), **boş** (`EmptyState`), **hata**
-(veri gelmediyse yerinde `RecordTable error` / `EmptyState status="danger"` + `onRetry`; sayfanın geri kalanı
-çalışıyorsa tekrar dene aksiyonlu `Banner status="danger"`) ve **başarı** (`toast`).
+(bölüm 1'deki gibi yerinde; sayfanın geri kalanı çalışıyorsa tekrar dene aksiyonlu `Banner status="danger"`)
+ve **başarı** (`toast`).
 
 ## 5. Sayfa tarifleri
 
@@ -108,7 +108,7 @@ Veriye dayalı her ekran şunları karşılar: **yükleniyor** (sayfanın ortas�
 
 ## 7. Grafikler
 
-- Grafikleri `AreaChart`, `BarChart`, `DonutChart`, `BarList`, `Sparkline`, `Meter` ile kurun; çerçeve için `ChartCard`.
+- Grafikleri `AreaChart`, `BarChart`, `DonutChart`, `BarList`, `Sparkline`, `Meter` ile kurun.
 - Tek seri `--chart-ink`, birden çok seri `--chart-1…6` sırasıyla. Renkleri elle seçmeyin, döngüye sokmayın;
   6'dan fazla seri "Diğer" altında toplanır. Durum renkleri seri rengi değildir.
 - Tek y ekseni. İki farklı ölçekli ölçü için iki grafik.

@@ -41,6 +41,7 @@ const buttonVariants = cva(
           "text-(--c-text) hover:bg-(--c-subtle) active:bg-[color-mix(in_oklab,var(--c-subtle),var(--c)_8%)] aria-expanded:bg-(--c-subtle)",
         link: "h-auto! px-0! text-(--c-text) underline decoration-current/30 underline-offset-4 hover:decoration-current",
       },
+      /** Palette color. Works with every variant. Use red for destructive actions. */
       color: colors,
       size: {
         xs: "h-7 gap-1 rounded-md px-2.5 text-xs has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3.5",
@@ -74,6 +75,7 @@ const aliases = {
 
 type ButtonProps = Omit<React.ComponentProps<"button">, "color"> &
   Omit<VariantProps<typeof buttonVariants>, "variant"> & {
+    /** solid for the main action. shadcn names like destructive still work. */
     variant?: ButtonVariant | keyof typeof aliases
     asChild?: boolean
     /** Shows a spinner, keeps the button width and blocks clicks. */

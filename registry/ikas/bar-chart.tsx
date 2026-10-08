@@ -36,20 +36,26 @@ type BarChartProps<T extends Record<string, unknown>> = {
   data: T[]
   /** Category key, e.g. "month". */
   index: keyof T & string
+  /** One entry per bar series. Colors follow the categorical order. */
   series: ChartSeries[]
   /** Fill style. Solid for most charts; the others add texture without adding color. */
   variant?: BarChartVariant
   /** vertical = columns, horizontal = bars growing to the right (long category names). */
   layout?: "vertical" | "horizontal"
+  /** Stack series into one bar per category. */
   stacked?: boolean
   /** hover-trace dims the other bars and draws a line at the hovered value. Default for a single series. */
   highlight?: "hover-trace" | "none"
+  /** Shows a shimmering placeholder instead of the data. */
   loading?: boolean
+  /** Formats values in the tooltip. Defaults to tr-TR numbers. */
   valueFormat?: (value: number) => string
   /** Axis tick format. Defaults to compact (12,4 B). */
   axisFormat?: (value: number) => string
+  /** Plot height in px. */
   height?: number
   className?: string
+  /** Accessible summary of what the chart shows. */
   "aria-label"?: string
   /** Expressive, opt-in: the hovered bar glows in its own color. */
   glow?: boolean

@@ -11,6 +11,7 @@ type UnsavedBarProps = Omit<React.ComponentProps<"div">, "onSubmit"> & {
   message?: React.ReactNode
   onSave: () => void
   onDiscard: () => void
+  /** Spinner on Save and disables Discard while saving. */
   saving?: boolean
   saveLabel?: string
   discardLabel?: string

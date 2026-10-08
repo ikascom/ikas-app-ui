@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 
 const pageVariants = cva("mx-auto flex w-full flex-col gap-6 px-4 py-6 sm:px-6", {
   variants: {
+    /** Max content width. narrow for settings, wide for tables. */
     width: {
       /** Forms and settings. Keeps line length readable. */
       narrow: "max-w-3xl",
@@ -22,6 +23,7 @@ const pageVariants = cva("mx-auto flex w-full flex-col gap-6 px-4 py-6 sm:px-6",
   },
 })
 
+/** Outer frame of every app screen. Holds a PageHeader and content. */
 function Page({
   className,
   width,
@@ -51,6 +53,7 @@ type PageHeaderProps = Omit<React.ComponentProps<"header">, "title"> & {
   actions?: React.ReactNode
 }
 
+/** Title row of a Page with back link, badges and actions. */
 function PageHeader({
   className,
   title,

@@ -11,6 +11,7 @@
       "categories": [
         "theme"
       ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/tokens",
       "dependencies": [
         "shadcn",
         "tw-animate-css"
@@ -461,7 +462,7 @@
         "motion",
         "utilities"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/motion",
       "dependencies": [
         "motion"
       ],
@@ -477,7 +478,7 @@
       "name": "status",
       "type": "registry:lib",
       "title": "Status",
-      "description": "Status tint classes: color variables per status for surfaces, text, icons and actions.",
+      "description": "Status tint classes (info, success, warning, danger, neutral) for surfaces, text, icons and actions.",
       "categories": [
         "utilities",
         "feedback"
@@ -516,12 +517,12 @@
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
-      "description": "Inline callout with icon, title, description and optional action, in default or destructive style.",
+      "description": "Plain inline callout in default or destructive style; use Banner for status messages.",
       "categories": [
         "primitives",
         "feedback"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "class-variance-authority"
       ],
@@ -544,7 +545,7 @@
         "primitives",
         "data-display"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "radix-ui"
       ],
@@ -562,7 +563,7 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Small status or count label in status or palette colors, with optional dot.",
+      "description": "Small label for statuses (info, success, warning, danger) or counts, with optional dot.",
       "categories": [
         "primitives",
         "data-display"
@@ -591,7 +592,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "class-variance-authority",
         "radix-ui"
@@ -611,7 +612,7 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Button in several variants and palette colors, with sizes, icons and asChild support.",
+      "description": "Button in solid, soft, outline, ghost and link variants, any palette color, loading state.",
       "categories": [
         "primitives",
         "forms"
@@ -661,7 +662,7 @@
         "primitives",
         "charts"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "recharts"
       ],
@@ -684,7 +685,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "dependencies": [
         "lucide-react",
         "radix-ui"
@@ -708,7 +709,7 @@
         "primitives",
         "overlays"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "lucide-react",
         "radix-ui"
@@ -733,7 +734,7 @@
         "primitives",
         "overlays"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "lucide-react",
         "radix-ui"
@@ -757,7 +758,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "dependencies": [
         "class-variance-authority"
       ],
@@ -782,7 +783,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "dependencies": [
         "class-variance-authority"
       ],
@@ -808,7 +809,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "registryDependencies": [
         "@ikas/utils"
       ],
@@ -828,7 +829,7 @@
         "primitives",
         "data-display"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "registryDependencies": [
         "@ikas/utils"
       ],
@@ -848,7 +849,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "dependencies": [
         "radix-ui"
       ],
@@ -871,7 +872,7 @@
         "primitives",
         "overlays"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "radix-ui"
       ],
@@ -894,7 +895,7 @@
         "primitives",
         "feedback"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "radix-ui"
       ],
@@ -917,7 +918,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "radix-ui"
       ],
@@ -940,7 +941,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "dependencies": [
         "lucide-react",
         "radix-ui"
@@ -964,7 +965,7 @@
         "primitives",
         "layout"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "radix-ui"
       ],
@@ -987,7 +988,7 @@
         "primitives",
         "overlays"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "lucide-react",
         "radix-ui"
@@ -1012,7 +1013,7 @@
         "primitives",
         "feedback"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "registryDependencies": [
         "@ikas/utils"
       ],
@@ -1027,7 +1028,7 @@
       "name": "sonner",
       "type": "registry:ui",
       "title": "Sonner",
-      "description": "Toast notifications in status colors, with soft variant, countdown bar and automatic dark theme.",
+      "description": "Toaster for short confirmations: status types, surface or soft variant, optional countdown bar.",
       "categories": [
         "primitives",
         "feedback"
@@ -1060,7 +1061,7 @@
         "primitives",
         "feedback"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "lucide-react"
       ],
@@ -1083,7 +1084,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "dependencies": [
         "radix-ui"
       ],
@@ -1106,7 +1107,7 @@
         "primitives",
         "data-display"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "registryDependencies": [
         "@ikas/utils"
       ],
@@ -1126,7 +1127,7 @@
         "primitives",
         "navigation"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "class-variance-authority",
         "radix-ui"
@@ -1150,7 +1151,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/form",
       "registryDependencies": [
         "@ikas/utils"
       ],
@@ -1170,7 +1171,7 @@
         "primitives",
         "overlays"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "dependencies": [
         "radix-ui"
       ],
@@ -1290,7 +1291,7 @@
       "name": "banner",
       "type": "registry:component",
       "title": "Banner",
-      "description": "Persistent message colored by status, with optional actions and dismiss.",
+      "description": "Persistent message in info, success, warning or danger, with optional actions and dismiss.",
       "categories": [
         "feedback"
       ],
@@ -1474,7 +1475,7 @@
       "name": "description-list",
       "type": "registry:component",
       "title": "Description List",
-      "description": "Key/value pairs for detail pages.",
+      "description": "Label and value pairs for detail pages, side by side or stacked.",
       "categories": [
         "data-display"
       ],
@@ -1575,7 +1576,7 @@
       "name": "launchpad",
       "type": "registry:component",
       "title": "Launchpad",
-      "description": "First-run steps on a vertical rail; the active step opens in place with its actions.",
+      "description": "First-run setup steps for the app home; the active step opens with its actions.",
       "categories": [
         "feedback",
         "layout"
@@ -1786,7 +1787,7 @@
       "name": "setting-row",
       "type": "registry:component",
       "title": "Setting Row",
-      "description": "A single setting with its control aligned right.",
+      "description": "One setting row: title, description and its control aligned right.",
       "categories": [
         "forms",
         "layout"
@@ -1831,7 +1832,7 @@
       "name": "stat-card",
       "type": "registry:component",
       "title": "Stat Card",
-      "description": "A metric with label, value and period-over-period change.",
+      "description": "KPI card: label, value and change against the previous period.",
       "categories": [
         "data-display"
       ],
@@ -1904,6 +1905,7 @@
       "categories": [
         "ai"
       ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/ai-agent",
       "files": [
         {
           "path": "registry/rules/ikas-ui.md",

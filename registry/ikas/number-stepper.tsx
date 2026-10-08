@@ -12,6 +12,7 @@ type NumberStepperProps = {
   onValueChange: (value: number) => void
   min?: number
   max?: number
+  /** Amount added or removed per click. */
   step?: number
   /** sm (28px) for table rows, default (36px) for forms. */
   size?: "sm" | "default"

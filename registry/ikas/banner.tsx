@@ -20,7 +20,9 @@ const bannerVariants = cva(
   ],
   {
     variants: {
+      /** Sets the icon and tint. Use danger for errors. */
       status: statusTint,
+      /** soft for page-level messages, surface inside a section. */
       variant: {
         /**
          * Tinted fill, tinted text. Page-level messages that must be noticed.
@@ -69,6 +71,7 @@ type BannerProps = Omit<React.ComponentProps<"div">, "title"> &
     onDismiss?: () => void
   }
 
+/** Persistent message the store owner should read or act on. */
 function Banner({
   className,
   status = "info",

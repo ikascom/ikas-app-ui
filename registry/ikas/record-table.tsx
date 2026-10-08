@@ -25,6 +25,7 @@ type RecordTableColumn<T> = {
 type RecordTableProps<T> = {
   columns: RecordTableColumn<T>[]
   rows: T[]
+  /** Stable id per row, used for keys and selection. */
   getRowId: (row: T) => string
   /** Accessible name, e.g. "Orders". */
   label: string
@@ -35,7 +36,9 @@ type RecordTableProps<T> = {
   /** Rendered in the header row while rows are selected. Receives selected ids. */
   bulkActions?: (selectedIds: string[]) => React.ReactNode
 
+  /** Makes rows clickable, usually to open the record. */
   onRowClick?: (row: T) => void
+  /** Shows skeleton rows and disables selection and paging. */
   loading?: boolean
   /** Shown when `rows` is empty and not loading. Usually an EmptyState size="section". */
   emptyState?: React.ReactNode
@@ -48,6 +51,7 @@ type RecordTableProps<T> = {
   onRetry?: () => void
   /** Search, filters, tabs. Rendered above the table inside the same card. */
   toolbar?: React.ReactNode
+  /** Prev/next footer, shown when there is more than one page. */
   pagination?: {
     page: number
     pageCount: number
@@ -58,6 +62,7 @@ type RecordTableProps<T> = {
   className?: string
 }
 
+/** List of records in a card: selection, bulk actions, paging, empty and error states. */
 function RecordTable<T>({
   columns,
   rows,

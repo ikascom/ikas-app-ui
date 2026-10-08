@@ -10,6 +10,7 @@ type CollapseProps = {
   children: React.ReactNode
   /** Classes for the inner content wrapper. Put padding here, not on the animated element. */
   className?: string
+  /** id of the panel, for the trigger's aria-controls. */
   id?: string
 }
 

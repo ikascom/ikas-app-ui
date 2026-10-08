@@ -107,7 +107,7 @@ function resolveSeries<T extends ChartSeries>(series: T[]): (T & { color: string
 type ChartFillVariant = "gradient" | "solid" | "hatched" | "dotted" | "none"
 
 /**
- * SVG <defs> for one series' fill. Reference it with `fill={chartFillUrl(id, variant)}`.
+ * SVG <defs> for one series' fill. Reference it with `fill={chartFill(id, color, variant)}`.
  * Washes stay light (≈10–25%) so the data line, not the fill, carries the value.
  */
 function ChartFillDefs({ id, color, variant }: { id: string; color: string; variant: ChartFillVariant }) {
@@ -193,6 +193,7 @@ function ChartLegend({
   className,
 }: {
   series: { key: string; label: string; color: string }[]
+  /** Key of the focused series. Others dim. */
   active?: string | null
   onActiveChange?: (key: string | null) => void
   className?: string
@@ -240,6 +241,7 @@ function ChartTooltipCard({
 }: {
   title?: React.ReactNode
   rows: TooltipRow[]
+  /** Formats each row's value. */
   format: (value: number) => string
   /** Short qualifier next to the title, e.g. "Tahmini" or "Devam ediyor". */
   note?: React.ReactNode

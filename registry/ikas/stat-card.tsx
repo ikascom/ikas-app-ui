@@ -17,6 +17,7 @@ type StatCardProps = React.ComponentProps<"div"> & {
   footer?: React.ReactNode
 }
 
+/** One KPI with its change against the previous period. */
 function StatCard({
   className,
   label,

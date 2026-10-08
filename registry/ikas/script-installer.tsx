@@ -25,6 +25,7 @@ type ScriptInstallerProps = {
   storefronts: Storefront[]
   /** Install or update. Resolve when done; the row shows a loading state meanwhile. */
   onInstall: (storefrontId: string) => Promise<void> | void
+  /** Removes the script. Resolve when done. */
   onRemove: (storefrontId: string) => Promise<void> | void
   className?: string
 }

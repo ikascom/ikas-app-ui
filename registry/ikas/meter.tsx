@@ -41,6 +41,7 @@ type MeterProps = {
   label: React.ReactNode
   /** neutral, success, warning or danger. `auto` picks from the ratio: 75% warning, 90% danger. */
   status?: MeterStatus | "auto"
+  /** Formats value and max in the caption. */
   valueFormat?: (value: number) => string
   size?: "sm" | "default"
   className?: string

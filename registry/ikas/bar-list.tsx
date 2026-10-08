@@ -20,12 +20,14 @@ type BarListProps = {
   data: BarListItem[]
   /** Bar color. Ink by default; the bar is drawn as a light wash of it. */
   color?: string
+  /** Formats the value column. */
   valueFormat?: (value: number) => string
   /** Sorts rows by value. Ranked lists read top-down. */
   sortOrder?: "descending" | "ascending" | "none"
   /** Small column headers above the list. */
   header?: { name: React.ReactNode; value: React.ReactNode }
   className?: string
+  /** Accessible summary of what the list shows. */
   "aria-label"?: string
 }
 
