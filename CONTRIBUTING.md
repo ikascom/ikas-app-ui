@@ -24,6 +24,7 @@ Node 22 or newer is required.
 | `shadcn build` | Turns `registry.json` into `dist/r/<name>.json`. |
 | `scripts/build-manifest.mjs` | Writes `dist/manifest/` (demo and example source, prop tables, item metadata) using the TypeScript compiler API. |
 | `demos/`, `examples/`, `preview/` | Rendered by the preview app, exported to `preview/out` with base path `/ui-preview`. |
+| `scripts/build-thumbnails.mjs` | Screenshots `preview/out` with headless Chrome into `dist/thumbnails/` for the docs index cards and iframe placeholders. See [Thumbnails](#thumbnails). |
 | `scripts/check-content.mjs` | Keeps sample content free of internal hosts, internal app names and third-party brands. |
 | `scripts/smoke-install.mjs` | Installs every item into the ikas starter app with the real shadcn CLI and type-checks the result. |
 | `scripts/health-check.mjs` | Mirrors shadcn's Registry Health check: `dist/r` hygiene, then a `--dry-run` install of every item in a bare project. |
@@ -47,12 +48,14 @@ Source files import each other through the aliases every shadcn project has.
    - Declare props as a `ThingProps` type and document each own prop with a
      JSDoc comment. `pnpm manifest:build` turns these into the docs prop table,
      with defaults taken from the destructuring in the function signature.
-   - Use theme tokens (`bg-card`, `text-muted-foreground`, `var(--critical)` ...).
+   - Use theme tokens (`bg-card`, `text-muted-foreground`, `var(--danger)` ...).
      Never hardcode colors; new tokens go in `registry/theme.css` only.
    - Keep visible default strings short; they ship to every app.
 2. **Demo.** Add `demos/<name>/<variant>.tsx` with a default export, and register it
    in `demos/index.ts` as `"<name>/<variant>": Component`. The id is the file path
-   and becomes the preview URL `/ui-preview/demo/<name>/<variant>`.
+   and becomes the preview URL `/ui-preview/demo/<name>/<variant>`. Add
+   `?theme=dark` to check it in the dark theme (the docs embed previews in the
+   reader's theme); use theme tokens, not fixed colors, so both themes work.
    `pnpm manifest:build` warns about demo files that are not registered.
 3. **Metadata (required).** Add an entry to `meta` in `scripts/build-registry.mjs`:
    a `description` of at most 15 words saying what the item does for an app
@@ -72,7 +75,7 @@ Run these in order; each must pass.
 pnpm lint
 pnpm typecheck
 pnpm check:content
-pnpm build               # registry:build + manifest:build + preview:build
+pnpm build               # registry:build + manifest:build + preview:build + thumbnails:build
 pnpm registry:validate
 pnpm smoke               # install into the ikas starter app and type-check
 pnpm health              # shadcn Registry Health mirror (dry-run install of every item)
@@ -80,6 +83,29 @@ pnpm changeset           # if the change affects anything users install
 ```
 
 Then commit the regenerated `registry.json` together with your change.
+
+### Thumbnails
+
+`pnpm thumbnails:build` (the last step of `pnpm build`) needs `preview/out`
+(`pnpm preview:build`) and a local Chrome (`CHROME_PATH` to override). It serves
+`preview/out` under `/ui-preview` on a free local port, drives headless Chrome over
+the DevTools protocol (no extra dependencies) and writes `dist/thumbnails/`:
+
+| Output | What it is |
+| --- | --- |
+| `examples/<slug>.webp` | Top 1280×800 of the example screen, saved at 800×500. |
+| `demos/<id>.webp` | The demo at an 800px wide viewport, cropped to its content plus 24px. |
+| `embeds/<name>.webp` | The embed at an 800px wide viewport, full height. |
+| `<same>.dark.webp` | The same capture in the dark theme (`dark` class on `<html>`, as `?theme=dark` sets it), same clip and size. |
+| `index.json` | `{ file, dark, width, height, naturalHeight }` per example, demo and embed. `naturalHeight` is the height the page reports to its iframe, which the docs use to reserve space before the iframe loads. Demos also get `content`: the painted part of the image (text, controls, surfaces, not layout wrappers), which the docs index cards crop to and center. |
+
+Rendering is deterministic: each page is captured in the light theme, then
+switched to dark in place and captured again; `prefers-reduced-motion: reduce`, CSS
+animations and transitions forced to zero and finite Web Animations finished
+before each capture. `--light-only` skips the dark variants. Without Chrome the script prints a message and exits 0 so
+`pnpm build` still passes; `--strict` makes it fail instead, and
+`--only=orders,page/simple` re-renders a few entries. Open a few images after
+changing a demo or example to check they look right.
 
 ### The smoke test
 
@@ -125,7 +151,7 @@ them, so the following are a **permanent public contract**:
 
 - item names (`@ikas/<name>`) and their `/r/{name}.json` paths,
 - `/ui-preview/...` paths (embedded in docs),
-- CSS token names in `registry/theme.css` (`--critical`, `--shadow-raised`, ...),
+- CSS token names in `registry/theme.css` (`--danger`, `--shadow-raised`, ...),
 - exported component and prop names.
 
 Rules:
@@ -135,7 +161,7 @@ Rules:
   replacement, and keep it working for at least one minor release before removal.
   Removal is a major bump.
 - **Totally new API, new item.** If a redesign cannot stay compatible, ship it
-  under a new name (for example `resource-table-v2`) and deprecate the old item
+  under a new name (for example `record-table-v2`) and deprecate the old item
   instead of changing it in place.
 - Additive changes (new optional props, new tokens, new items) are minor.
 
@@ -153,7 +179,7 @@ Nothing is published to npm. Changesets is used only for versioning and the chan
 2. On every push to `main`, `.github/workflows/release.yml` runs `changesets/action`,
    which opens or updates a "Version packages" PR (version bump + `CHANGELOG.md`).
 3. When that PR is merged, the workflow sees an untagged version, runs `pnpm build`,
-   packs `r/`, `ui-preview/` and `manifest/` into `ikas-app-ui-v<version>.tar.gz`,
+   packs `r/`, `ui-preview/`, `manifest/` and `thumbnails/` into `ikas-app-ui-v<version>.tar.gz`,
    and creates the GitHub release and tag `v<version>`.
 4. Update builders.ikas.com by hand (below).
 
@@ -166,7 +192,7 @@ builders.ikas.com serves a pinned release, so each release needs a PR on
    the new tag, `v<version>`.
 2. Run the sync script, `scripts/sync-ui-kit.mjs` (planned). It downloads
    `ikas-app-ui-v<version>.tar.gz` from the GitHub release and unpacks it into
-   `public/r`, `public/ui-preview` and `.ui-kit/manifest`.
+   `public/r`, `public/ui-preview`, `public/ui-kit-thumbs` and `.ui-kit/manifest`.
 3. Add or adjust the MDX docs pages for new or renamed items.
 4. Open a PR. After it deploys, check that
    `https://builders.ikas.com/r/registry.json` returns `200` with

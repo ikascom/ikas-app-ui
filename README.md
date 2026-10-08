@@ -23,18 +23,18 @@ npx shadcn@latest registry add "@ikas=https://builders.ikas.com/r/{name}.json"
 
 | Item | What you get |
 | --- | --- |
-| `@ikas/theme` | Light-first neutral theme as CSS variables: surfaces, a six-color palette, semantic tones (info, success, warning, critical), radius and elevation. Install it first. |
+| `@ikas/theme` | Light-first neutral theme as CSS variables: surfaces, a six-color palette, status colors (info, success, warning, danger), radius and elevation. Install it first. |
 | `@ikas/<primitive>` | shadcn/ui primitives restyled for ikas: `button`, `badge`, `card`, `field`, `input`, `select`, `dialog`, `sheet`, `table`, `tabs`, `tooltip` and more. |
-| `@ikas/<pattern>` | Screen patterns for app UIs: `page`, `layout`, `resource-table`, `save-bar`, `setting-row`, `banner`, `empty-state`, `stat-card`, `description-list`, `setup-guide`, `script-installer`, charts (`area-chart`, `bar-chart`, `donut-chart`, `sparkline`, ...) and motion helpers. |
+| `@ikas/<pattern>` | Screen patterns for app UIs: `page`, `layout`, `record-table`, `unsaved-bar`, `setting-row`, `banner`, `empty-state`, `stat-card`, `description-list`, `launchpad`, `script-installer`, charts (`area-chart`, `bar-chart`, `donut-chart`, `sparkline`, ...) and motion helpers. |
 | `@ikas/ui-rules` | `ikas-ui.md`, design rules for AI coding agents. Reference it from your `AGENTS.md` / `CLAUDE.md`. |
 
 The full list lives in [`registry.json`](registry.json). Components are copied into your project as source (`components/ui`, `components/ikas`, `lib`), so you own and can edit them.
 
 ### Principles
 
-- **Feel like part of the panel.** Merchants open your app inside the ikas admin. Matching type, density, surfaces and colors make it feel built in, and that is what earns trust.
+- **Native to the ikas panel.** Store owners open your app inside the ikas admin. Using the panel's type scale, density and surfaces makes your screens read as panel screens, not an embedded website.
 - **Decisions, not options.** Each component carries a decision: where the primary action goes, what an empty table says. Variants exist for real needs, not taste.
-- **Tones mean something.** Green is done, amber needs attention, red is broken or irreversible, blue is information. Color is never decoration.
+- **Status colors mean something.** Green is done, amber needs attention soon, red is broken or irreversible, blue is information. Color is never decoration.
 - **Quiet surfaces, loud content.** Neutral colors, white cards, soft shadows. Depth only where you can click.
 - **Every state is designed.** Loading, empty, error and success are part of the component, not left to each app.
 - **The code is yours.** Components are copied into your app by the shadcn CLI. Change them when you need to; the defaults are a strong start.
@@ -59,11 +59,12 @@ pnpm dev          # preview app on http://localhost:3001
 | Script | What it does |
 | --- | --- |
 | `pnpm dev` | Runs the preview app (`preview/`) with every demo and example on port 3001. |
-| `pnpm build` | Full build: `registry:build` + `manifest:build` + `preview:build`. |
+| `pnpm build` | Full build: `registry:build` + `manifest:build` + `preview:build` + `thumbnails:build`. |
 | `pnpm registry:build` | Regenerates `registry.json` from `registry/` (`scripts/build-registry.mjs`), then `shadcn build` writes one JSON per item to `dist/r/`. Fails if an item has no description or categories in `meta`. Commit `registry.json`. |
 | `pnpm registry:validate` | `shadcn registry validate`: checks `registry.json` against the shadcn schema. |
 | `pnpm manifest:build` | Writes `dist/manifest/*.json` (demo and example source, prop tables, item metadata) for the docs site. Needs `registry.json`. |
 | `pnpm preview:build` | Static export of the preview app to `preview/out/` (served under `/ui-preview`). |
+| `pnpm thumbnails:build` | Screenshots every example, demo and embed in `preview/out/` with headless Chrome and writes `dist/thumbnails/` (WebP images + `index.json` with sizes and natural heights). Needs `preview:build` first. Skips with a message when Chrome is not found (`CHROME_PATH` to override, `--strict` to fail instead). |
 | `pnpm typecheck` | `tsc --noEmit` over registry, demos, examples and preview. |
 | `pnpm lint` | ESLint. |
 | `pnpm check:content` | Fails on internal hosts, internal app names or third-party brands in public sample content. |
@@ -92,9 +93,10 @@ This repo only produces build output. The docs site lives in a separate repo (ik
 | `dist/manifest/examples.json` | `{ "<slug>": { title, description, code } }` for full screen examples | Read by the docs pages at build time |
 | `dist/manifest/props.json` | Props per component: name, type, optional, default, description | Prop tables in the docs |
 | `dist/manifest/items.json` | Item metadata from `registry.json` plus the package version | Component index in the docs |
-| `preview/out/` | Static preview pages: `/demo/<id>`, `/embed/<name>`, `/<example>` | `https://builders.ikas.com/ui-preview/*` (embedded as iframes) |
+| `preview/out/` | Static preview pages: `/demo/<id>`, `/embed/<name>`, `/<example>`. `?theme=light\|dark` (default light) picks the theme before first paint, and a `{ type: "ikas-ui:theme", theme }` message from the parent switches it live; demos also take `?align=center\|start\|stretch` | `https://builders.ikas.com/ui-preview/*` (embedded as iframes that follow the docs theme) |
+| `dist/thumbnails/` | `examples/<slug>.webp`, `demos/<id>.webp`, `embeds/<name>.webp`, a dark variant of each (`<same>.dark.webp`) and `index.json` (`{ file, dark, width, height, naturalHeight }` per entry, plus `content` for demos) | `https://builders.ikas.com/ui-kit-thumbs/*` (index cards, iframe placeholders and reserved heights, light or dark with the docs theme) |
 
-Each release attaches all three as `ikas-app-ui-v<version>.tar.gz` (`r/`, `manifest/`, `ui-preview/`); builders.ikas.com pins the version it serves.
+Each release attaches them as `ikas-app-ui-v<version>.tar.gz` (`r/`, `manifest/`, `ui-preview/`, and `thumbnails/` when they were built); builders.ikas.com pins the version it serves.
 
 ### Adding a component
 
@@ -141,7 +143,7 @@ Every PR and push to `main` runs, with read-only permissions and no secrets:
 | `demos/` | One file per demo, registered in `demos/index.ts` |
 | `examples/` | Full example screens, registered in `examples/index.ts` |
 | `preview/` | Next.js app that renders demos and examples (static export) |
-| `scripts/` | Registry, manifest, content check, smoke, health and brand scripts |
+| `scripts/` | Registry, manifest, thumbnails, content check, smoke, health and brand scripts |
 | `assets/brand/` | Logo pack: SVGs, PNGs (16–1024px), `favicon.ico`, social preview, shadcn directory entry |
 | `registry.json` | Generated registry index (committed) |
 | `.changeset/` | Pending changesets |
