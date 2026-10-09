@@ -19,6 +19,25 @@
       "css": {
         "@import \"tw-animate-css\"": {},
         "@import \"shadcn/tailwind.css\"": {},
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "html": {
+            "@apply font-sans": {},
+            "color-scheme": "light"
+          },
+          "html.dark": {
+            "color-scheme": "dark"
+          },
+          "body": {
+            "@apply bg-background text-foreground antialiased": {},
+            "font-feature-settings": "\"cv11\", \"ss01\""
+          },
+          "button:not(:disabled), [role=\"button\"]:not(:disabled)": {
+            "cursor": "pointer"
+          }
+        },
         "@keyframes panel-enter": {
           "from": {
             "opacity": "0",

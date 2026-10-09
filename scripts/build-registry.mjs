@@ -224,6 +224,11 @@ function cssToObject(css) {
       } else if (semi !== -1) {
         const decl = css.slice(i, semi).trim()
         i = semi + 1
+        // shadcn expects at-rule declarations as empty objects: { "@apply border-border": {} }
+        if (decl.startsWith("@apply ")) {
+          out[decl.replace(/\s+/g, " ")] = {}
+          continue
+        }
         const colon = decl.indexOf(":")
         if (colon > 0) out[decl.slice(0, colon).trim()] = decl.slice(colon + 1).trim().replace(/\s+/g, " ")
       } else break

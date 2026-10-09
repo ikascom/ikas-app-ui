@@ -21,7 +21,7 @@
  */
 
 @theme inline {
-  /* Inter / Geist Mono when the app loads them (next/font variables), system fonts otherwise. */
+  /* Any font works: point --font-sans at it. Inter (the ikas Admin font) is used when loaded as --font-inter, system fonts otherwise. */
   --font-sans: var(--font-inter, ui-sans-serif, system-ui, sans-serif);
   --font-mono: var(--font-geist-mono, ui-monospace, monospace);
   --font-heading: var(--font-sans);
@@ -389,6 +389,21 @@
   --sidebar-ring: oklch(0.68 0.16 259.8);
 }
 
+
+/*
+ * Motion
+ * --------------------------------------------------------------------------
+ * Everything between the registry markers ships with @ikas/theme as raw CSS.
+ *
+ * Icon micro-animations: put data-anim on any lucide icon. It plays when its
+ * closest button, link or [data-icon-trigger] is hovered or keyboard-focused.
+ *   spin  · settings, refresh      nudge · arrow right, chevron right
+ *   lift  · external link, send    drop  · download
+ *   ring  · bell                   wiggle · pencil, trash
+ *   bounce · cart, plus            pop   · star, heart, check
+ */
+/* @registry:css:start */
+/* Base rules ship with the theme so projects without `shadcn init` still get borders, colors and the font. */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -410,19 +425,6 @@
   }
 }
 
-/*
- * Motion
- * --------------------------------------------------------------------------
- * Everything between the registry markers ships with @ikas/theme as raw CSS.
- *
- * Icon micro-animations: put data-anim on any lucide icon. It plays when its
- * closest button, link or [data-icon-trigger] is hovered or keyboard-focused.
- *   spin  · settings, refresh      nudge · arrow right, chevron right
- *   lift  · external link, send    drop  · download
- *   ring  · bell                   wiggle · pencil, trash
- *   bounce · cart, plus            pop   · star, heart, check
- */
-/* @registry:css:start */
 @keyframes panel-enter {
   from {
     opacity: 0;
