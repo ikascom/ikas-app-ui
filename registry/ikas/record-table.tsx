@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -20,6 +20,14 @@ type RecordTableColumn<T> = {
   className?: string
   /** Hide below the md breakpoint. Keep the first column always visible. */
   hideOnMobile?: boolean
+  /** Header becomes a sort button. Needs `sort` and `onSortChange` on the table. */
+  sortable?: boolean
+}
+
+type RecordTableSort = {
+  /** Column id. */
+  id: string
+  direction: "asc" | "desc"
 }
 
 type RecordTableProps<T> = {
@@ -49,6 +57,10 @@ type RecordTableProps<T> = {
   error?: React.ReactNode
   /** Adds "Tekrar dene" to the error state. Set `loading` while the retry runs. */
   onRetry?: () => void
+  /** Current sort. The table only shows it; sort `rows` yourself (or on the server). */
+  sort?: RecordTableSort
+  /** Called when a sortable header is clicked: ascending, then descending, then off. */
+  onSortChange?: (sort: RecordTableSort | undefined) => void
   /** Search, filters, tabs. Rendered above the table inside the same card. */
   toolbar?: React.ReactNode
   /** Prev/next footer, shown when there is more than one page. */
@@ -76,6 +88,8 @@ function RecordTable<T>({
   emptyState,
   error,
   onRetry,
+  sort,
+  onSortChange,
   toolbar,
   pagination,
   className,
@@ -89,6 +103,13 @@ function RecordTable<T>({
   const someSelected = selectedOnPage > 0 && !allSelected
   const showBulk = selectable && selected.size > 0 && Boolean(bulkActions)
   const colSpan = columns.length + (selectable ? 1 : 0)
+
+  function cycleSort(id: string) {
+    if (!onSortChange) return
+    if (sort?.id !== id) onSortChange({ id, direction: "asc" })
+    else if (sort.direction === "asc") onSortChange({ id, direction: "desc" })
+    else onSortChange(undefined)
+  }
 
   function toggleAll(checked: boolean) {
     if (!onSelectedIdsChange) return
@@ -139,20 +160,45 @@ function RecordTable<T>({
                 </div>
               </TableHead>
             ) : (
-              columns.map((column, index) => (
-                <TableHead
-                  key={column.id}
-                  className={cn(
-                    column.align === "end" && "text-right",
-                    column.hideOnMobile && "hidden md:table-cell",
-                    index === 0 && !selectable && "pl-4",
-                    index === columns.length - 1 && "pr-4",
-                    column.className
-                  )}
-                >
-                  {column.header}
-                </TableHead>
-              ))
+              columns.map((column, index) => {
+                const sortable = column.sortable && onSortChange
+                const direction = sort?.id === column.id ? sort.direction : undefined
+                const SortIcon = direction === "asc" ? ArrowUpIcon : direction === "desc" ? ArrowDownIcon : ArrowUpDownIcon
+                return (
+                  <TableHead
+                    key={column.id}
+                    aria-sort={sortable ? (direction === "asc" ? "ascending" : direction === "desc" ? "descending" : "none") : undefined}
+                    className={cn(
+                      column.align === "end" && "text-right",
+                      column.hideOnMobile && "hidden md:table-cell",
+                      index === 0 && !selectable && "pl-4",
+                      index === columns.length - 1 && "pr-4",
+                      column.className
+                    )}
+                  >
+                    {sortable ? (
+                      <button
+                        type="button"
+                        onClick={() => cycleSort(column.id)}
+                        disabled={loading || failed}
+                        className={cn(
+                          "group/sort -mx-1.5 inline-flex h-7 items-center gap-1 rounded-md px-1.5 font-medium outline-none hover:bg-foreground/[0.05] hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/30 disabled:pointer-events-none",
+                          column.align === "end" && "flex-row-reverse",
+                          direction && "text-foreground"
+                        )}
+                      >
+                        {column.header}
+                        <SortIcon
+                          aria-hidden
+                          className={cn("size-3.5 shrink-0", direction ? "text-foreground" : "text-icon opacity-0 transition-opacity group-hover/sort:opacity-100 group-focus-visible/sort:opacity-100")}
+                        />
+                      </button>
+                    ) : (
+                      column.header
+                    )}
+                  </TableHead>
+                )
+              })
             )}
           </TableRow>
         </TableHeader>
@@ -263,4 +309,4 @@ function RecordTable<T>({
   )
 }
 
-export { RecordTable, type RecordTableColumn, type RecordTableProps }
+export { RecordTable, type RecordTableSort, type RecordTableColumn, type RecordTableProps }

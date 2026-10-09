@@ -22,3 +22,7 @@ html[data-align="stretch"] [data-demo-root] {
   align-items: stretch;
   justify-content: center;
 }
+/* Demos with reserved room below (see reserveHeight in app/demo/[...id]/page.tsx) sit at the top so the room stays under the field. */
+html:not([data-align="stretch"]) [data-demo-root][data-reserve] {
+  align-items: flex-start;
+}

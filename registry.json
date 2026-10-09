@@ -536,6 +536,54 @@
       ]
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Stacked sections that expand one at a time or together, as a list or cards.",
+      "categories": [
+        "primitives",
+        "layout"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/accordion",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Modal that asks to confirm or cancel an action, with a status-tinted icon.",
+      "categories": [
+        "primitives",
+        "overlays"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/alert-dialog",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
@@ -614,7 +662,7 @@
         "primitives",
         "forms"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/button-group",
       "dependencies": [
         "class-variance-authority",
         "radix-ui"
@@ -651,6 +699,32 @@
       "files": [
         {
           "path": "registry/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Month grid for picking a day, range or several days; Turkish, Monday first.",
+      "categories": [
+        "primitives",
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/calendar",
+      "dependencies": [
+        "date-fns",
+        "lucide-react",
+        "react-day-picker"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/calendar.tsx",
           "type": "registry:ui"
         }
       ]
@@ -723,6 +797,32 @@
       ]
     },
     {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Searchable select with single or multiple choice, chips and groups; built on Base UI.",
+      "categories": [
+        "primitives",
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/combobox",
+      "dependencies": [
+        "@base-ui/react",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/input-group",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -743,6 +843,29 @@
       "files": [
         {
           "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Panel that slides in from an edge and drags closed; suits mobile actions.",
+      "categories": [
+        "primitives",
+        "overlays"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/drawer",
+      "dependencies": [
+        "vaul"
+      ],
+      "registryDependencies": [
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/drawer.tsx",
           "type": "registry:ui"
         }
       ]
@@ -932,6 +1055,31 @@
       ]
     },
     {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "Multi-step form, one question at a time: choices, free text, skip, validation, progress.",
+      "categories": [
+        "primitives",
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/questionnaire",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/questionnaire.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "radio-group",
       "type": "registry:ui",
       "title": "Radio Group",
@@ -1010,7 +1158,7 @@
         "primitives",
         "overlays"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/sheet",
       "dependencies": [
         "lucide-react",
         "radix-ui"
@@ -1490,6 +1638,61 @@
           "path": "registry/ikas/confirm-button.tsx",
           "type": "registry:component",
           "target": "@components/ikas/confirm-button.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:component",
+      "title": "Date Picker",
+      "description": "Outline button that opens a calendar and shows the picked date as dd.MM.yyyy.",
+      "categories": [
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/date-picker",
+      "dependencies": [
+        "date-fns",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/calendar",
+        "@ikas/popover",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/date-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/date-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-range-picker",
+      "type": "registry:component",
+      "title": "Date Range Picker",
+      "description": "Date range picker with presets, two months, and Apply and Clear buttons.",
+      "categories": [
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/date-range-picker",
+      "dependencies": [
+        "date-fns",
+        "lucide-react",
+        "react-day-picker"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/calendar",
+        "@ikas/popover",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/date-range-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/date-range-picker.tsx"
         }
       ]
     },

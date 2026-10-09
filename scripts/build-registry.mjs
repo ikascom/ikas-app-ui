@@ -32,7 +32,8 @@ const docsPages = new Set(
     ? fs.readdirSync(path.join(root, "registry/ikas")).map((f) => f.replace(/\.\w+$/, ""))
     : []
 )
-for (const name of ["badge", "button", "card"]) docsPages.add(name)
+for (const name of ["accordion", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "combobox", "drawer", "questionnaire", "sheet"])
+  docsPages.add(name)
 /** Items documented on a page with another path. */
 const docsPaths = {
   sonner: "components/toast",
@@ -42,7 +43,7 @@ const docsPaths = {
   "ui-rules": "ai-agent",
   ...Object.fromEntries(["field", "input", "input-group", "label", "select", "checkbox", "switch", "textarea"].map((n) => [n, "components/form"])),
   ...Object.fromEntries(
-    ["alert", "avatar", "button-group", "chart", "dialog", "dropdown-menu", "kbd", "popover", "progress", "radio-group", "separator", "sheet", "skeleton", "spinner", "table", "tabs", "tooltip"].map((n) => [n, "components/primitives"])
+    ["alert", "avatar", "chart", "dialog", "dropdown-menu", "kbd", "popover", "progress", "radio-group", "separator", "skeleton", "spinner", "table", "tabs", "tooltip"].map((n) => [n, "components/primitives"])
   ),
 }
 const docsUrl = (name) => (docsPaths[name] ? `${DOCS}/${docsPaths[name]}` : docsPages.has(name) ? `${DOCS}/components/${name}` : DOCS)
@@ -80,15 +81,20 @@ const meta = {
   "ui-rules": { title: "UI Rules for AI agents", description: "ikas-ui.md design rules for AI coding agents; reference it from AGENTS.md or CLAUDE.md.", categories: ["ai"] },
 
   // Primitives (registry/ui)
+  accordion: { description: "Stacked sections that expand one at a time or together, as a list or cards.", categories: ["primitives", "layout"] },
   alert: { description: "Plain inline callout in default or destructive style; use Banner for status messages.", categories: ["primitives", "feedback"] },
+  "alert-dialog": { description: "Modal that asks to confirm or cancel an action, with a status-tinted icon.", categories: ["primitives", "overlays"] },
   avatar: { description: "Round user or store image with fallback initials, badge, and stacked groups.", categories: ["primitives", "data-display"] },
   badge: { description: "Small label for statuses (info, success, warning, danger) or counts, with optional dot.", categories: ["primitives", "data-display"] },
   button: { description: "Button in solid, soft, outline, ghost and link variants, any palette color, loading state.", categories: ["primitives", "forms"] },
   "button-group": { description: "Joins buttons, inputs or selects into one connected horizontal or vertical group.", categories: ["primitives", "forms"] },
   card: { description: "Raised surface with header, title, description, action, content and footer slots.", categories: ["primitives", "layout"] },
   chart: { description: "Recharts container, tooltip and legend wired to theme colors; base for the ikas charts.", categories: ["primitives", "charts"] },
+  calendar: { description: "Month grid for picking a day, range or several days; Turkish, Monday first.", categories: ["primitives", "forms"] },
   checkbox: { description: "Checkbox for on/off choices in forms and table row selection.", categories: ["primitives", "forms"] },
+  combobox: { description: "Searchable select with single or multiple choice, chips and groups; built on Base UI.", categories: ["primitives", "forms"] },
   dialog: { description: "Modal window for focused tasks and confirmations, with header, footer and close button.", categories: ["primitives", "overlays"] },
+  drawer: { description: "Panel that slides in from an edge and drags closed; suits mobile actions.", categories: ["primitives", "overlays"] },
   "dropdown-menu": { description: "Menu of actions opened from a button, with groups, checkboxes, radios and submenus.", categories: ["primitives", "overlays"] },
   field: { description: "Form structure: label, description, error and grouping for any input control.", categories: ["primitives", "forms"] },
   input: { description: "Single-line text input styled with the theme's inset field surface.", categories: ["primitives", "forms"] },
@@ -97,6 +103,7 @@ const meta = {
   label: { description: "Accessible text label for form controls.", categories: ["primitives", "forms"] },
   popover: { description: "Floating panel anchored to a trigger for small forms, pickers or extra details.", categories: ["primitives", "overlays"] },
   progress: { description: "Thin horizontal bar showing how far a task has progressed.", categories: ["primitives", "feedback"] },
+  questionnaire: { description: "Multi-step form, one question at a time: choices, free text, skip, validation, progress.", categories: ["primitives", "forms"] },
   "radio-group": { description: "Set of radio buttons for picking exactly one option.", categories: ["primitives", "forms"] },
   select: { description: "Dropdown for picking one value from a list, with groups and separators.", categories: ["primitives", "forms"] },
   separator: { description: "Thin horizontal or vertical line that divides content.", categories: ["primitives", "layout"] },
@@ -122,6 +129,8 @@ const meta = {
   "chart-kit": { description: "Shared chart parts: colors, fills, legend, tooltip, loading and reveal used by ikas charts.", categories: ["charts", "utilities"] },
   collapse: { description: "Animates content open and closed between zero and full height.", categories: ["motion", "layout"] },
   "confirm-button": { description: "Two-click inline confirm for destructive actions that do not need a dialog.", categories: ["forms", "feedback"] },
+  "date-picker": { description: "Outline button that opens a calendar and shows the picked date as dd.MM.yyyy.", categories: ["forms"] },
+  "date-range-picker": { description: "Date range picker with presets, two months, and Apply and Clear buttons.", categories: ["forms"] },
   "description-list": { title: "Description List", description: "Label and value pairs for detail pages, side by side or stacked.", categories: ["data-display"] },
   "donut-chart": { description: "Donut chart for part-to-whole data, with the total in the center and a legend.", categories: ["charts"] },
   "empty-state": { title: "Empty State", description: "Explains an empty or failed view and offers the next step or a retry.", categories: ["feedback"] },

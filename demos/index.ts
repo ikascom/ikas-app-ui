@@ -6,6 +6,8 @@ import { chartDemosA } from "./index-charts-a"
 import { chartDemosB } from "./index-charts-b"
 import { chartDemosC } from "./index-charts-c"
 import { patternDemos } from "./index-patterns"
+import { dateDemos } from "./index-dates"
+import { overlayDemos } from "./index-overlays"
 
 import BadgeVariants from "./badge/variants"
 import BadgeColors from "./badge/colors"
@@ -52,6 +54,8 @@ export const demos = {
   ...chartDemosB,
   ...chartDemosC,
   ...patternDemos,
+  ...dateDemos,
+  ...overlayDemos,
   "badge/variants": BadgeVariants,
   "badge/colors": BadgeColors,
   "badge/order-statuses": BadgeOrderStatuses,

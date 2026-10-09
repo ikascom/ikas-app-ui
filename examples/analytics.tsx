@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { differenceInCalendarDays } from "date-fns"
+import type { DateRange } from "react-day-picker"
 import { DownloadIcon, GlobeIcon, MailIcon, MegaphoneIcon, MonitorIcon, SearchIcon, SmartphoneIcon, TabletIcon } from "lucide-react"
 import { toast } from "sonner"
 
@@ -15,11 +17,9 @@ import { DonutChart } from "@/components/ikas/donut-chart"
 import { Layout } from "@/components/ikas/layout"
 import { Page, PageHeader } from "@/components/ikas/page"
 import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
-import { SegmentedControl } from "@/components/ikas/segmented-control"
+import { DateRangePicker } from "@/components/ikas/date-range-picker"
 import { Sparkline } from "@/components/ikas/sparkline"
 import { StatCard } from "@/components/ikas/stat-card"
-
-type Range = "7" | "30" | "90"
 
 const money = (value: number) => new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(value)
 const number = (value: number) => new Intl.NumberFormat("tr-TR").format(value)
@@ -28,11 +28,12 @@ const shortDate = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "sho
 /** Deterministic series so the server and client render the same chart. */
 const wave = (i: number, seed: number) => Math.sin(i * 0.7 + seed) * 0.6 + Math.sin(i * 1.9 + seed * 2) * 0.25
 
-function revenue(days: number) {
-  const end = new Date(2026, 9, 6)
+/** One row per day from `from` to `to`, at most a year. */
+function revenue(from: Date, to: Date) {
+  const days = Math.min(differenceInCalendarDays(to, from) + 1, 366)
   return Array.from({ length: days }, (_, i) => {
-    const date = new Date(end)
-    date.setDate(end.getDate() - (days - 1 - i))
+    const date = new Date(to)
+    date.setDate(to.getDate() - (days - 1 - i))
     return {
       date: shortDate(date),
       current: Math.round(6200 + i * (3800 / days) + wave(i, 1) * 1300),
@@ -41,9 +42,7 @@ function revenue(days: number) {
   })
 }
 
-const revenueByRange: Record<Range, ReturnType<typeof revenue>> = { "7": revenue(7), "30": revenue(30), "90": revenue(90) }
-
-const scale: Record<Range, number> = { "7": 0.24, "30": 1, "90": 2.9 }
+const defaultRange = { from: new Date(2026, 8, 7), to: new Date(2026, 9, 6) }
 
 const funnel = [
   { step: "Ziyaret", value: 48210 },
@@ -80,11 +79,14 @@ const categories: CategoryRow[] = [
 const deviceIcon = { mobile: SmartphoneIcon, desktop: MonitorIcon, tablet: TabletIcon }
 
 export default function AnalyticsExample() {
-  const [range, setRange] = React.useState<Range>("30")
-  const rows = revenueByRange[range]
+  const [range, setRange] = React.useState<DateRange>(defaultRange)
+  const from = range.from ?? defaultRange.from
+  const to = range.to ?? from
+  const rows = React.useMemo(() => revenue(from, to), [from, to])
+  const rangeKey = `${from.getTime()}-${to.getTime()}`
   const total = rows.reduce((sum, r) => sum + r.current, 0)
   const previousTotal = rows.reduce((sum, r) => sum + r.previous, 0)
-  const s = scale[range]
+  const s = rows.length / 30
 
   const columns: RecordTableColumn<CategoryRow>[] = [
     { id: "name", header: "Kategori", cell: (c) => <span className="font-medium">{c.name}</span> },
@@ -119,17 +121,8 @@ export default function AnalyticsExample() {
         description="Mağaza trafiği, dönüşüm ve kategori performansı."
         actions={
           <>
-            <SegmentedControl
-              aria-label="Dönem"
-              mode="radio"
-              value={range}
-              onValueChange={setRange}
-              options={[
-                { value: "7", label: "7 gün" },
-                { value: "30", label: "30 gün" },
-                { value: "90", label: "90 gün" },
-              ]}
-            />
+            {/* Clear falls back to the default period. */}
+            <DateRangePicker align="end" value={range} onValueChange={(next) => setRange(next ?? defaultRange)} />
             <Button variant="outline" onClick={() => toast.success("Rapor hazırlanıyor, e-posta ile gönderilecek")}>
               <DownloadIcon data-icon="inline-start" data-anim="drop" />
               Rapor al
@@ -139,7 +132,7 @@ export default function AnalyticsExample() {
       />
 
       {/* Keyed by range so the stat row re-enters with its stagger when the period changes. */}
-      <div key={range} className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div key={rangeKey} className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard className="animate-panel-enter [--stagger:0]" label="Ziyaretçi" value={number(Math.round(48210 * s))} change={9.8} changeLabel="önceki döneme göre" footer={<Sparkline data={[30, 32, 31, 35, 34, 38, 37, 41, 40, 44, 43, 47]} aria-label="Ziyaretçi artışta" />} />
         <StatCard className="animate-panel-enter [--stagger:1]" label="Dönüşüm oranı" value="%2,51" change={0.3} changeLabel="puan" footer={<Sparkline data={[22, 23, 22, 24, 23, 24, 25, 24, 25, 25, 26, 25]} aria-label="Dönüşüm oranı yatay" />} />
         <StatCard className="animate-panel-enter [--stagger:2]" label="Gelir" value={money(total)} change={Number((((total - previousTotal) / previousTotal) * 100).toFixed(1))} changeLabel="önceki döneme göre" footer={<Sparkline data={rows.slice(-12).map((r) => r.current)} aria-label="Gelir artışta" />} />
@@ -155,7 +148,7 @@ export default function AnalyticsExample() {
         changeLabel="önceki döneme göre"
       >
         <AreaChart
-          key={range}
+          key={rangeKey}
           data={rows}
           index="date"
           series={[
