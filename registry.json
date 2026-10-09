@@ -1356,6 +1356,26 @@
       ]
     },
     {
+      "name": "wheel-picker",
+      "type": "registry:ui",
+      "title": "Wheel Picker",
+      "description": "iOS-style picker wheel you drag, flick, scroll or step; groups side by side.",
+      "categories": [
+        "forms",
+        "motion"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "registryDependencies": [
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/wheel-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "action-bar",
       "type": "registry:component",
       "title": "Action Bar",
@@ -1693,6 +1713,27 @@
           "path": "registry/ikas/date-range-picker.tsx",
           "type": "registry:component",
           "target": "@components/ikas/date-range-picker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "date-wheel-picker",
+      "type": "registry:component",
+      "title": "Date Wheel Picker",
+      "description": "Day, month and year wheels in one frame, with min and max dates.",
+      "categories": [
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/date-wheel-picker",
+      "registryDependencies": [
+        "@ikas/utils",
+        "@ikas/wheel-picker"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/date-wheel-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/date-wheel-picker.tsx"
         }
       ]
     },

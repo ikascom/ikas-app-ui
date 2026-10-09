@@ -116,6 +116,7 @@ const meta = {
   tabs: { description: "Tab list for switching between views of the same screen, in pill or line style.", categories: ["primitives", "navigation"] },
   textarea: { description: "Multi-line text input that grows with its content.", categories: ["primitives", "forms"] },
   tooltip: { description: "Short hint shown on hover or keyboard focus of an element.", categories: ["primitives", "overlays"] },
+  "wheel-picker": { description: "iOS-style picker wheel you drag, flick, scroll or step; groups side by side.", categories: ["forms", "motion"] },
 
   // Patterns (registry/ikas)
   "action-bar": { description: "Icon toolbar whose labels appear on hover or focus; saves room in dense headers.", categories: ["navigation"] },
@@ -130,6 +131,7 @@ const meta = {
   collapse: { description: "Animates content open and closed between zero and full height.", categories: ["motion", "layout"] },
   "confirm-button": { description: "Two-click inline confirm for destructive actions that do not need a dialog.", categories: ["forms", "feedback"] },
   "date-picker": { description: "Outline button that opens a calendar and shows the picked date as dd.MM.yyyy.", categories: ["forms"] },
+  "date-wheel-picker": { description: "Day, month and year wheels in one frame, with min and max dates.", categories: ["forms"] },
   "date-range-picker": { description: "Date range picker with presets, two months, and Apply and Clear buttons.", categories: ["forms"] },
   "description-list": { title: "Description List", description: "Label and value pairs for detail pages, side by side or stacked.", categories: ["data-display"] },
   "donut-chart": { description: "Donut chart for part-to-whole data, with the total in the center and a legend.", categories: ["charts"] },
