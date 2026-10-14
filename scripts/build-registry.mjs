@@ -137,6 +137,7 @@ const meta = {
   "description-list": { title: "Description List", description: "Label and value pairs for detail pages, side by side or stacked.", categories: ["data-display"] },
   "donut-chart": { description: "Donut chart for part-to-whole data, with the total in the center and a legend.", categories: ["charts"] },
   "empty-state": { title: "Empty State", description: "Explains an empty or failed view and offers the next step or a retry.", categories: ["feedback"] },
+  "feature-gate": { title: "Feature Gate", description: "Locks a feature outside the plan with a plan badge, preview and upgrade action.", categories: ["feedback"] },
   "expandable-search": { description: "Search icon that expands into a text input and stays open while filled.", categories: ["forms", "navigation"] },
   launchpad: { title: "Launchpad", description: "First-run setup steps for the app home; the active step opens with its actions.", categories: ["feedback", "layout"] },
   layout: { title: "Layout", description: "Column presets (main-aside, half, third) and numbered SettingsGroup sections for settings screens.", categories: ["layout"] },

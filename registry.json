@@ -1929,6 +1929,34 @@
       ]
     },
     {
+      "name": "feature-gate",
+      "type": "registry:component",
+      "title": "Feature Gate",
+      "description": "Locks a feature outside the plan with a plan badge, preview and upgrade action.",
+      "categories": [
+        "feedback"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/feature-gate",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/badge",
+        "@ikas/button",
+        "@ikas/motion",
+        "@ikas/popover",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/feature-gate.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/feature-gate.tsx"
+        }
+      ]
+    },
+    {
       "name": "launchpad",
       "type": "registry:component",
       "title": "Launchpad",

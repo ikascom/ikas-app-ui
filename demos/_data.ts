@@ -144,3 +144,38 @@ export const syncedProduct = {
     { at: "13:58", channel: "marketplaceC", text: "Onaya gönderildi", state: "info" },
   ] satisfies { at: string; channel: ChannelKey | null; text: string; state: "ok" | "error" | "info" }[],
 }
+
+/** Who changed what in the panel. Gated behind a higher plan in the feature-gate demos and the audit-logs example. */
+export type AuditAction = "updated" | "invited" | "changed" | "published" | "deleted" | "refunded" | "synced"
+
+export type AuditLog = {
+  id: string
+  date: string
+  actor: string
+  /** Null for system jobs. */
+  initials: string | null
+  action: AuditAction
+  record: string
+  source: string
+}
+
+export const auditActionBadge: Record<AuditAction, { label: string; status: BadgeStatus }> = {
+  updated: { label: "Güncelledi", status: "info" },
+  invited: { label: "Davet etti", status: "success" },
+  changed: { label: "Değiştirdi", status: "warning" },
+  published: { label: "Yayınladı", status: "success" },
+  deleted: { label: "Sildi", status: "danger" },
+  refunded: { label: "İade etti", status: "warning" },
+  synced: { label: "Eşitledi", status: "neutral" },
+}
+
+export const auditLogs: AuditLog[] = [
+  { id: "a1", date: "2026-10-14T11:20:00Z", actor: "Ayşe Çelik", initials: "AÇ", action: "updated", record: "Ürün · Pamuklu tişört", source: "Yönetim paneli" },
+  { id: "a2", date: "2026-10-14T10:05:00Z", actor: "Mert Kaya", initials: "MK", action: "invited", record: "Personel · deniz@example.com", source: "Yönetim paneli" },
+  { id: "a3", date: "2026-10-13T15:41:00Z", actor: "Ayşe Çelik", initials: "AÇ", action: "changed", record: "Ödeme ayarları", source: "Yönetim paneli" },
+  { id: "a4", date: "2026-10-13T06:12:00Z", actor: "Deniz Aydın", initials: "DA", action: "published", record: "Kampanya · Sonbahar indirimi", source: "Yönetim paneli" },
+  { id: "a5", date: "2026-10-12T13:30:00Z", actor: "Mert Kaya", initials: "MK", action: "deleted", record: "Ürün · Keten gömlek", source: "API" },
+  { id: "a6", date: "2026-10-12T08:47:00Z", actor: "Selin Arslan", initials: "SA", action: "updated", record: "Stok · 24 ürün", source: "Toplu işlem" },
+  { id: "a7", date: "2026-10-11T17:03:00Z", actor: "Deniz Aydın", initials: "DA", action: "refunded", record: "Sipariş · IK-1043", source: "Yönetim paneli" },
+  { id: "a8", date: "2026-10-11T05:55:00Z", actor: "Sistem", initials: null, action: "synced", record: "Pazaryeri · 132 sipariş", source: "Otomasyon" },
+]
