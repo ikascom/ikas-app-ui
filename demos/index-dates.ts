@@ -3,6 +3,8 @@ import type * as React from "react"
 import CalendarDisabledDays from "./calendar/disabled-days"
 import CalendarRange from "./calendar/range"
 import CalendarSingle from "./calendar/single"
+import ColorPickerSimple from "./color-picker/simple"
+import ColorPickerSwatches from "./color-picker/swatches"
 import DatePickerMinMax from "./date-picker/min-max"
 import DatePickerSimple from "./date-picker/simple"
 import DateRangePickerForm from "./date-range-picker/form"
@@ -26,4 +28,6 @@ export const dateDemos = {
   "date-wheel-picker/simple": DateWheelPickerSimple,
   "date-wheel-picker/min-max": DateWheelPickerMinMax,
   "date-wheel-picker/drawer": DateWheelPickerDrawer,
+  "color-picker/simple": ColorPickerSimple,
+  "color-picker/swatches": ColorPickerSwatches,
 } satisfies Record<string, () => React.ReactNode>

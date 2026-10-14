@@ -128,6 +128,7 @@ const meta = {
   "bar-list": { description: "Ranked list of labels with proportional bars and values, e.g. top products.", categories: ["charts", "data-display"] },
   "chart-card": { description: "Dashboard chart frame with title, headline value, change and a time range switch.", categories: ["charts", "layout"] },
   "chart-kit": { description: "Shared chart parts: colors, fills, legend, tooltip, loading and reveal used by ikas charts.", categories: ["charts", "utilities"] },
+  "color-picker": { description: "Color field with saturation area, hue and opacity sliders, formats, eyedropper and saved swatches.", categories: ["forms"] },
   collapse: { description: "Animates content open and closed between zero and full height.", categories: ["motion", "layout"] },
   "confirm-button": { description: "Two-click inline confirm for destructive actions that do not need a dialog.", categories: ["forms", "feedback"] },
   "date-picker": { description: "Outline button that opens a calendar and shows the picked date as dd.MM.yyyy.", categories: ["forms"] },

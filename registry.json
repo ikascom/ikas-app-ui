@@ -1696,6 +1696,36 @@
       ]
     },
     {
+      "name": "color-picker",
+      "type": "registry:component",
+      "title": "Color Picker",
+      "description": "Color field with saturation area, hue and opacity sliders, formats, eyedropper and saved swatches.",
+      "categories": [
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/color-picker",
+      "dependencies": [
+        "lucide-react",
+        "motion",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@ikas/animated-check",
+        "@ikas/badge",
+        "@ikas/button",
+        "@ikas/input-group",
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/color-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/color-picker.tsx"
+        }
+      ]
+    },
+    {
       "name": "confirm-button",
       "type": "registry:component",
       "title": "Confirm Button",
