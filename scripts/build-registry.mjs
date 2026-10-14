@@ -149,6 +149,7 @@ const meta = {
   "setting-row": { title: "Setting Row", description: "One setting row: title, description and its control aligned right.", categories: ["forms", "layout"] },
   sparkline: { description: "Tiny trend line without axes for stat cards and table cells.", categories: ["charts"] },
   "stat-card": { title: "Stat Card", description: "KPI card: label, value and change against the previous period.", categories: ["data-display"] },
+  "theme-switch": { description: "Light and dark toggle with sun-moon icon swap and four page transitions.", categories: ["motion", "theme"] },
   "toggle-section": { description: "Feature section with an on/off switch that reveals its settings when on.", categories: ["forms", "layout"] },
 }
 

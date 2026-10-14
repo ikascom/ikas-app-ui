@@ -7,6 +7,8 @@ import ExpandableSearchToolbar from "./expandable-search/toolbar"
 import IconMotionCopyCheck from "./icon-motion/copy-check"
 import IconMotionGallery from "./icon-motion/gallery"
 import IconMotionStagger from "./icon-motion/stagger"
+import ThemeSwitchToolbar from "./theme-switch/toolbar"
+import ThemeSwitchTransitions from "./theme-switch/transitions"
 
 export const motionDemosB = {
   "action-bar/report": ActionBarReport,
@@ -16,4 +18,6 @@ export const motionDemosB = {
   "icon-motion/copy-check": IconMotionCopyCheck,
   "icon-motion/gallery": IconMotionGallery,
   "icon-motion/stagger": IconMotionStagger,
+  "theme-switch/toolbar": ThemeSwitchToolbar,
+  "theme-switch/transitions": ThemeSwitchTransitions,
 } satisfies Record<string, () => React.ReactNode>
