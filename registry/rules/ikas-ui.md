@@ -30,6 +30,7 @@ An app with several sections switches between them with `PageNav` (the first chi
 | Status | `Badge` with `status` (+ `dot` for live states) | Custom colored pill labels |
 | Changing status (pending → syncing → done) | `AnimatedBadge` (`status`, `media="dot"` + `pulse` for live) | A blinking `Badge`, custom keyframes |
 | Actions | `Button` with `variant` + `color` | Custom `<button>` styles, extra shadows |
+| Icon-only button | `Button size="icon"` + `aria-label` + `Tooltip` (`TooltipContent shortcut` when there is a shortcut), one `TooltipProvider` at the root | An unlabelled icon, a `title` attribute, an arrow or custom delay on the tooltip |
 | Key numbers | `StatCard` | Huge hero numbers with gradient text |
 | Key/value details | `DescriptionList` | Hand-aligned flex rows |
 | A single on/off setting | `SettingRow` | A label + switch in an ad-hoc flex |

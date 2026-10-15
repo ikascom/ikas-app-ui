@@ -115,7 +115,7 @@ const meta = {
   table: { description: "Basic table building blocks: header, body, rows, cells, footer and caption.", categories: ["primitives", "data-display"] },
   tabs: { description: "Tab list for switching between views of the same screen, in pill or line style.", categories: ["primitives", "navigation"] },
   textarea: { description: "Multi-line text input that grows with its content.", categories: ["primitives", "forms"] },
-  tooltip: { description: "Short hint shown on hover or keyboard focus of an element.", categories: ["primitives", "overlays"] },
+  tooltip: { description: "Hint on hover or keyboard focus, with an optional shortcut; neighbours open instantly.", categories: ["primitives", "overlays"] },
   "wheel-picker": { description: "iOS-style picker wheel you drag, flick, scroll or step; groups side by side.", categories: ["forms", "motion"] },
 
   // Patterns (registry/ikas)

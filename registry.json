@@ -1396,7 +1396,7 @@
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
-      "description": "Short hint shown on hover or keyboard focus of an element.",
+      "description": "Hint on hover or keyboard focus, with an optional shortcut; neighbours open instantly.",
       "categories": [
         "primitives",
         "overlays"
@@ -1406,6 +1406,7 @@
         "radix-ui"
       ],
       "registryDependencies": [
+        "@ikas/kbd",
         "@ikas/utils"
       ],
       "files": [
