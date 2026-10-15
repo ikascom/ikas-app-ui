@@ -13,15 +13,19 @@ like generic AI output. Follow these rules whenever you write or change UI code.
 | Settings forms | `SettingsGroup` (`label`, `hint`, `index` on long pages) + `Card` + `Field` | One huge form in a single centered card |
 | Record list | `RecordTable` | A grid of cards for tabular data |
 | Nothing to show | `EmptyState` | A grey "No data" line |
+| Feature outside the plan (locked) | `FeatureGate` (`variant="overlay"` over a list/card, `"banner"`, `"inline"`, `"action"` for a single button; `plan`, `onUpgrade`) | An `EmptyState` saying "Upgrade to Pro", a custom lock card, a grey `disabled` button |
 | A list or section failed to load | `RecordTable error` + `onRetry`; in a section, `EmptyState status="danger"` + `onRetry` | An empty table, plain red text |
 | Persistent feedback | `Banner` with `status` | Colored `<div>`s, emoji, alert() |
 | Transient feedback | `toast` from the `sonner` package; `Toaster` from `@/components/ui/sonner` once at the root | A banner for "Saved!" |
 | Unsaved form changes | `UnsavedBar` | A Save button at the bottom of a long form |
 | Status | `Badge` with `status` (+ `dot` for live states) | Custom colored pill labels |
+| Changing status (pending → syncing → done) | `AnimatedBadge` (`status`, `media="dot"` + `pulse` for live) | A blinking `Badge`, custom keyframes |
 | Actions | `Button` with `variant` + `color` | Custom `<button>` styles, extra shadows |
 | Key numbers | `StatCard` | Huge hero numbers with gradient text |
 | Key/value details | `DescriptionList` | Hand-aligned flex rows |
 | A single on/off setting | `SettingRow` | A label + switch in an ad-hoc flex |
+| Color input | `ColorPicker` inside a `Field` (`value`/`onValueChange` give hex; saved colors with `swatches`) | `<input type="color">`, a hand-written hex field |
+| Light/dark appearance choice | `ThemeSwitch` (`theme`, `onThemeChange`, `transition`) | A hand-written sun/moon button, a custom page transition |
 | Toggleable feature + its settings | `ToggleSection` | A settings form always visible next to the switch |
 | Onboarding steps | `Launchpad` (`eta` per step, `requires` when order matters) | "Do this first" banners scattered across the screen |
 | Install/update/remove a storefront script | `ScriptInstaller` | A hand-written install button, removal without confirmation |
@@ -79,6 +83,8 @@ Every data-driven screen covers: **loading** (skeletons with `RecordTable loadin
 not a spinner in the middle of the page), **empty** (`EmptyState`), **error**
 (in place, as in section 1; `Banner status="danger"` with a retry action if the rest of the page works)
 and **success** (`toast`).
+**Locked** is not empty: a feature outside the plan is locked with `FeatureGate`, not explained with `EmptyState`;
+the content stays visible but can't be clicked.
 
 ## 5. Page recipes
 
@@ -102,6 +108,7 @@ and **success** (`toast`).
   `translate` and `scale` in the transition property (not `transform`).
 - For icon micro-animations, give the icon `data-anim="spin|nudge|lift|drop|ring|wiggle|bounce|pop"`;
   don't write your own keyframes.
+- For a badge whose status changes, use `AnimatedBadge`; the label and icon flow on their own. It doesn't play on first render.
 - Use `SegmentedControl` for tabs / single choice, `NumberStepper` for number input,
   `Collapse` for expandable sections, `ConfirmButton` for inline destructive confirmation.
 - Every animation needs a reduced-motion fallback (`springOrInstant(useReducedMotion())`, `motion-reduce:*`).
