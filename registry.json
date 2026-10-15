@@ -2092,6 +2092,31 @@
       ]
     },
     {
+      "name": "page-nav",
+      "type": "registry:component",
+      "title": "Page Nav",
+      "description": "Second-level section bar under the panel's top bar; links or tabs with sliding underline.",
+      "categories": [
+        "navigation",
+        "layout"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/page-nav",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/page-nav.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/page-nav.tsx"
+        }
+      ]
+    },
+    {
       "name": "page",
       "type": "registry:component",
       "title": "Page",

@@ -25,7 +25,7 @@ npx shadcn@latest registry add "@ikas=https://builders.ikas.com/r/{name}.json"
 | --- | --- |
 | `@ikas/theme` | Light-first neutral theme as CSS variables: surfaces, a six-color palette, status colors (info, success, warning, danger), radius and elevation. Install it first. |
 | `@ikas/<primitive>` | shadcn/ui primitives restyled for ikas: `button`, `badge`, `card`, `field`, `input`, `select`, `dialog`, `sheet`, `table`, `tabs`, `tooltip` and more. |
-| `@ikas/<pattern>` | Screen patterns for app UIs: `page`, `layout`, `record-table`, `unsaved-bar`, `setting-row`, `banner`, `empty-state`, `stat-card`, `description-list`, `launchpad`, `script-installer`, charts (`area-chart`, `bar-chart`, `donut-chart`, `sparkline`, ...) and motion helpers. |
+| `@ikas/<pattern>` | Screen patterns for app UIs: `page`, `page-nav`, `layout`, `record-table`, `unsaved-bar`, `setting-row`, `banner`, `empty-state`, `stat-card`, `description-list`, `launchpad`, `script-installer`, charts (`area-chart`, `bar-chart`, `donut-chart`, `sparkline`, ...) and motion helpers. |
 | `@ikas/ui-rules` | `ikas-ui.md`, design rules for AI coding agents. Reference it from your `AGENTS.md` / `CLAUDE.md`. |
 
 The full list lives in [`registry.json`](registry.json). Components are copied into your project as source (`components/ui`, `components/ikas`, `lib`), so you own and can edit them.

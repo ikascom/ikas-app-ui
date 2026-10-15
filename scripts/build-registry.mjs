@@ -145,6 +145,7 @@ const meta = {
   meter: { description: "Usage against a limit as a bar or ring, with warning and danger states.", categories: ["data-display", "feedback"] },
   "number-stepper": { description: "Number input with minus and plus buttons; click the value to type it.", categories: ["forms"] },
   page: { title: "Page", description: "Screen wrapper with width presets and a PageHeader with back link, badges and actions.", categories: ["layout"] },
+  "page-nav": { title: "Page Nav", description: "Second-level section bar under the panel's top bar; links or tabs with sliding underline.", categories: ["navigation", "layout"] },
   "record-table": { title: "Record Table", description: "Table for lists of records with selection, bulk actions, loading, empty, error and pagination.", categories: ["data-display"] },
   "unsaved-bar": { title: "Unsaved Bar", description: "Bar with save and discard that appears while a form has unsaved changes.", categories: ["forms", "feedback"] },
   "script-installer": { description: "Installs, updates and removes the app's storefront script, one row per storefront.", categories: ["forms"] },

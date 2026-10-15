@@ -4,11 +4,20 @@ These rules apply to every screen of this ikas app. The app opens inside the ika
 its screens must use the same type scale, density and surfaces as the panel and must not look
 like generic AI output. Follow these rules whenever you write or change UI code.
 
+## You are inside the panel
+
+The panel's top bar is already there: back button, app logo, app name and "Manage plan". The app draws
+none of these: no logo, no app name, no top bar of its own, no sidebar, no plan/subscription button.
+The `PageHeader` title is the name of the screen or section ("Shipments", "Settings"), not the app's name.
+An app with several sections switches between them with `PageNav` (the first child of `Page`, at most 6 sections).
+
 ## 1. Use the building blocks, don't reinvent them
 
 | Need | Use | Never |
 | --- | --- | --- |
 | Screen wrapper + title + actions | `Page` + `PageHeader` from `@/components/ikas/page` | A custom `<div className="container">` with an `<h1>` |
+| Switching sections (multi-section app) | `PageNav` from `@/components/ikas/page-nav` (`href` with a router, `value` + `onValueChange` on a single page) | A sidebar, a top bar of its own, a logo + app name header |
+| Switching views inside a card or table | `SegmentedControl` (`size="sm"` in a card header) or `Tabs` | Two nested rows of pill tabs |
 | Columns | `Layout` / `LayoutColumn` (`columns="main-aside"`, `"half"`, `"third"`) | Hand-written `grid-cols-*` on every page |
 | Settings forms | `SettingsGroup` (`label`, `hint`, `index` on long pages) + `Card` + `Field` | One huge form in a single centered card |
 | Record list | `RecordTable` | A grid of cards for tabular data |
@@ -63,6 +72,9 @@ Before writing your own, install the missing piece with `npx shadcn@latest add @
   Body is 14px. Never use `text-4xl`+ anywhere in the app; no ALL CAPS labels and no `tracking-widest`.
 - **Density:** this is an admin tool. Controls are 36px (`h-9`). Don't inflate spacing
   (`p-10`, `py-24`) and don't build landing-page-style hero sections.
+- **Navigation hierarchy:** level 1 is `PageNav` (underlined bar at the top of the page), level 2 is
+  `SegmentedControl` / `Tabs` (pills) in a card header or toolbar. Never nest two pill rows or two underlined bars.
+  If you need a third level, change the design: split into separate screens, use `Collapse` or `Select`.
 - **Icons:** lucide-react; 16px in controls, at most 20px elsewhere. Icons support text;
   they never replace the label on the main action.
 
@@ -88,6 +100,8 @@ the content stays visible but can't be clicked.
 
 ## 5. Page recipes
 
+- **Multi-section app:** `Page` → `PageNav` at the top (≤ 6 sections) → `PageHeader` (the section's name) →
+  the section's content (one of the recipes below). No sidebar, no app name.
 - **List page:** `Page width="wide"` → `PageHeader` (title, main action) →
   `RecordTable` with a toolbar (search + filters), pagination and bulk actions.
 - **Detail page:** `Page` → `PageHeader` (`back`, `badges`, actions) →
@@ -109,7 +123,7 @@ the content stays visible but can't be clicked.
 - For icon micro-animations, give the icon `data-anim="spin|nudge|lift|drop|ring|wiggle|bounce|pop"`;
   don't write your own keyframes.
 - For a badge whose status changes, use `AnimatedBadge`; the label and icon flow on their own. It doesn't play on first render.
-- Use `SegmentedControl` for tabs / single choice, `NumberStepper` for number input,
+- Use `PageNav` for sections, `SegmentedControl` for in-card tabs / single choice, `NumberStepper` for number input,
   `Collapse` for expandable sections, `ConfirmButton` for inline destructive confirmation.
 - Every animation needs a reduced-motion fallback (`springOrInstant(useReducedMotion())`, `motion-reduce:*`).
 

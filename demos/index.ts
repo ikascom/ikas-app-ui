@@ -43,6 +43,10 @@ import LayoutSettingsGroup from "./layout/settings-group"
 import LayoutMainAside from "./layout/main-aside"
 import PageHeaderDemo from "./page/header"
 import PageSimple from "./page/simple"
+import PageNavBasic from "./page-nav/basic"
+import PageNavInPanel from "./page-nav/in-panel"
+import PageNavLinks from "./page-nav/links"
+import PageNavNested from "./page-nav/nested"
 import RecordTableError from "./record-table/error"
 import RecordTableOrders from "./record-table/orders"
 import RecordTableStates from "./record-table/states"
@@ -98,6 +102,10 @@ export const demos = {
   "layout/main-aside": LayoutMainAside,
   "page/header": PageHeaderDemo,
   "page/simple": PageSimple,
+  "page-nav/basic": PageNavBasic,
+  "page-nav/in-panel": PageNavInPanel,
+  "page-nav/links": PageNavLinks,
+  "page-nav/nested": PageNavNested,
   "record-table/error": RecordTableError,
   "record-table/orders": RecordTableOrders,
   "record-table/states": RecordTableStates,

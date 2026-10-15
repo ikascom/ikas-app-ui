@@ -16,6 +16,7 @@ import { ChartCard } from "@/components/ikas/chart-card"
 import { Layout } from "@/components/ikas/layout"
 import { Meter } from "@/components/ikas/meter"
 import { Page, PageHeader } from "@/components/ikas/page"
+import { PageNav } from "@/components/ikas/page-nav"
 import { RecordTable, type RecordTableColumn } from "@/components/ikas/record-table"
 import { SegmentedControl } from "@/components/ikas/segmented-control"
 import { ToggleSection } from "@/components/ikas/toggle-section"
@@ -24,6 +25,14 @@ import { orders } from "@/demos/_data"
 type InvoiceStatus = "sent" | "pending" | "failed" | "draft"
 
 type Invoice = { id: string; number: string; order: string; customer: string; total: number; status: InvoiceStatus }
+
+type Section = "overview" | "invoices" | "settings"
+
+const sections: Record<Section, { label: string; description: string }> = {
+  overview: { label: "Genel bakış", description: "Bu ayki fatura hacmi ve kalan kontör." },
+  invoices: { label: "Faturalar", description: "Kesilen faturalar ve GİB iletim durumu." },
+  settings: { label: "Fatura ayarları", description: "Faturaların ne zaman ve nasıl kesileceği." },
+}
 
 const statusBadge: Record<InvoiceStatus, { label: string; status: BadgeStatus }> = {
   sent: { label: "Gönderildi", status: "success" },
@@ -51,6 +60,7 @@ const monthly = ["May", "Haz", "Tem", "Ağu", "Eyl", "Eki"].map((month, i) => ({
 }))
 
 export default function EInvoiceAppExample() {
+  const [section, setSection] = React.useState<Section>("overview")
   const [invoices, setInvoices] = React.useState(initialInvoices)
   const [filter, setFilter] = React.useState<"all" | InvoiceStatus>("all")
   const [selectedIds, setSelectedIds] = React.useState<string[]>([])
@@ -116,14 +126,26 @@ export default function EInvoiceAppExample() {
 
   return (
     <Page width="wide">
+      <PageNav
+        aria-label="E-fatura bölümleri"
+        value={section}
+        onValueChange={setSection}
+        items={[
+          { value: "overview", label: sections.overview.label },
+          { value: "invoices", label: sections.invoices.label, badge: failed || undefined },
+          { value: "settings", label: sections.settings.label },
+        ]}
+      />
       <PageHeader
-        title="E-fatura"
-        description="Siparişleriniz için e-fatura ve e-arşiv faturalarını otomatik keser ve GİB'e iletir."
+        title={sections[section].label}
+        description={sections[section].description}
         actions={
-          <Button variant="outline" onClick={() => toast.success("Fatura listesi dışa aktarılıyor")}>
-            <DownloadIcon data-icon="inline-start" data-anim="drop" />
-            Dışa aktar
-          </Button>
+          section === "invoices" && (
+            <Button variant="outline" onClick={() => toast.success("Fatura listesi dışa aktarılıyor")}>
+              <DownloadIcon data-icon="inline-start" data-anim="drop" />
+              Dışa aktar
+            </Button>
+          )
         }
       />
 
@@ -141,123 +163,125 @@ export default function EInvoiceAppExample() {
         </Banner>
       )}
 
-      <Layout columns="main-aside">
-        <ChartCard title="Aylık fatura" description="Son 6 ay, kesilen fatura sayısı" value={monthly.reduce((s, m) => s + m.invoices, 0)} change={9.6} changeLabel="önceki 6 aya göre">
-          <BarChart data={monthly} index="month" series={[{ key: "invoices", label: "Fatura" }]} incompleteLast height={220} aria-label="Aylık kesilen fatura sayısı, Ekim devam ediyor" />
-        </ChartCard>
-        <Card>
-          <CardHeader>
-            <CardTitle>Kontör</CardTitle>
-            <CardDescription>Her fatura 1 kontör kullanır.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <Meter label="Kullanılan kontör" value={8420} max={10000} />
-            <p className="text-[13px] text-muted-foreground">Bu hızla kalan kontör yaklaşık 2 hafta yeter.</p>
-            <Button variant="link" className="w-fit" onClick={() => toast("Kontör paketleri açılıyor")}>
-              Kontör satın al
-            </Button>
-          </CardContent>
-        </Card>
-      </Layout>
+      {section === "overview" && (
+        <Layout columns="main-aside">
+          <ChartCard title="Aylık fatura" description="Son 6 ay, kesilen fatura sayısı" value={monthly.reduce((s, m) => s + m.invoices, 0)} change={9.6} changeLabel="önceki 6 aya göre">
+            <BarChart data={monthly} index="month" series={[{ key: "invoices", label: "Fatura" }]} incompleteLast height={220} aria-label="Aylık kesilen fatura sayısı, Ekim devam ediyor" />
+          </ChartCard>
+          <Card>
+            <CardHeader>
+              <CardTitle>Kontör</CardTitle>
+              <CardDescription>Her fatura 1 kontör kullanır.</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              <Meter label="Kullanılan kontör" value={8420} max={10000} />
+              <p className="text-[13px] text-muted-foreground">Bu hızla kalan kontör yaklaşık 2 hafta yeter.</p>
+              <Button variant="link" className="w-fit" onClick={() => toast("Kontör paketleri açılıyor")}>
+                Kontör satın al
+              </Button>
+            </CardContent>
+          </Card>
+        </Layout>
+      )}
 
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-0.5">
-          <h2 className="text-[15px] font-semibold">Fatura ayarları</h2>
-          <p className="text-sm text-muted-foreground">Faturaların ne zaman ve nasıl kesileceği.</p>
-        </div>
-        <ToggleSection
-          icon={<FileTextIcon />}
-          title="Otomatik fatura kes"
-          description="Siparişler için faturayı seçtiğiniz adımda kendiliğinden keser."
-          checked={auto}
-          onCheckedChange={setAuto}
-        >
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col gap-2">
-              <span className="text-sm font-medium">Ne zaman</span>
-              <SegmentedControl
-                mode="radio"
-                aria-label="Fatura kesme zamanı"
-                value={when}
-                onValueChange={setWhen}
-                options={[
-                  { value: "created", label: "Sipariş oluşunca" },
-                  { value: "shipped", label: "Kargoya verilince" },
-                  { value: "delivered", label: "Teslim edilince" },
-                ]}
-              />
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+      {section === "settings" && (
+        <div className="flex flex-col gap-3">
+          <ToggleSection
+            icon={<FileTextIcon />}
+            title="Otomatik fatura kes"
+            description="Siparişler için faturayı seçtiğiniz adımda kendiliğinden keser."
+            checked={auto}
+            onCheckedChange={setAuto}
+          >
+            <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
-                <span className="text-sm font-medium">Fatura serisi</span>
-                <Select defaultValue="iks">
-                  <SelectTrigger className="w-full" aria-label="Fatura serisi">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="iks">IKS · e-arşiv</SelectItem>
-                    <SelectItem value="efa">EFA · e-fatura</SelectItem>
-                    <SelectItem value="ihr">IHR · ihracat</SelectItem>
-                  </SelectContent>
-                </Select>
+                <span className="text-sm font-medium">Ne zaman</span>
+                <SegmentedControl
+                  mode="radio"
+                  aria-label="Fatura kesme zamanı"
+                  value={when}
+                  onValueChange={setWhen}
+                  options={[
+                    { value: "created", label: "Sipariş oluşunca" },
+                    { value: "shipped", label: "Kargoya verilince" },
+                    { value: "delivered", label: "Teslim edilince" },
+                  ]}
+                />
               </div>
-              <label className="flex items-center justify-between gap-4 rounded-lg border px-3 py-2.5 sm:self-end">
-                <span className="text-sm">Müşteriye e-posta gönder</span>
-                <Switch defaultChecked aria-label="Müşteriye e-posta gönder" />
-              </label>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <span className="text-sm font-medium">Fatura serisi</span>
+                  <Select defaultValue="iks">
+                    <SelectTrigger className="w-full" aria-label="Fatura serisi">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      <SelectItem value="iks">IKS · e-arşiv</SelectItem>
+                      <SelectItem value="efa">EFA · e-fatura</SelectItem>
+                      <SelectItem value="ihr">IHR · ihracat</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <label className="flex items-center justify-between gap-4 rounded-lg border px-3 py-2.5 sm:self-end">
+                  <span className="text-sm">Müşteriye e-posta gönder</span>
+                  <Switch defaultChecked aria-label="Müşteriye e-posta gönder" />
+                </label>
+              </div>
             </div>
-          </div>
-        </ToggleSection>
-        <ToggleSection
-          icon={<RotateCcwIcon />}
-          title="İade faturası"
-          description="İade onaylandığında iade faturasını otomatik keser."
-          checked={refund}
-          onCheckedChange={setRefund}
-        />
-        <ToggleSection
-          icon={<ShieldCheckIcon />}
-          title="E-arşiv için TCKN zorunlu"
-          description="Ödeme adımında bireysel müşterilerden T.C. kimlik numarası ister."
-          checked={tckn}
-          onCheckedChange={setTckn}
-        />
-      </div>
-
-      <RecordTable
-        label="Faturalar"
-        columns={columns}
-        rows={rows}
-        getRowId={(i) => i.id}
-        selectedIds={selectedIds}
-        onSelectedIdsChange={setSelectedIds}
-        bulkActions={(ids) => (
-          <Button size="sm" variant="outline" onClick={() => resend(ids)}>
-            <SendIcon data-icon="inline-start" data-anim="lift" />
-            Yeniden gönder
-          </Button>
-        )}
-        toolbar={
-          <SegmentedControl
-            aria-label="Fatura durumu"
-            value={filter}
-            onValueChange={setFilter}
-            options={[
-              { value: "all", label: "Tümü", badge: invoices.length },
-              { value: "sent", label: "Gönderildi", badge: count("sent") },
-              { value: "pending", label: "Bekliyor", badge: count("pending") },
-              { value: "failed", label: "Hatalı", badge: count("failed") },
-              { value: "draft", label: "Taslak", badge: count("draft") },
-            ]}
+          </ToggleSection>
+          <ToggleSection
+            icon={<RotateCcwIcon />}
+            title="İade faturası"
+            description="İade onaylandığında iade faturasını otomatik keser."
+            checked={refund}
+            onCheckedChange={setRefund}
           />
-        }
-        emptyState={
-          <div className="flex flex-col items-center gap-1 px-6 py-12 text-center">
-            <span className="text-sm font-medium">Bu durumda fatura yok</span>
-            <span className="text-[13px] text-muted-foreground">Başka bir durum seçin.</span>
-          </div>
-        }
-      />
+          <ToggleSection
+            icon={<ShieldCheckIcon />}
+            title="E-arşiv için TCKN zorunlu"
+            description="Ödeme adımında bireysel müşterilerden T.C. kimlik numarası ister."
+            checked={tckn}
+            onCheckedChange={setTckn}
+          />
+        </div>
+      )}
+
+      {section === "invoices" && (
+        <RecordTable
+          label="Faturalar"
+          columns={columns}
+          rows={rows}
+          getRowId={(i) => i.id}
+          selectedIds={selectedIds}
+          onSelectedIdsChange={setSelectedIds}
+          bulkActions={(ids) => (
+            <Button size="sm" variant="outline" onClick={() => resend(ids)}>
+              <SendIcon data-icon="inline-start" data-anim="lift" />
+              Yeniden gönder
+            </Button>
+          )}
+          toolbar={
+            <SegmentedControl
+              aria-label="Fatura durumu"
+              value={filter}
+              onValueChange={setFilter}
+              options={[
+                { value: "all", label: "Tümü", badge: invoices.length },
+                { value: "sent", label: "Gönderildi", badge: count("sent") },
+                { value: "pending", label: "Bekliyor", badge: count("pending") },
+                { value: "failed", label: "Hatalı", badge: count("failed") },
+                { value: "draft", label: "Taslak", badge: count("draft") },
+              ]}
+            />
+          }
+          emptyState={
+            <div className="flex flex-col items-center gap-1 px-6 py-12 text-center">
+              <span className="text-sm font-medium">Bu durumda fatura yok</span>
+              <span className="text-[13px] text-muted-foreground">Başka bir durum seçin.</span>
+            </div>
+          }
+        />
+      )}
     </Page>
   )
 }
