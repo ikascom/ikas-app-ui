@@ -120,6 +120,7 @@ const meta = {
 
   // Patterns (registry/ikas)
   "action-bar": { description: "Icon toolbar whose labels appear on hover or focus; saves room in dense headers.", categories: ["navigation"] },
+  "animated-badge": { title: "Animated Badge", description: "Badge whose icon, label and width animate on status change; loading spin and live pulse.", categories: ["motion", "data-display"] },
   "animated-check": { description: "Self-drawing check icon, plus a copy-to-clipboard button that confirms with it.", categories: ["motion", "forms"] },
   "animated-number": { description: "Number that rolls up or down when its value changes.", categories: ["motion", "data-display"] },
   "area-chart": { description: "Area or line chart over time, with stacking, legend, tooltip and estimated points.", categories: ["charts"] },

@@ -1,5 +1,10 @@
 import type * as React from "react"
 
+import AnimatedBadgeCounter from "./animated-badge/counter"
+import AnimatedBadgeLive from "./animated-badge/live"
+import AnimatedBadgeStatuses from "./animated-badge/statuses"
+import AnimatedBadgeSyncList from "./animated-badge/sync-list"
+import AnimatedBadgeVariants from "./animated-badge/variants"
 import AnimatedNumberCartTotal from "./animated-number/cart-total"
 import AnimatedNumberCounter from "./animated-number/counter"
 import CollapseDisclosure from "./collapse/disclosure"
@@ -16,6 +21,11 @@ export const motionDemosA = {
   "segmented-control/icons": SegmentedControlIcons,
   "number-stepper/stock": NumberStepperStock,
   "number-stepper/table-row": NumberStepperTableRow,
+  "animated-badge/statuses": AnimatedBadgeStatuses,
+  "animated-badge/variants": AnimatedBadgeVariants,
+  "animated-badge/sync-list": AnimatedBadgeSyncList,
+  "animated-badge/counter": AnimatedBadgeCounter,
+  "animated-badge/live": AnimatedBadgeLive,
   "animated-number/cart-total": AnimatedNumberCartTotal,
   "animated-number/counter": AnimatedNumberCounter,
   "collapse/disclosure": CollapseDisclosure,

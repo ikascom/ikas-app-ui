@@ -1460,6 +1460,36 @@
       ]
     },
     {
+      "name": "animated-badge",
+      "type": "registry:component",
+      "title": "Animated Badge",
+      "description": "Badge whose icon, label and width animate on status change; loading spin and live pulse.",
+      "categories": [
+        "motion",
+        "data-display"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/animated-badge",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/animated-check",
+        "@ikas/badge",
+        "@ikas/motion",
+        "@ikas/spinner",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/animated-badge.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/animated-badge.tsx"
+        }
+      ]
+    },
+    {
       "name": "animated-check",
       "type": "registry:component",
       "title": "Animated Check",
