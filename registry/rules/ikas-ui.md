@@ -4,24 +4,38 @@ Bu kurallar bu ikas uygulamasının her ekranı için geçerlidir. Uygulama ikas
 açılır; ekranları panelle aynı tip ölçeğini, yoğunluğu ve yüzeyleri kullanmalı, sıradan bir AI
 çıktısı gibi durmamalıdır. Arayüz kodu yazarken veya değiştirirken bu kurallara uy.
 
+## Panelin içindesin
+
+Panelin üst barı zaten var: geri butonu, uygulama logosu, uygulama adı ve "Planı yönet". Uygulama bunların
+hiçbirini çizmez: logo yok, uygulama adı yok, kendi üst barı yok, sidebar yok, plan/abonelik butonu yok.
+`PageHeader` başlığı ekranın veya bölümün adıdır ("Gönderimler", "Ayarlar"), uygulamanın adı değil.
+Birden çok bölümü olan uygulama bölümler arasında `PageNav` ile geçer (`Page`'in ilk çocuğu, en fazla 6 bölüm).
+
 ## 1. Yapı taşlarını kullan, yeniden icat etme
 
 | İhtiyaç | Kullan | Asla |
 | --- | --- | --- |
 | Ekran sarmalayıcı + başlık + aksiyonlar | `@/components/ikas/page` içinden `Page` + `PageHeader` | `<h1>` içeren özel bir `<div className="container">` |
+| Bölümler arası geçiş (çok bölümlü uygulama) | `@/components/ikas/page-nav` içinden `PageNav` (router varsa `href`, tek sayfaysa `value` + `onValueChange`) | Sidebar, kendi üst barı, logo + uygulama adı başlığı |
+| Kart veya tablo içinde görünüm değiştirme | `SegmentedControl` (kart başlığında `size="sm"`) ya da `Tabs` | İç içe iki hap sekme satırı |
 | Sütunlar | `Layout` / `LayoutColumn` (`columns="main-aside"`, `"half"`, `"third"`) | Her sayfada elle yazılmış `grid-cols-*` |
 | Ayar formları | `SettingsGroup` (`label`, `hint`, uzun sayfada `index`) + `Card` + `Field` | Ortalanmış tek kartta dev bir form |
 | Kayıt listesi | `RecordTable` | Tablo verisi için kart grid'i |
 | Gösterilecek bir şey yok | `EmptyState` | Gri bir "Veri yok" yazısı |
+| Plan dışı (kilitli) özellik | `FeatureGate` (`variant="overlay"` liste/kart üstüne, `"banner"`, `"inline"`, `"action"` tek butona; `plan`, `onUpgrade`) | "Pro'ya geç" yazan `EmptyState`, kendi kilit kartı, gri `disabled` buton |
 | Liste veya bölüm yüklenemedi | `RecordTable error` + `onRetry`, bölümde `EmptyState status="danger"` + `onRetry` | Boş tablo, kırmızı düz metin |
 | Kalıcı geri bildirim | `status` ile `Banner` | Renkli `<div>`'ler, emoji, alert() |
 | Geçici geri bildirim | `sonner` paketinden `toast`; kökte bir kez `@/components/ui/sonner` içinden `Toaster` | "Kaydedildi!" için banner |
 | Kaydedilmemiş form değişiklikleri | `UnsavedBar` | Uzun formun en altında Kaydet butonu |
 | Durum | `status` ile `Badge` (canlı durumlar için + `dot`) | Özel renkli hap etiketler |
+| Değişen durum (bekliyor → eşitleniyor → tamamlandı) | `AnimatedBadge` (`status`, canlı için `media="dot"` + `pulse`) | Durumu yanıp sönen `Badge`, kendi keyframe'i |
 | Aksiyonlar | `variant` + `color` ile `Button` | Özel `<button>` stilleri, ekstra gölgeler |
+| Yalnızca ikonlu buton | `Button size="icon"` + `aria-label` + `Tooltip` (kısayol varsa `TooltipContent shortcut`), kökte bir `TooltipProvider` | Etiketsiz ikon, `title` attribute, ipucunda ok veya kendi gecikmesi |
 | Önemli sayılar | `StatCard` | Gradient metinli dev hero sayıları |
 | Anahtar/değer detayları | `DescriptionList` | Elle hizalanmış flex satırları |
 | Tek bir açma/kapama ayarı | `SettingRow` | Rastgele bir flex içinde label + switch |
+| Renk girişi | `Field` içinde `ColorPicker` (`value`/`onValueChange` hex döner; `swatches` ile kayıtlı renkler) | `<input type="color">`, elle yazılmış hex alanı |
+| Açık/koyu görünüm seçimi | `ThemeSwitch` (`theme`, `onThemeChange`, `transition`) | Elle yazılmış güneş/ay butonu, kendi sayfa geçişi |
 | Aç/kapa özellik + ayarları | `ToggleSection` | Switch'in yanında hep görünen ayar formu |
 | İlk kurulum adımları | `Launchpad` (adım başına `eta`, sıra gerekiyorsa `requires`) | Ekranda dağınık "önce şunu yapın" banner'ları |
 | Storefront script kur/güncelle/kaldır | `ScriptInstaller` | Elle yazılmış kur butonu, onaysız kaldırma |
@@ -59,6 +73,9 @@ Kendin yazmadan önce eksik olanı `npx shadcn@latest add @ikas/<name>` ile kur.
   Gövde 14px. Uygulamanın hiçbir yerinde `text-4xl`+ kullanma; TAMAMI BÜYÜK HARF etiket ve `tracking-widest` yok.
 - **Yoğunluk:** bu bir panel aracı. Kontroller 36px (`h-9`). Boşlukları şişirme
   (`p-10`, `py-24`) ve landing page tarzı hero bölümleri oluşturma.
+- **Gezinme hiyerarşisi:** 1. seviye `PageNav` (alt çizgili bar, sayfanın en üstünde), 2. seviye kart başlığında
+  veya araç çubuğunda `SegmentedControl` / `Tabs` (hap). İki hap satırı ya da iki alt çizgili bar asla iç içe olmaz.
+  Üçüncü seviye gerekiyorsa tasarımı değiştir: ayrı ekranlara böl, `Collapse` veya `Select` kullan.
 - **İkonlar:** lucide-react; kontrollerde 16px, diğer yerlerde en fazla 20px. İkonlar metni destekler,
   ana aksiyonda asla etiketin yerini almaz.
 
@@ -79,9 +96,13 @@ Veriye dayalı her ekran şunları karşılar: **yükleniyor** (sayfanın ortas�
 `RecordTable loading` veya `Skeleton` ile iskeletler), **boş** (`EmptyState`), **hata**
 (bölüm 1'deki gibi yerinde; sayfanın geri kalanı çalışıyorsa tekrar dene aksiyonlu `Banner status="danger"`)
 ve **başarı** (`toast`).
+**Kilitli** boş demek değildir: plan dışı bir özellik `FeatureGate` ile kilitlenir, `EmptyState` ile anlatılmaz;
+içerik görünür ama tıklanmaz kalır.
 
 ## 5. Sayfa tarifleri
 
+- **Çok bölümlü uygulama:** `Page` → en üstte `PageNav` (≤ 6 bölüm) → `PageHeader` (bölümün adı) →
+  bölümün içeriği (aşağıdaki tariflerden biri). Sidebar yok, uygulama adı yok.
 - **Liste sayfası:** `Page width="wide"` → `PageHeader` (başlık, ana aksiyon) →
   araç çubuklu (arama + filtreler), sayfalamalı ve toplu işlemli `RecordTable`.
 - **Detay sayfası:** `Page` → `PageHeader` (`back`, `badges`, aksiyonlar) →
@@ -102,7 +123,8 @@ ve **başarı** (`toast`).
   `translate` ve `scale` yazın (`transform` değil).
 - İkon mikro animasyonu için ikona `data-anim="spin|nudge|lift|drop|ring|wiggle|bounce|pop"` verin;
   kendi keyframe'inizi yazmayın.
-- Sekme / tekli seçim için `SegmentedControl`, sayı girişi için `NumberStepper`, açılır bölüm için
+- Durumu değişen rozet için `AnimatedBadge` kullanın; etiket ve ikon kendi akar. Ekrana ilk gelişte oynamaz.
+- Bölümler için `PageNav`, kart içi sekme / tekli seçim için `SegmentedControl`, sayı girişi için `NumberStepper`, açılır bölüm için
   `Collapse`, satır içi yıkıcı onay için `ConfirmButton` kullanın.
 - Her animasyonun reduced-motion karşılığı olmalı (`springOrInstant(useReducedMotion())`, `motion-reduce:*`).
 

@@ -15,6 +15,9 @@ import QuestionnaireOnboarding from "./questionnaire/onboarding"
 import RecordTableDataTable from "./record-table/data-table"
 import SheetDetail from "./sheet/detail"
 import SheetFilters from "./sheet/filters"
+import TooltipSides from "./tooltip/sides"
+import TooltipStates from "./tooltip/states"
+import TooltipToolbar from "./tooltip/toolbar"
 
 export const overlayDemos = {
   "accordion/faq": AccordionFaq,
@@ -32,4 +35,7 @@ export const overlayDemos = {
   "record-table/data-table": RecordTableDataTable,
   "sheet/detail": SheetDetail,
   "sheet/filters": SheetFilters,
+  "tooltip/toolbar": TooltipToolbar,
+  "tooltip/states": TooltipStates,
+  "tooltip/sides": TooltipSides,
 } satisfies Record<string, () => React.ReactNode>

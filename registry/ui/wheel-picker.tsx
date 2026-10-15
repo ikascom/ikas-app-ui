@@ -15,6 +15,8 @@ type WheelPickerGroupProps = React.ComponentProps<"div"> & {
   visibleCount?: number
   /** Dims the group and blocks every wheel in it. */
   disabled?: boolean
+  /** A soft tick on every wheel in the group as a row crosses the band. */
+  sound?: boolean
 }
 
 type WheelPickerProps = Omit<React.ComponentProps<"div">, "defaultValue" | "children" | "onChange"> & {
@@ -32,6 +34,8 @@ type WheelPickerProps = Omit<React.ComponentProps<"div">, "defaultValue" | "chil
   visibleCount?: number
   /** Blocks drag, wheel and keyboard input. */
   disabled?: boolean
+  /** Plays a soft tick as each row crosses the band, while the user turns the wheel. Silent when the value changes from outside. */
+  sound?: boolean
   /** Accessible name, e.g. "Saat". */
   "aria-label"?: string
 }
@@ -76,6 +80,35 @@ function geometry(size: WheelPickerSize, visibleCount: number) {
   return { row, angle, radius, horizon, height: Math.round(2 * radius * Math.sin(side * angle * DEG) + row) }
 }
 
+/*
+ * Tick. A short triangle blip that drops an octave, like a detent on a dial. One AudioContext serves
+ * every wheel on the page; it is made on the first tick, which always follows a press, key or wheel
+ * on a page the user has already interacted with, so the browser lets it play.
+ */
+let audio: AudioContext | null = null
+let lastTick = -1
+/** s; ticks closer than this merge, so a hard fling purrs instead of stacking into a buzz. */
+const TICK_GAP = 0.028
+
+function tick() {
+  if (typeof window === "undefined" || !("AudioContext" in window)) return
+  audio ??= new AudioContext()
+  if (audio.state === "suspended") audio.resume().catch(() => undefined)
+  const now = audio.currentTime
+  if (now - lastTick < TICK_GAP) return
+  lastTick = now
+  const tone = audio.createOscillator()
+  const level = audio.createGain()
+  tone.type = "triangle"
+  tone.frequency.setValueAtTime(1700, now)
+  tone.frequency.exponentialRampToValueAtTime(850, now + 0.012)
+  level.gain.setValueAtTime(0.07, now)
+  level.gain.exponentialRampToValueAtTime(0.0001, now + 0.022)
+  tone.connect(level).connect(audio.destination)
+  tone.start(now)
+  tone.stop(now + 0.025)
+}
+
 const reducedQuery = "(prefers-reduced-motion: reduce)"
 
 function useReducedMotion() {
@@ -90,14 +123,14 @@ function useReducedMotion() {
   )
 }
 
-type GroupContext = { size: WheelPickerSize; visibleCount: number; disabled: boolean }
+type GroupContext = { size: WheelPickerSize; visibleCount: number; disabled: boolean; sound: boolean }
 
 const WheelPickerGroupContext = React.createContext<GroupContext | null>(null)
 
 /** Frame for one or more wheels side by side, with one shared selection band (date, time). */
-function WheelPickerGroup({ size = "default", visibleCount = 5, disabled = false, className, children, ...props }: WheelPickerGroupProps) {
+function WheelPickerGroup({ size = "default", visibleCount = 5, disabled = false, sound = false, className, children, ...props }: WheelPickerGroupProps) {
   const { row, height } = geometry(size, visibleCount)
-  const context = React.useMemo(() => ({ size, visibleCount, disabled }), [size, visibleCount, disabled])
+  const context = React.useMemo(() => ({ size, visibleCount, disabled, sound }), [size, visibleCount, disabled, sound])
 
   return (
     <WheelPickerGroupContext.Provider value={context}>
@@ -129,7 +162,16 @@ function WheelPickerGroup({ size = "default", visibleCount = 5, disabled = false
 /** iOS-style picker wheel: a 3D drum you drag, flick, scroll or step with the keyboard; snaps to a row. */
 function WheelPicker(props: WheelPickerProps) {
   const group = React.useContext(WheelPickerGroupContext)
-  if (group) return <WheelPickerColumn {...props} size={group.size} visibleCount={group.visibleCount} disabled={group.disabled || props.disabled} />
+  if (group)
+    return (
+      <WheelPickerColumn
+        {...props}
+        size={group.size}
+        visibleCount={group.visibleCount}
+        disabled={group.disabled || props.disabled}
+        sound={group.sound || props.sound}
+      />
+    )
 
   const { size = "default", visibleCount = 5, disabled = false, className, ...rest } = props
   return (
@@ -147,6 +189,7 @@ function WheelPickerColumn({
   size = "default",
   visibleCount = 5,
   disabled = false,
+  sound = false,
   className,
   "aria-label": ariaLabel,
   ...props
@@ -171,16 +214,24 @@ function WheelPickerColumn({
   const wheelTimer = React.useRef<ReturnType<typeof setTimeout>>(undefined)
   const drag = React.useRef<{ startY: number; startScroll: number; moved: boolean; samples: [number, number][] } | null>(null)
   const [grabbing, setGrabbing] = React.useState(false)
+  /** Row last under the band, and whether the user is the one turning the wheel (only they hear it). */
+  const tickRow = React.useRef(index)
+  const audible = React.useRef(false)
 
   // Handlers read the latest props through this ref, so listeners bind once.
-  const latest = React.useRef({ options, last, row, angle, radius, horizon, reduce, disabled, onValueChange, controlled: valueProp !== undefined })
+  const latest = React.useRef({ options, last, row, angle, radius, horizon, reduce, disabled, sound, onValueChange, controlled: valueProp !== undefined })
   React.useLayoutEffect(() => {
-    latest.current = { options, last, row, angle, radius, horizon, reduce, disabled, onValueChange, controlled: valueProp !== undefined }
+    latest.current = { options, last, row, angle, radius, horizon, reduce, disabled, sound, onValueChange, controlled: valueProp !== undefined }
   })
 
   const paint = React.useCallback((position: number) => {
     scroll.current = position
-    const { angle, radius, horizon } = latest.current
+    const { angle, radius, horizon, last, sound } = latest.current
+    const under = clamp(Math.round(position), 0, last)
+    if (under !== tickRow.current) {
+      tickRow.current = under
+      if (sound && audible.current) tick()
+    }
     for (const list of [drumRef.current, bandRef.current]) {
       if (!list) continue
       list.style.transform = `translateZ(${-radius}px) rotateX(${angle * position}deg)`
@@ -284,10 +335,13 @@ function WheelPickerColumn({
     else if (value === previous.value) {
       // Same value at a new index (rows added or removed above it, e.g. days 12–31 → 1–30): jump, don't spin.
       stop()
+      audible.current = false
       target.current = index
       paint(index)
-    } else if (index !== target.current) springTo(index)
-    else paint(scroll.current)
+    } else if (index !== target.current) {
+      audible.current = false
+      springTo(index)
+    } else paint(scroll.current)
   }, [index, value, options, paint, springTo, stop])
 
   React.useEffect(
@@ -307,6 +361,7 @@ function WheelPickerColumn({
       if (disabled) return
       event.preventDefault()
       stop()
+      audible.current = true
       const px = event.deltaMode === 1 ? event.deltaY * 16 : event.deltaY
       const next = clamp(scroll.current + px * WHEEL_RATE, 0, last)
       paint(next)
@@ -322,6 +377,7 @@ function WheelPickerColumn({
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>) {
     if (disabled || event.button !== 0) return
     stop()
+    audible.current = true
     try {
       event.currentTarget.setPointerCapture(event.pointerId)
     } catch {
@@ -375,6 +431,7 @@ function WheelPickerColumn({
     const by: Record<string, number> = { ArrowUp: -1, ArrowDown: 1, PageUp: -5, PageDown: 5, Home: -Infinity, End: Infinity }
     if (!(event.key in by)) return
     event.preventDefault()
+    audible.current = true
     springTo(clamp(target.current + by[event.key], 0, last))
   }
 

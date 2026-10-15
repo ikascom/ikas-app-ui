@@ -97,6 +97,66 @@
             "translate": "100% 0"
           }
         },
+        "html[data-theme-transition]::view-transition-old(root)": {
+          "animation": "none"
+        },
+        "html[data-theme-transition]::view-transition-new(root)": {
+          "animation": "480ms var(--ease-reveal) both",
+          "mix-blend-mode": "normal"
+        },
+        "html[data-theme-transition=\"reveal\"]::view-transition-new(root)": {
+          "animation-name": "theme-reveal"
+        },
+        "html[data-theme-transition=\"eclipse\"]::view-transition-new(root)": {
+          "animation-name": "theme-eclipse",
+          "animation-duration": "560ms",
+          "animation-timing-function": "var(--ease-out)"
+        },
+        "html[data-theme-transition=\"split\"]::view-transition-new(root)": {
+          "animation-name": "theme-split",
+          "animation-timing-function": "var(--ease-drawer)"
+        },
+        "html[data-theme-transition=\"rise\"]::view-transition-new(root)": {
+          "animation-name": "theme-rise",
+          "animation-timing-function": "var(--ease-drawer)"
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          "html[data-theme-transition]::view-transition-new(root)": {
+            "animation-duration": "0.01ms"
+          }
+        },
+        "@keyframes theme-reveal": {
+          "from": {
+            "clip-path": "circle(0 at var(--theme-x, 50%) var(--theme-y, 50%))"
+          },
+          "to": {
+            "clip-path": "circle(var(--theme-r, 150%) at var(--theme-x, 50%) var(--theme-y, 50%))"
+          }
+        },
+        "@keyframes theme-eclipse": {
+          "from": {
+            "clip-path": "circle(60% at 150% 50%)"
+          },
+          "to": {
+            "clip-path": "circle(120% at 50% 50%)"
+          }
+        },
+        "@keyframes theme-split": {
+          "from": {
+            "clip-path": "inset(0 50%)"
+          },
+          "to": {
+            "clip-path": "inset(0)"
+          }
+        },
+        "@keyframes theme-rise": {
+          "from": {
+            "clip-path": "ellipse(160% 0% at 50% 100%)"
+          },
+          "to": {
+            "clip-path": "ellipse(160% 160% at 50% 100%)"
+          }
+        },
         "@utility animate-panel-enter": {
           "animation": "panel-enter 360ms var(--ease-out) both",
           "animation-delay": "calc(60ms * var(--stagger, 0))"
@@ -1336,7 +1396,7 @@
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
-      "description": "Short hint shown on hover or keyboard focus of an element.",
+      "description": "Hint on hover or keyboard focus, with an optional shortcut; neighbours open instantly.",
       "categories": [
         "primitives",
         "overlays"
@@ -1346,6 +1406,7 @@
         "radix-ui"
       ],
       "registryDependencies": [
+        "@ikas/kbd",
         "@ikas/utils"
       ],
       "files": [
@@ -1396,6 +1457,36 @@
           "path": "registry/ikas/action-bar.tsx",
           "type": "registry:component",
           "target": "@components/ikas/action-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "animated-badge",
+      "type": "registry:component",
+      "title": "Animated Badge",
+      "description": "Badge whose icon, label and width animate on status change; loading spin and live pulse.",
+      "categories": [
+        "motion",
+        "data-display"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/animated-badge",
+      "dependencies": [
+        "class-variance-authority",
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/animated-check",
+        "@ikas/badge",
+        "@ikas/motion",
+        "@ikas/spinner",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/animated-badge.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/animated-badge.tsx"
         }
       ]
     },
@@ -1636,6 +1727,36 @@
       ]
     },
     {
+      "name": "color-picker",
+      "type": "registry:component",
+      "title": "Color Picker",
+      "description": "Color field with saturation area, hue and opacity sliders, formats, eyedropper and saved swatches.",
+      "categories": [
+        "forms"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/color-picker",
+      "dependencies": [
+        "lucide-react",
+        "motion",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@ikas/animated-check",
+        "@ikas/badge",
+        "@ikas/button",
+        "@ikas/input-group",
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/color-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/color-picker.tsx"
+        }
+      ]
+    },
+    {
       "name": "confirm-button",
       "type": "registry:component",
       "title": "Confirm Button",
@@ -1839,6 +1960,34 @@
       ]
     },
     {
+      "name": "feature-gate",
+      "type": "registry:component",
+      "title": "Feature Gate",
+      "description": "Locks a feature outside the plan with a plan badge, preview and upgrade action.",
+      "categories": [
+        "feedback"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/feature-gate",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/badge",
+        "@ikas/button",
+        "@ikas/motion",
+        "@ikas/popover",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/feature-gate.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/feature-gate.tsx"
+        }
+      ]
+    },
+    {
       "name": "launchpad",
       "type": "registry:component",
       "title": "Launchpad",
@@ -1940,6 +2089,31 @@
           "path": "registry/ikas/number-stepper.tsx",
           "type": "registry:component",
           "target": "@components/ikas/number-stepper.tsx"
+        }
+      ]
+    },
+    {
+      "name": "page-nav",
+      "type": "registry:component",
+      "title": "Page Nav",
+      "description": "Second-level section bar under the panel's top bar; links or tabs with sliding underline.",
+      "categories": [
+        "navigation",
+        "layout"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/page-nav",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/page-nav.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/page-nav.tsx"
         }
       ]
     },
@@ -2115,6 +2289,32 @@
           "path": "registry/ikas/stat-card.tsx",
           "type": "registry:component",
           "target": "@components/ikas/stat-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "theme-switch",
+      "type": "registry:component",
+      "title": "Theme Switch",
+      "description": "Light and dark toggle with sun-moon icon swap and four page transitions.",
+      "categories": [
+        "motion",
+        "theme"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/theme-switch",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/motion"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/theme-switch.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/theme-switch.tsx"
         }
       ]
     },

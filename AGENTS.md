@@ -68,6 +68,10 @@ pnpm changeset         # add a changeset
   JSDoc for at least one minor release before removing; for an incompatible
   redesign create a new item (e.g. `record-table-v2`).
 - Sample content stays generic: no real store, app, marketplace or brand names.
+- Demos and examples never render panel chrome: no app logo, app name, own top bar or
+  sidebar. The ikas panel draws those around the app; a `PageHeader` title is the screen
+  or section name. (`demos/page-nav/in-panel.tsx` shows a clearly labelled fake panel bar
+  only to make this point.)
 - Every registry item needs an entry in `meta` (`scripts/build-registry.mjs`):
   a description of at most 15 words and 1–2 categories from `CATEGORIES`.
   `pnpm registry:build` fails otherwise.

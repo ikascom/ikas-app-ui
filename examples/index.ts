@@ -1,5 +1,6 @@
 import AnalyticsExample from "./analytics"
 import AppHomeExample from "./app-home"
+import AuditLogsExample from "./audit-logs"
 import AutomationRuleExample from "./automation-rule"
 import BillingExample from "./billing"
 import CampaignEditorExample from "./campaign-editor"
@@ -32,8 +33,13 @@ export const examples = {
   },
   "einvoice-app": {
     title: "E-fatura",
-    description: "Fatura uygulaması: kontör metresi, ayın devam ettiği aylık fatura grafiği, opt-in fatura ayarları ve durum filtreli, toplu yeniden gönderimli fatura tablosu.",
+    description: "Fatura uygulaması, PageNav ile üç bölüm: kontör metresi ve ayın devam ettiği aylık fatura grafiği, durum filtreli ve toplu yeniden gönderimli fatura tablosu, opt-in fatura ayarları.",
     Component: EInvoiceAppExample,
+  },
+  "audit-logs": {
+    title: "Denetim kayıtları",
+    description: "Ücretsiz planda kilitli liste: FeatureGate kayıt tablosunu bulanıklaştırır, Dışa aktar butonunu kilitler. Plan seçiciyle Pro'ya geçince kilit açılır.",
+    Component: AuditLogsExample,
   },
   billing: {
     title: "Plan ve faturalandırma",

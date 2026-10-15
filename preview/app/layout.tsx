@@ -22,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <PreviewQueryScript />
       </head>
       <body className="min-h-full">
-        <TooltipProvider delayDuration={300}>
+        <TooltipProvider>
           {children}
           <Toaster position="bottom-right" />
         </TooltipProvider>

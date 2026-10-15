@@ -28,6 +28,14 @@ import DescriptionListStacked from "./description-list/stacked"
 import EmptyStateError from "./empty-state/error"
 import EmptyStatePage from "./empty-state/page"
 import EmptyStateSection from "./empty-state/section"
+import FeatureGateAction from "./feature-gate/action"
+import FeatureGateBanner from "./feature-gate/banner"
+import FeatureGateColors from "./feature-gate/colors"
+import FeatureGateInline from "./feature-gate/inline"
+import FeatureGateOverlay from "./feature-gate/overlay"
+import FeatureGatePlayground from "./feature-gate/playground"
+import FeatureGatePreview from "./feature-gate/preview"
+import FeatureGateUnlock from "./feature-gate/unlock"
 import FormControls from "./form/controls"
 import FormField from "./form/field"
 import FormInputGroup from "./form/input-group"
@@ -35,6 +43,10 @@ import LayoutSettingsGroup from "./layout/settings-group"
 import LayoutMainAside from "./layout/main-aside"
 import PageHeaderDemo from "./page/header"
 import PageSimple from "./page/simple"
+import PageNavBasic from "./page-nav/basic"
+import PageNavInPanel from "./page-nav/in-panel"
+import PageNavLinks from "./page-nav/links"
+import PageNavNested from "./page-nav/nested"
 import RecordTableError from "./record-table/error"
 import RecordTableOrders from "./record-table/orders"
 import RecordTableStates from "./record-table/states"
@@ -75,6 +87,14 @@ export const demos = {
   "empty-state/error": EmptyStateError,
   "empty-state/page": EmptyStatePage,
   "empty-state/section": EmptyStateSection,
+  "feature-gate/overlay": FeatureGateOverlay,
+  "feature-gate/preview": FeatureGatePreview,
+  "feature-gate/banner": FeatureGateBanner,
+  "feature-gate/inline": FeatureGateInline,
+  "feature-gate/action": FeatureGateAction,
+  "feature-gate/colors": FeatureGateColors,
+  "feature-gate/playground": FeatureGatePlayground,
+  "feature-gate/unlock": FeatureGateUnlock,
   "form/controls": FormControls,
   "form/field": FormField,
   "form/input-group": FormInputGroup,
@@ -82,6 +102,10 @@ export const demos = {
   "layout/main-aside": LayoutMainAside,
   "page/header": PageHeaderDemo,
   "page/simple": PageSimple,
+  "page-nav/basic": PageNavBasic,
+  "page-nav/in-panel": PageNavInPanel,
+  "page-nav/links": PageNavLinks,
+  "page-nav/nested": PageNavNested,
   "record-table/error": RecordTableError,
   "record-table/orders": RecordTableOrders,
   "record-table/states": RecordTableStates,

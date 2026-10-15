@@ -494,6 +494,74 @@
   }
 }
 
+/* Theme switch page transitions. ThemeSwitch sets data-theme-transition and --theme-x/y/r on <html>. */
+html[data-theme-transition]::view-transition-old(root) {
+  animation: none;
+}
+html[data-theme-transition]::view-transition-new(root) {
+  animation: 480ms var(--ease-reveal) both;
+  mix-blend-mode: normal;
+}
+html[data-theme-transition="reveal"]::view-transition-new(root) {
+  animation-name: theme-reveal;
+}
+html[data-theme-transition="eclipse"]::view-transition-new(root) {
+  animation-name: theme-eclipse;
+  animation-duration: 560ms;
+  animation-timing-function: var(--ease-out);
+}
+html[data-theme-transition="split"]::view-transition-new(root) {
+  animation-name: theme-split;
+  animation-timing-function: var(--ease-drawer);
+}
+html[data-theme-transition="rise"]::view-transition-new(root) {
+  animation-name: theme-rise;
+  animation-timing-function: var(--ease-drawer);
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme-transition]::view-transition-new(root) {
+    animation-duration: 0.01ms;
+  }
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--theme-r, 150%) at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+}
+
+/* A disc slides in from the right edge and swells until it covers the page. */
+@keyframes theme-eclipse {
+  from {
+    clip-path: circle(60% at 150% 50%);
+  }
+  to {
+    clip-path: circle(120% at 50% 50%);
+  }
+}
+
+@keyframes theme-split {
+  from {
+    clip-path: inset(0 50%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+/* A curved edge swells up from the bottom. */
+@keyframes theme-rise {
+  from {
+    clip-path: ellipse(160% 0% at 50% 100%);
+  }
+  to {
+    clip-path: ellipse(160% 160% at 50% 100%);
+  }
+}
+
 @utility animate-panel-enter {
   animation: panel-enter 360ms var(--ease-out) both;
   animation-delay: calc(60ms * var(--stagger, 0));

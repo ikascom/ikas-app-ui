@@ -26,6 +26,8 @@ type DateWheelPickerProps = {
   visibleCount?: number
   /** Blocks every wheel. */
   disabled?: boolean
+  /** A soft tick as each row crosses the band, while the user turns a wheel. */
+  sound?: boolean
   /** Accessible names of the day, month and year wheels. */
   labels?: { day: string; month: string; year: string }
   /** Classes for the frame. */
@@ -52,6 +54,7 @@ function DateWheelPicker({
   size = "default",
   visibleCount = 5,
   disabled = false,
+  sound = false,
   labels = { day: "Gün", month: "Ay", year: "Yıl" },
   className,
   id,
@@ -103,6 +106,7 @@ function DateWheelPicker({
       size={size}
       visibleCount={visibleCount}
       disabled={disabled}
+      sound={sound}
       className={cn("w-full sm:w-72", className)}
     >
       <WheelPicker aria-label={labels.day} options={days} value={String(day)} onValueChange={(d) => change({ day: Number(d) })} className="max-w-16" />
