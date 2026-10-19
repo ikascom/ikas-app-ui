@@ -17,6 +17,7 @@ An app with several sections switches between them with `PageNav` (the first chi
 | --- | --- | --- |
 | Screen wrapper + title + actions | `Page` + `PageHeader` from `@/components/ikas/page` | A custom `<div className="container">` with an `<h1>` |
 | Switching sections (multi-section app) | `PageNav` from `@/components/ikas/page-nav` (`href` with a router, `value` + `onValueChange` on a single page) | A sidebar, a top bar of its own, a logo + app name header |
+| The path to a deep record (list → record → sub-record) | `Breadcrumb` above `PageHeader` (last item `BreadcrumbPage`, `BreadcrumbEllipsis` in the middle of a long path) | Links joined with `/` by hand, a path starting with the app's name |
 | Switching views inside a card or table | `SegmentedControl` (`size="sm"` in a card header) or `Tabs` | Two nested rows of pill tabs |
 | Columns | `Layout` / `LayoutColumn` (`columns="main-aside"`, `"half"`, `"third"`) | Hand-written `grid-cols-*` on every page |
 | Settings forms | `SettingsGroup` (`label`, `hint`, `index` on long pages) + `Card` + `Field` | One huge form in a single centered card |
@@ -105,7 +106,7 @@ the content stays visible but can't be clicked.
   the section's content (one of the recipes below). No sidebar, no app name.
 - **List page:** `Page width="wide"` → `PageHeader` (title, main action) →
   `RecordTable` with a toolbar (search + filters), pagination and bulk actions.
-- **Detail page:** `Page` → `PageHeader` (`back`, `badges`, actions) →
+- **Detail page:** `Page` → `Breadcrumb` when deeper than two levels → `PageHeader` (`back`, `badges`, actions) →
   `Layout columns="main-aside"` → main column: content cards; side column: `DescriptionList` cards.
 - **Settings page:** `Page width="narrow"` → `PageHeader` → stacked `SettingsGroup`s, each holding
   a single `Card` → `UnsavedBar` bound to the form's dirty state. With more than four groups,

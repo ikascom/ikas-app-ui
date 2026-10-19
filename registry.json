@@ -714,6 +714,30 @@
       ]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Trail of links to the current page; one separator prop restyles the whole trail.",
+      "categories": [
+        "primitives",
+        "navigation"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/breadcrumb",
+      "dependencies": [
+        "lucide-react",
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",

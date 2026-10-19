@@ -32,7 +32,7 @@ const docsPages = new Set(
     ? fs.readdirSync(path.join(root, "registry/ikas")).map((f) => f.replace(/\.\w+$/, ""))
     : []
 )
-for (const name of ["accordion", "alert-dialog", "badge", "button", "button-group", "calendar", "card", "combobox", "drawer", "questionnaire", "sheet", "wheel-picker"])
+for (const name of ["accordion", "alert-dialog", "badge", "breadcrumb", "button", "button-group", "calendar", "card", "combobox", "drawer", "questionnaire", "sheet", "wheel-picker"])
   docsPages.add(name)
 /** Items documented on a page with another path. */
 const docsPaths = {
@@ -86,6 +86,7 @@ const meta = {
   "alert-dialog": { description: "Modal that asks to confirm or cancel an action, with a status-tinted icon.", categories: ["primitives", "overlays"] },
   avatar: { description: "Round user or store image with fallback initials, badge, and stacked groups.", categories: ["primitives", "data-display"] },
   badge: { description: "Small label for statuses (info, success, warning, danger) or counts, with optional dot.", categories: ["primitives", "data-display"] },
+  breadcrumb: { description: "Trail of links to the current page; one separator prop restyles the whole trail.", categories: ["primitives", "navigation"] },
   button: { description: "Button in solid, soft, outline, ghost and link variants, any palette color, loading state.", categories: ["primitives", "forms"] },
   "button-group": { description: "Joins buttons, inputs or selects into one connected horizontal or vertical group.", categories: ["primitives", "forms"] },
   card: { description: "Raised surface with header, title, description, action, content and footer slots.", categories: ["primitives", "layout"] },

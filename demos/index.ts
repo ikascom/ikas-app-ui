@@ -16,6 +16,14 @@ import BadgeStatuses from "./badge/statuses"
 import BannerSurface from "./banner/surface"
 import BannerStatuses from "./banner/statuses"
 import BannerWithActions from "./banner/with-actions"
+import BreadcrumbBasic from "./breadcrumb/basic"
+import BreadcrumbCollapsed from "./breadcrumb/collapsed"
+import BreadcrumbCustomSeparator from "./breadcrumb/separator"
+import BreadcrumbDropdown from "./breadcrumb/dropdown"
+import BreadcrumbIcons from "./breadcrumb/icons"
+import BreadcrumbInPage from "./breadcrumb/in-page"
+import BreadcrumbResponsive from "./breadcrumb/responsive"
+import BreadcrumbWithLink from "./breadcrumb/link"
 import ButtonActions from "./button/actions"
 import ButtonColors from "./button/colors"
 import ButtonLoading from "./button/loading"
@@ -75,6 +83,14 @@ export const demos = {
   "banner/surface": BannerSurface,
   "banner/statuses": BannerStatuses,
   "banner/with-actions": BannerWithActions,
+  "breadcrumb/basic": BreadcrumbBasic,
+  "breadcrumb/separator": BreadcrumbCustomSeparator,
+  "breadcrumb/icons": BreadcrumbIcons,
+  "breadcrumb/dropdown": BreadcrumbDropdown,
+  "breadcrumb/collapsed": BreadcrumbCollapsed,
+  "breadcrumb/link": BreadcrumbWithLink,
+  "breadcrumb/responsive": BreadcrumbResponsive,
+  "breadcrumb/in-page": BreadcrumbInPage,
   "button/actions": ButtonActions,
   "button/colors": ButtonColors,
   "button/loading": ButtonLoading,
