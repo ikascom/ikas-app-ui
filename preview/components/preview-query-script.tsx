@@ -8,10 +8,12 @@
  *
  * It also listens for `{ type: "ikas-ui:theme", theme: "light" | "dark" }` from the
  * embedding window, so builders.ikas.com can follow its own theme toggle without
- * reloading the iframe. Plain inline JS in <head>, so the listener exists before
- * React hydrates and a message posted on the iframe's `load` event is never missed.
+ * reloading the iframe. The root layout loads it with next/script `beforeInteractive`, which
+ * puts it in <head> as plain inline JS, so the listener exists before React hydrates and a
+ * message posted on the iframe's `load` event is never missed. (A raw <script> would make
+ * React warn whenever the layout re-renders.)
  */
-const source = `(function () {
+export const previewQueryScript = `(function () {
   var root = document.documentElement;
   function setTheme(theme) { root.classList.toggle("dark", theme === "dark"); }
   try {
@@ -25,7 +27,3 @@ const source = `(function () {
     if (event.source === window.parent && data && data.type === "ikas-ui:theme") setTheme(data.theme);
   });
 })();`
-
-export function PreviewQueryScript() {
-  return <script dangerouslySetInnerHTML={{ __html: source }} />
-}

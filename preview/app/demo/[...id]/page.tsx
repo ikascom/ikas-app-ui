@@ -19,7 +19,7 @@ export function generateStaticParams() {
   return Object.keys(demos).map((id) => ({ id: id.split("/") }))
 }
 
-/** One demo without chrome, embedded by builders.ikas.com at /ui-preview/demo/<id>?align=center|start|stretch (&theme=light|dark, see PreviewQueryScript). */
+/** One demo without chrome, embedded by builders.ikas.com at /ui-preview/demo/<id>?align=center|start|stretch (&theme=light|dark, see previewQueryScript). */
 export default async function DemoPreviewPage({ params }: PageProps<"/demo/[...id]">) {
   const { id } = await params
   const demoId = id.join("/") as DemoId

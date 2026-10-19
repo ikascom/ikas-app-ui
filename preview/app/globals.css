@@ -10,7 +10,7 @@
 /* ikas-ui.md names the classes apps must not use; scanning it would ship them. */
 @source not "../../registry/rules";
 
-/* Demo alignment, set from ?align= by <PreviewQueryScript /> before paint (static export has no searchParams on the server). */
+/* Demo alignment, set from ?align= by previewQueryScript (root layout) before paint (static export has no searchParams on the server). */
 [data-demo-root] {
   align-items: center;
   justify-content: center;
