@@ -111,7 +111,7 @@ const meta = {
   sheet: { description: "Panel that slides in from a screen edge for side tasks and details.", categories: ["primitives", "overlays"] },
   skeleton: { description: "Pulsing placeholder block shown while content loads.", categories: ["primitives", "feedback"] },
   sonner: { description: "Toaster for short confirmations: status types, surface or soft variant, optional countdown bar.", categories: ["primitives", "feedback"] },
-  spinner: { description: "Animated loading indicator for buttons and pending sections.", categories: ["primitives", "feedback"] },
+  spinner: { description: "Loading indicator for buttons and pending sections; rotating, dots, bars, pulse and shape variants.", categories: ["primitives", "feedback"] },
   switch: { description: "Toggle switch for settings that turn on or off immediately.", categories: ["primitives", "forms"] },
   table: { description: "Basic table building blocks: header, body, rows, cells, footer and caption.", categories: ["primitives", "data-display"] },
   tabs: { description: "Tab list for switching between views of the same screen, in pill or line style.", categories: ["primitives", "navigation"] },

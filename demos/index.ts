@@ -60,6 +60,11 @@ import RecordTableOrders from "./record-table/orders"
 import RecordTableStates from "./record-table/states"
 import UnsavedBarSettingsForm from "./unsaved-bar/settings-form"
 import SettingRowList from "./setting-row/list"
+import SpinnerBars from "./spinner/bars"
+import SpinnerDots from "./spinner/dots"
+import SpinnerPulse from "./spinner/pulse"
+import SpinnerRotating from "./spinner/rotating"
+import SpinnerShapes from "./spinner/shapes"
 import StatCardRow from "./stat-card/row"
 import ToastActions from "./toast/actions"
 import ToastPreview from "./toast/preview"
@@ -127,6 +132,11 @@ export const demos = {
   "record-table/states": RecordTableStates,
   "unsaved-bar/settings-form": UnsavedBarSettingsForm,
   "setting-row/list": SettingRowList,
+  "spinner/rotating": SpinnerRotating,
+  "spinner/dots": SpinnerDots,
+  "spinner/bars": SpinnerBars,
+  "spinner/pulse": SpinnerPulse,
+  "spinner/shapes": SpinnerShapes,
   "stat-card/row": StatCardRow,
   "toast/actions": ToastActions,
   "toast/preview": ToastPreview,
