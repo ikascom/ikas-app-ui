@@ -8,15 +8,15 @@ const variants: { variant: SkeletonVariant; label: string }[] = [
 /** shadcn's example (an avatar and two lines of text) in both looks, side by side. Set the look app-wide with SkeletonProvider. */
 export default function SkeletonBasic() {
   return (
-    <div className="grid w-full gap-8 md:grid-cols-2">
+    <div className="flex flex-wrap gap-x-10 gap-y-6">
       {variants.map(({ variant, label }) => (
         <figure key={variant} className="flex flex-col gap-3">
           <figcaption className="text-[13px] text-muted-foreground">{label}</figcaption>
           <div className="flex items-center gap-4">
             <Skeleton variant={variant} className="size-12 shrink-0 rounded-full" />
-            <div className="grid flex-1 gap-2">
-              <Skeleton variant={variant} className="h-4 w-full max-w-[250px]" />
-              <Skeleton variant={variant} className="h-4 w-4/5 max-w-[200px]" />
+            <div className="grid gap-2">
+              <Skeleton variant={variant} className="h-4 w-[200px]" />
+              <Skeleton variant={variant} className="h-4 w-[160px]" />
             </div>
           </div>
         </figure>
