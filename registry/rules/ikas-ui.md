@@ -24,6 +24,8 @@ An app with several sections switches between them with `PageNav` (the first chi
 | Record list | `RecordTable` | A grid of cards for tabular data |
 | Nothing to show | `EmptyState` | A grey "No data" line |
 | Feature outside the plan (locked) | `FeatureGate` (`variant="overlay"` over a list/card, `"banner"`, `"inline"`, `"action"` for a single button; `plan`, `onUpgrade`) | An `EmptyState` saying "Upgrade to Pro", a custom lock card, a grey `disabled` button |
+| Data is loading | The component's `loading` (`RecordTable`, `BarChart`, `AreaChart`); otherwise wrap the real content in `<Skeleton loading>` | A spinner in the middle of the page, grey boxes sized by hand |
+| An action is running (save, install, retry) | `Button loading` on that action's button | A loading screen that locks the whole page, a separate spinner next to the button |
 | A list or section failed to load | `RecordTable error` + `onRetry`; in a section, `EmptyState status="danger"` + `onRetry` | An empty table, plain red text |
 | Persistent feedback | `Banner` with `status` | Colored `<div>`s, emoji, alert() |
 | Transient feedback | `toast` from the `sonner` package; `Toaster` from `@/components/ui/sonner` once at the root | A banner for "Saved!" |
@@ -94,10 +96,26 @@ Before writing your own, install the missing piece with `npx shadcn@latest add @
 
 ## 4. States are not optional
 
-Every data-driven screen covers: **loading** (skeletons with `RecordTable loading` or `Skeleton`,
-not a spinner in the middle of the page), **empty** (`EmptyState`), **error**
+Every data-driven screen covers: **loading** (rules below), **empty** (`EmptyState`), **error**
 (in place, as in section 1; `Banner status="danger"` with a retry action if the rest of the page works)
 and **success** (`toast`).
+
+**Loading** works the same way in every component:
+
+- While an action is pending, use `Button loading` on that action's button. Spinners appear only in buttons, toasts
+  and inline states (`AnimatedBadge`); never in the middle of a page or section.
+- While data with a known shape is pending, use a skeleton: use the component's own `loading` if it has one
+  (`RecordTable`, `BarChart`, `AreaChart`). Otherwise wrap the real content:
+  `<Skeleton loading={isLoading}><span>{formatMoney(total)}</span></Skeleton>`. The content is invisible but
+  keeps its place, so nothing shifts when it loads. A hand-sized `<Skeleton className="h-4 w-20" />`
+  is only for when there is no content to wrap yet (e.g. a list whose rows are unknown).
+- Things that don't come from data stay real: title, tabs, filters, column names. Buttons, inputs,
+  toasts, menus and the modal itself never become skeletons.
+- The skeleton look (`pulse` or `shimmer`) is chosen once per app: `<SkeletonProvider variant="...">` at the
+  root. Tables, charts and wrapped content follow it; don't pass `variant` one by one.
+- On reloads (filter, page change, retry) use `useDelayedLoading(isLoading)`:
+  on a fast load the skeleton never shows, and if it shows it doesn't flicker. On the first load pass `loading` directly.
+- Put `aria-busy` once on the pending region, not on every block.
 **Locked** is not empty: a feature outside the plan is locked with `FeatureGate`, not explained with `EmptyState`;
 the content stays visible but can't be clicked.
 

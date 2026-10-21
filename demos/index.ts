@@ -60,6 +60,11 @@ import RecordTableOrders from "./record-table/orders"
 import RecordTableStates from "./record-table/states"
 import UnsavedBarSettingsForm from "./unsaved-bar/settings-form"
 import SettingRowList from "./setting-row/list"
+import SkeletonBasic from "./skeleton/basic"
+import SkeletonCard from "./skeleton/card"
+import SkeletonList from "./skeleton/list"
+import SkeletonLoading from "./skeleton/loading"
+import SkeletonProviderDemo from "./skeleton/provider"
 import SpinnerBars from "./spinner/bars"
 import SpinnerDots from "./spinner/dots"
 import SpinnerPulse from "./spinner/pulse"
@@ -132,6 +137,11 @@ export const demos = {
   "record-table/states": RecordTableStates,
   "unsaved-bar/settings-form": UnsavedBarSettingsForm,
   "setting-row/list": SettingRowList,
+  "skeleton/basic": SkeletonBasic,
+  "skeleton/card": SkeletonCard,
+  "skeleton/list": SkeletonList,
+  "skeleton/loading": SkeletonLoading,
+  "skeleton/provider": SkeletonProviderDemo,
   "spinner/rotating": SpinnerRotating,
   "spinner/dots": SpinnerDots,
   "spinner/bars": SpinnerBars,

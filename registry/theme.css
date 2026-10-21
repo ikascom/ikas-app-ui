@@ -277,6 +277,9 @@
   --sidebar-accent-foreground: oklch(0.175 0 0);
   --sidebar-border: oklch(0.925 0 0);
   --sidebar-ring: oklch(0.62 0.19 259.8);
+
+  /* Light that sweeps over Skeleton variant="shimmer". */
+  --skeleton-shine: oklch(1 0 0 / 0.9);
 }
 
 .dark {
@@ -387,6 +390,8 @@
   --sidebar-accent-foreground: oklch(0.96 0 0);
   --sidebar-border: oklch(1 0 0 / 0.08);
   --sidebar-ring: oklch(0.68 0.16 259.8);
+
+  --skeleton-shine: oklch(1 0 0 / 0.06);
 }
 
 
@@ -485,6 +490,29 @@
   }
 }
 
+/* Skeleton shimmer: a light layer slides across (transform only, so it stays on the compositor). 1.5s sweep, 0.5s rest. */
+@keyframes skeleton-shimmer {
+  from {
+    translate: -100% 0;
+  }
+  75%,
+  to {
+    translate: 100% 0;
+  }
+}
+
+@utility animate-skeleton-shimmer {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    translate: -100% 0;
+    background: linear-gradient(100deg, transparent 30%, var(--skeleton-shine) 50%, transparent 70%);
+    animation: skeleton-shimmer 2s ease-in-out infinite;
+  }
+}
+
+/* @deprecated ChartLoading uses skeleton-shimmer now. Kept for one minor release for custom chart placeholders. */
 @keyframes chart-shimmer {
   from {
     translate: -100% 0;
@@ -839,6 +867,9 @@ html[data-theme-transition="rise"]::view-transition-new(root) {
     }
     [data-slot="spinner"] {
       --spinner-speed: 2.5;
+    }
+    .animate-skeleton-shimmer::after {
+      display: none;
     }
   }
 }

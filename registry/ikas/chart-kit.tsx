@@ -4,6 +4,7 @@ import * as React from "react"
 import { motion, useReducedMotion } from "motion/react"
 import { usePlotArea } from "recharts"
 
+import { useSkeletonVariant } from "@/components/ui/skeleton"
 import { EASE_OUT } from "@/lib/motion"
 import { cn } from "@/lib/utils"
 
@@ -168,15 +169,26 @@ function RevealMask({ id, direction = "left-to-right", duration = 0.9 }: { id: s
   )
 }
 
-/** A diagonal shimmer that sweeps over a placeholder while a chart loads. */
+/**
+ * Holds a chart's placeholder while it loads. Pulses or shimmers like Skeleton,
+ * following the nearest SkeletonProvider, so charts match the tables beside them.
+ * Draw the placeholder in `bg-muted` / `var(--muted)`.
+ */
 function ChartLoading({ className, children }: { className?: string; children?: React.ReactNode }) {
+  const variant = useSkeletonVariant()
   return (
-    <div role="status" aria-label="Grafik yükleniyor" className={cn("relative overflow-hidden", className)}>
-      <div className="opacity-60">{children}</div>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 animate-[chart-shimmer_1.6s_var(--ease-in-out)_infinite] bg-linear-to-r from-transparent via-card/80 to-transparent motion-reduce:hidden"
-      />
+    <div
+      role="status"
+      aria-label="Grafik yükleniyor"
+      data-slot="chart-loading"
+      data-variant={variant}
+      className={cn(
+        "relative overflow-hidden",
+        variant === "shimmer" ? "animate-skeleton-shimmer" : "animate-pulse motion-reduce:animate-none",
+        className
+      )}
+    >
+      {children}
     </div>
   )
 }

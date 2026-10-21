@@ -46,7 +46,7 @@ type BarChartProps<T extends Record<string, unknown>> = {
   stacked?: boolean
   /** hover-trace dims the other bars and draws a line at the hovered value. Default for a single series. */
   highlight?: "hover-trace" | "none"
-  /** Shows a shimmering placeholder instead of the data. */
+  /** Shows a placeholder instead of the data. It pulses or shimmers like Skeleton (see SkeletonProvider). */
   loading?: boolean
   /** Formats values in the tooltip. Defaults to tr-TR numbers. */
   valueFormat?: (value: number) => string
@@ -197,7 +197,7 @@ function TraceLine({ x1 = 0, y1 = 0, x2 = 0, y2 = 0, value, horizontal, format }
   )
 }
 
-/** Placeholder columns under a shimmer while data loads. */
+/** Placeholder columns while data loads; ChartLoading pulses or shimmers them. */
 function BarChartSkeleton({ height, horizontal }: { height: number; horizontal: boolean }) {
   const lengths = [42, 68, 55, 80, 62, 90, 48, 74, 58, 84, 66, 52]
   return (
@@ -209,7 +209,7 @@ function BarChartSkeleton({ height, horizontal }: { height: number; horizontal: 
         {(horizontal ? lengths.slice(0, 6) : lengths).map((l, i) => (
           <span
             key={i}
-            className={cn("rounded-t-[4px] bg-foreground/[0.08]", horizontal && "rounded-t-none rounded-r-[4px]")}
+            className={cn("rounded-t-[4px] bg-muted", horizontal && "rounded-t-none rounded-r-[4px]")}
             style={horizontal ? { width: `${l}%`, height: 16 } : { height: `${l}%`, width: 20 }}
           />
         ))}

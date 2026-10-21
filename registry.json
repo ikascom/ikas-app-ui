@@ -89,6 +89,24 @@
             "translate": "0 2px"
           }
         },
+        "@keyframes skeleton-shimmer": {
+          "from": {
+            "translate": "-100% 0"
+          },
+          "75%, to": {
+            "translate": "100% 0"
+          }
+        },
+        "@utility animate-skeleton-shimmer": {
+          "&::after": {
+            "content": "\"\"",
+            "position": "absolute",
+            "inset": "0",
+            "translate": "-100% 0",
+            "background": "linear-gradient(100deg, transparent 30%, var(--skeleton-shine) 50%, transparent 70%)",
+            "animation": "skeleton-shimmer 2s ease-in-out infinite"
+          }
+        },
         "@keyframes chart-shimmer": {
           "from": {
             "translate": "-100% 0"
@@ -385,6 +403,9 @@
             },
             "[data-slot=\"spinner\"]": {
               "--spinner-speed": "2.5"
+            },
+            ".animate-skeleton-shimmer::after": {
+              "display": "none"
             }
           }
         }
@@ -612,7 +633,8 @@
           "sidebar-accent": "oklch(0.955 0 0)",
           "sidebar-accent-foreground": "oklch(0.175 0 0)",
           "sidebar-border": "oklch(0.925 0 0)",
-          "sidebar-ring": "oklch(0.62 0.19 259.8)"
+          "sidebar-ring": "oklch(0.62 0.19 259.8)",
+          "skeleton-shine": "oklch(1 0 0 / 0.9)"
         },
         "dark": {
           "background": "oklch(0.155 0 0)",
@@ -714,7 +736,8 @@
           "sidebar-accent": "oklch(0.25 0 0)",
           "sidebar-accent-foreground": "oklch(0.96 0 0)",
           "sidebar-border": "oklch(1 0 0 / 0.08)",
-          "sidebar-ring": "oklch(0.68 0.16 259.8)"
+          "sidebar-ring": "oklch(0.68 0.16 259.8)",
+          "skeleton-shine": "oklch(1 0 0 / 0.06)"
         }
       }
     },
@@ -1445,7 +1468,7 @@
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
-      "description": "Pulsing placeholder block shown while content loads.",
+      "description": "Placeholder block or wrapper for loading content; pulses or shimmers, set app-wide by a provider.",
       "categories": [
         "primitives",
         "feedback"
@@ -1896,6 +1919,7 @@
       ],
       "registryDependencies": [
         "@ikas/motion",
+        "@ikas/skeleton",
         "@ikas/utils"
       ],
       "files": [
@@ -2591,6 +2615,24 @@
           "path": "registry/ikas/unsaved-bar.tsx",
           "type": "registry:component",
           "target": "@components/ikas/unsaved-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "use-delayed-loading",
+      "type": "registry:hook",
+      "title": "Use Delayed Loading",
+      "description": "Delays a loading flag and holds it briefly so quick loads never flash.",
+      "categories": [
+        "feedback",
+        "utilities"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "files": [
+        {
+          "path": "registry/hooks/use-delayed-loading.ts",
+          "type": "registry:hook",
+          "target": "@hooks/use-delayed-loading.ts"
         }
       ]
     },

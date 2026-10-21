@@ -43,7 +43,7 @@ type AreaChartProps<T extends Record<string, unknown>> = {
   stacked?: boolean
   /** Intro wipe. Plays once on mount; skipped with reduced motion. */
   reveal?: RevealDirection | "none"
-  /** Shows a shimmering placeholder instead of the data. */
+  /** Shows a placeholder instead of the data. It pulses or shimmers like Skeleton (see SkeletonProvider). */
   loading?: boolean
   /** Formats values in the tooltip. Defaults to tr-TR numbers. */
   valueFormat?: (value: number) => string
@@ -88,7 +88,7 @@ function ActiveDot({ cx, cy, color }: { cx?: number; cy?: number; color: string 
   )
 }
 
-/** Muted wave drawn while loading. Static shape; the shimmer does the moving. */
+/** Muted wave drawn while loading. Static shape; ChartLoading does the moving. */
 function LoadingWave({ height }: { height: number }) {
   const points = Array.from({ length: 25 }, (_, i) => {
     const x = (i / 24) * 400
@@ -102,7 +102,7 @@ function LoadingWave({ height }: { height: number }) {
       {[20, 45, 70, 95].map((y) => (
         <line key={y} x1="0" x2="400" y1={y} y2={y} stroke="var(--border)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
       ))}
-      <path d={`${line} L400,100 L0,100 Z`} fill="var(--muted-foreground)" fillOpacity={0.08} />
+      <path d={`${line} L400,100 L0,100 Z`} fill="var(--muted)" />
       <path d={line} fill="none" stroke="var(--border-strong)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
     </svg>
   )
