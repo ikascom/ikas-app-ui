@@ -1,26 +1,37 @@
-import { Skeleton, type SkeletonVariant } from "@/components/ui/skeleton"
+"use client"
 
-const variants: { variant: SkeletonVariant; label: string }[] = [
-  { variant: "pulse", label: "Nabız (varsayılan)" },
-  { variant: "shimmer", label: "Parıltı" },
-]
+import * as React from "react"
 
-/** shadcn's example (an avatar and two lines of text) in both looks, side by side. Set the look app-wide with SkeletonProvider. */
+import { Skeleton, SkeletonProvider, type SkeletonVariant } from "@/components/ui/skeleton"
+import { SegmentedControl } from "@/components/ikas/segmented-control"
+
+/** shadcn's example: an avatar and two lines of text. */
 export default function SkeletonBasic() {
+  const [variant, setVariant] = React.useState<SkeletonVariant>("shimmer")
+
   return (
-    <div className="flex flex-wrap gap-x-10 gap-y-6">
-      {variants.map(({ variant, label }) => (
-        <figure key={variant} className="flex flex-col gap-3">
-          <figcaption className="text-[13px] text-muted-foreground">{label}</figcaption>
-          <div className="flex items-center gap-4">
-            <Skeleton variant={variant} className="size-12 shrink-0 rounded-full" />
-            <div className="grid gap-2">
-              <Skeleton variant={variant} className="h-4 w-[200px]" />
-              <Skeleton variant={variant} className="h-4 w-[160px]" />
-            </div>
+    <div className="flex flex-col gap-4">
+      <SegmentedControl
+        aria-label="İskelet görünümü"
+        mode="radio"
+        size="sm"
+        className="self-start"
+        value={variant}
+        onValueChange={setVariant}
+        options={[
+          { value: "pulse", label: "Nabız" },
+          { value: "shimmer", label: "Parıltı" },
+        ]}
+      />
+      <SkeletonProvider variant={variant}>
+        <div className="flex items-center gap-4">
+          <Skeleton className="size-12 rounded-full" />
+          <div className="grid gap-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
           </div>
-        </figure>
-      ))}
+        </div>
+      </SkeletonProvider>
     </div>
   )
 }
