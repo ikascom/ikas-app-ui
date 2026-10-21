@@ -36,7 +36,7 @@ type SkeletonProps = React.ComponentProps<"div"> & {
 }
 
 /** The look of the placeholder; on a wrapped child these win over its own background, border and text color. */
-const surface = "bg-muted bg-none border-transparent text-transparent shadow-none"
+const surface = "bg-skeleton bg-none border-transparent text-transparent shadow-none"
 const motion: Record<SkeletonVariant, string> = {
   pulse: "animate-pulse motion-reduce:animate-none",
   shimmer: "animate-skeleton-shimmer",

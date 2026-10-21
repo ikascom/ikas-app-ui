@@ -209,7 +209,7 @@ function BarChartSkeleton({ height, horizontal }: { height: number; horizontal: 
         {(horizontal ? lengths.slice(0, 6) : lengths).map((l, i) => (
           <span
             key={i}
-            className={cn("rounded-t-[4px] bg-muted", horizontal && "rounded-t-none rounded-r-[4px]")}
+            className={cn("rounded-t-[4px] bg-skeleton", horizontal && "rounded-t-none rounded-r-[4px]")}
             style={horizontal ? { width: `${l}%`, height: 16 } : { height: `${l}%`, width: 20 }}
           />
         ))}

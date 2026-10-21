@@ -102,7 +102,7 @@ function LoadingWave({ height }: { height: number }) {
       {[20, 45, 70, 95].map((y) => (
         <line key={y} x1="0" x2="400" y1={y} y2={y} stroke="var(--border)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
       ))}
-      <path d={`${line} L400,100 L0,100 Z`} fill="var(--muted)" />
+      <path d={`${line} L400,100 L0,100 Z`} fill="var(--skeleton)" />
       <path d={line} fill="none" stroke="var(--border-strong)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
     </svg>
   )

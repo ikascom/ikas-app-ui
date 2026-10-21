@@ -172,7 +172,7 @@ function RevealMask({ id, direction = "left-to-right", duration = 0.9 }: { id: s
 /**
  * Holds a chart's placeholder while it loads. Pulses or shimmers like Skeleton,
  * following the nearest SkeletonProvider, so charts match the tables beside them.
- * Draw the placeholder in `bg-muted` / `var(--muted)`.
+ * Draw the placeholder in `bg-skeleton` / `var(--skeleton)`.
  */
 function ChartLoading({ className, children }: { className?: string; children?: React.ReactNode }) {
   const variant = useSkeletonVariant()
