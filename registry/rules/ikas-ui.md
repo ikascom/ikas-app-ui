@@ -36,6 +36,7 @@ An app with several sections switches between them with `PageNav` (the first chi
 | Key/value details | `DescriptionList` | Hand-aligned flex rows |
 | A single on/off setting | `SettingRow` | A label + switch in an ad-hoc flex |
 | Color input | `ColorPicker` inside a `Field` (`value`/`onValueChange` give hex; saved colors with `swatches`) | `<input type="color">`, a hand-written hex field |
+| An order the user sets (priority, a work list inside a card) | `SortableStack` (move by handle and keyboard, `SortableStackUndo`; save a persistent order with `onItemsChange`) | Up/down arrow buttons, making the whole row draggable, hand-written drag and drop |
 | Light/dark appearance choice | `ThemeSwitch` (`theme`, `onThemeChange`, `transition`) | A hand-written sun/moon button, a custom page transition |
 | Toggleable feature + its settings | `ToggleSection` | A settings form always visible next to the switch |
 | Onboarding steps | `Launchpad` (`eta` per step, `requires` when order matters) | "Do this first" banners scattered across the screen |

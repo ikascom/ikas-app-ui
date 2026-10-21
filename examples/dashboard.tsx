@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ArrowRightIcon } from "lucide-react"
+import { ArrowRightIcon, ChevronRightIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -15,6 +15,14 @@ import { Layout, LayoutColumn } from "@/components/ikas/layout"
 import { Meter } from "@/components/ikas/meter"
 import { Page, PageHeader } from "@/components/ikas/page"
 import { RecordTable } from "@/components/ikas/record-table"
+import {
+  SortableStack,
+  SortableStackGroup,
+  SortableStackHandle,
+  SortableStackItem,
+  SortableStackItemContent,
+  SortableStackUndo,
+} from "@/components/ikas/sortable-stack"
 import { Sparkline } from "@/components/ikas/sparkline"
 import { StatCard } from "@/components/ikas/stat-card"
 import { channelSeries, channels as channelNames, formatMoney, orderStatusBadge, orders } from "@/demos/_data"
@@ -60,6 +68,14 @@ const topProducts = [
   { name: "Wide leg pantolon", value: 29870 },
   { name: "Kanvas çanta", value: 18420 },
   { name: "Örme hırka", value: 12960 },
+]
+
+const tasks: { id: string; title: string; hint: string; count: number; status: "neutral" | "warning" }[] = [
+  { id: "ship", title: "Kargolanmayı bekleyen siparişler", hint: "En eskisi 2 gün önce", count: 12, status: "neutral" },
+  { id: "returns", title: "İade talepleri", hint: "Onay bekliyor", count: 3, status: "neutral" },
+  { id: "stock", title: "Stoğu azalan ürünler", hint: "5 adetin altında", count: 5, status: "warning" },
+  { id: "transfer", title: "Havale onayları", hint: "Ödeme kontrol edilecek", count: 4, status: "neutral" },
+  { id: "reviews", title: "Yanıt bekleyen yorumlar", hint: "Son 24 saat", count: 2, status: "neutral" },
 ]
 
 const spark = (seed: number, rising = true) => Array.from({ length: 14 }, (_, i) => 40 + (rising ? i * 3 : -i * 1.5) + Math.sin(i * 0.9 + seed) * 8)
@@ -108,7 +124,7 @@ export default function DashboardExample() {
         />
       </div>
 
-      <Layout columns="main-aside">
+      <Layout columns="main-aside" className="items-stretch">
         <ChartCard
           title="Gelir"
           description="Tüm kanallar, günlük"
@@ -124,8 +140,58 @@ export default function DashboardExample() {
           range={range}
           onRangeChange={setRange}
         >
-          <AreaChart data={rows} index="date" series={[{ key: "revenue", label: "Gelir" }]} valueFormat={money} height={220} aria-label="Günlük gelir" />
+          <AreaChart data={rows} index="date" series={[{ key: "revenue", label: "Gelir" }]} valueFormat={money} height={230} aria-label="Günlük gelir" />
         </ChartCard>
+
+        <SortableStack label="Bugünkü işler" defaultItems={tasks} getItemLabel={(task) => task.title}>
+          {(items) => (
+            <Card className="h-full">
+              <CardHeader>
+                <CardTitle>Bugünkü işler</CardTitle>
+                <CardDescription>Önce yapmak istediğini en üste taşı.</CardDescription>
+                <CardAction>
+                  <SortableStackUndo />
+                </CardAction>
+              </CardHeader>
+              <SortableStackGroup className="px-2.5">
+                {items.map((task) => (
+                  <SortableStackItem key={task.id} id={task.id}>
+                    <SortableStackHandle />
+                    <SortableStackItemContent>
+                      <p className="truncate text-sm font-medium">{task.title}</p>
+                      <p className="truncate text-[13px] text-muted-foreground">{task.hint}</p>
+                    </SortableStackItemContent>
+                    <Badge status={task.status} dot={task.status === "warning"}>
+                      {task.count}
+                    </Badge>
+                    <Button variant="ghost" size="icon-sm" aria-label={`${task.title} sayfasını aç`} className="-mr-1.5 text-icon hover:text-foreground">
+                      <ChevronRightIcon data-anim="nudge" />
+                    </Button>
+                  </SortableStackItem>
+                ))}
+              </SortableStackGroup>
+            </Card>
+          )}
+        </SortableStack>
+      </Layout>
+
+      <Layout columns="main-aside" className="items-stretch">
+        <Card>
+          <CardHeader>
+            <CardTitle>Aylık siparişler</CardTitle>
+            <CardDescription>Kanal bazında, son 6 ay</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <BarChart
+              data={monthly}
+              index="month"
+              stacked
+              height={318}
+              series={channelSeries("marketplaceA", "marketplaceB", "web")}
+              aria-label="Kanal bazında aylık siparişler"
+            />
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
@@ -138,24 +204,7 @@ export default function DashboardExample() {
         </Card>
       </Layout>
 
-      <Layout columns="main-aside">
-        <Card>
-          <CardHeader>
-            <CardTitle>Aylık siparişler</CardTitle>
-            <CardDescription>Kanal bazında, son 6 ay</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <BarChart
-              data={monthly}
-              index="month"
-              stacked
-              height={240}
-              series={channelSeries("marketplaceA", "marketplaceB", "web")}
-              aria-label="Kanal bazında aylık siparişler"
-            />
-          </CardContent>
-        </Card>
-
+      <Layout columns="half" className="items-stretch">
         <Card>
           <CardHeader>
             <CardTitle>En çok satan ürünler</CardTitle>
@@ -170,37 +219,7 @@ export default function DashboardExample() {
             <BarList data={topProducts} valueFormat={money} header={{ name: "Ürün", value: "Gelir" }} aria-label="En çok satan ürünler" />
           </CardContent>
         </Card>
-      </Layout>
 
-      <Layout columns="main-aside">
-        <LayoutColumn>
-          <div className="flex items-center justify-between">
-            <h2 className="text-[15px] font-semibold">Son siparişler</h2>
-            <Button variant="ghost" size="sm">
-              Tümünü gör
-              <ArrowRightIcon data-icon="inline-end" data-anim="nudge" />
-            </Button>
-          </div>
-          <RecordTable
-            label="Son siparişler"
-            rows={orders.slice(0, 5)}
-            getRowId={(o) => o.id}
-            columns={[
-              { id: "number", header: "Sipariş", cell: (o) => <span className="font-medium">{o.number}</span> },
-              { id: "customer", header: "Müşteri" },
-              {
-                id: "status",
-                header: "Durum",
-                cell: (o) => (
-                  <Badge status={orderStatusBadge[o.status].status} dot>
-                    {orderStatusBadge[o.status].label}
-                  </Badge>
-                ),
-              },
-              { id: "total", header: "Toplam", align: "end", cell: (o) => formatMoney(o.total) },
-            ]}
-          />
-        </LayoutColumn>
         <Card>
           <CardHeader>
             <CardTitle>Plan kullanımı</CardTitle>
@@ -213,6 +232,35 @@ export default function DashboardExample() {
           </CardContent>
         </Card>
       </Layout>
+
+      <LayoutColumn>
+        <div className="flex items-center justify-between">
+          <h2 className="text-[15px] font-semibold">Son siparişler</h2>
+          <Button variant="ghost" size="sm">
+            Tümünü gör
+            <ArrowRightIcon data-icon="inline-end" data-anim="nudge" />
+          </Button>
+        </div>
+        <RecordTable
+          label="Son siparişler"
+          rows={orders.slice(0, 5)}
+          getRowId={(o) => o.id}
+          columns={[
+            { id: "number", header: "Sipariş", cell: (o) => <span className="font-medium">{o.number}</span> },
+            { id: "customer", header: "Müşteri" },
+            {
+              id: "status",
+              header: "Durum",
+              cell: (o) => (
+                <Badge status={orderStatusBadge[o.status].status} dot>
+                  {orderStatusBadge[o.status].label}
+                </Badge>
+              ),
+            },
+            { id: "total", header: "Toplam", align: "end", cell: (o) => formatMoney(o.total) },
+          ]}
+        />
+      </LayoutColumn>
     </Page>
   )
 }

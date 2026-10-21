@@ -2449,6 +2449,33 @@
       ]
     },
     {
+      "name": "sortable-stack",
+      "type": "registry:component",
+      "title": "Sortable Stack",
+      "description": "Vertical list reordered by drag handle or keyboard, with spring motion and undo.",
+      "categories": [
+        "motion",
+        "data-display"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/sortable-stack",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/button",
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/sortable-stack.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/sortable-stack.tsx"
+        }
+      ]
+    },
+    {
       "name": "sparkline",
       "type": "registry:component",
       "title": "Sparkline",

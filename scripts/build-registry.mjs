@@ -152,6 +152,7 @@ const meta = {
   "script-installer": { description: "Installs, updates and removes the app's storefront script, one row per storefront.", categories: ["forms"] },
   "segmented-control": { description: "Pick one of two to five options, as view tabs or a radio choice.", categories: ["forms", "navigation"] },
   "setting-row": { title: "Setting Row", description: "One setting row: title, description and its control aligned right.", categories: ["forms", "layout"] },
+  "sortable-stack": { title: "Sortable Stack", description: "Vertical list reordered by drag handle or keyboard, with spring motion and undo.", categories: ["motion", "data-display"] },
   sparkline: { description: "Tiny trend line without axes for stat cards and table cells.", categories: ["charts"] },
   "stat-card": { title: "Stat Card", description: "KPI card: label, value and change against the previous period.", categories: ["data-display"] },
   "theme-switch": { description: "Light and dark toggle with sun-moon icon swap and four page transitions.", categories: ["motion", "theme"] },
