@@ -27,19 +27,7 @@ export default function BreadcrumbCustomSeparator() {
   const [separator, setSeparator] = React.useState<Separator>("slash")
 
   return (
-    <div className="flex flex-col items-center gap-8">
-      <SegmentedControl
-        size="sm"
-        mode="radio"
-        aria-label="Ayraç"
-        value={separator}
-        onValueChange={setSeparator}
-        options={Object.entries(separators).map(([value, s]) => ({
-          value: value as Separator,
-          icon: s.icon,
-          "aria-label": s.label,
-        }))}
-      />
+    <div className="flex flex-col items-center gap-6">
       <Breadcrumb separator={separators[separator].icon}>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -59,6 +47,20 @@ export default function BreadcrumbCustomSeparator() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+      <div className="flex justify-center self-stretch border-t pt-5">
+        <SegmentedControl
+          size="sm"
+          mode="radio"
+          aria-label="Ayraç"
+          value={separator}
+          onValueChange={setSeparator}
+          options={Object.entries(separators).map(([value, s]) => ({
+            value: value as Separator,
+            icon: s.icon,
+            "aria-label": s.label,
+          }))}
+        />
+      </div>
     </div>
   )
 }

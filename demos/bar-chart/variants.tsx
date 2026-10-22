@@ -10,20 +10,7 @@ export default function BarChartVariants() {
   const [variant, setVariant] = React.useState<BarChartVariant>("solid")
 
   return (
-    <div className="flex w-full flex-col gap-4">
-      <SegmentedControl
-        size="sm"
-        mode="radio"
-        aria-label="Dolgu"
-        value={variant}
-        onValueChange={setVariant}
-        options={[
-          { value: "solid", label: "Solid" },
-          { value: "gradient", label: "Gradient" },
-          { value: "duotone", label: "Duotone" },
-          { value: "hatched", label: "Hatched" },
-        ]}
-      />
+    <div className="flex w-full flex-col gap-6">
       <BarChart
         key={variant}
         aria-label="Aylık sipariş sayısı"
@@ -34,6 +21,21 @@ export default function BarChartVariants() {
         axisFormat={(v) => new Intl.NumberFormat("tr-TR").format(v)}
         height={240}
       />
+      <div className="flex justify-center border-t pt-5">
+        <SegmentedControl
+          size="sm"
+          mode="radio"
+          aria-label="Dolgu"
+          value={variant}
+          onValueChange={setVariant}
+          options={[
+            { value: "solid", label: "Solid" },
+            { value: "gradient", label: "Gradient" },
+            { value: "duotone", label: "Duotone" },
+            { value: "hatched", label: "Hatched" },
+          ]}
+        />
+      </div>
     </div>
   )
 }

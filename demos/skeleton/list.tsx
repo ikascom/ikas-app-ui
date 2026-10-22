@@ -10,19 +10,7 @@ export default function SkeletonList() {
   const [variant, setVariant] = React.useState<SkeletonVariant>("shimmer")
 
   return (
-    <div className="flex w-full max-w-md flex-col gap-4">
-      <SegmentedControl
-        aria-label="İskelet görünümü"
-        mode="radio"
-        size="sm"
-        className="self-start"
-        value={variant}
-        onValueChange={setVariant}
-        options={[
-          { value: "pulse", label: "Nabız" },
-          { value: "shimmer", label: "Parıltı" },
-        ]}
-      />
+    <div className="flex w-full max-w-md flex-col gap-6">
       <SkeletonProvider variant={variant}>
         <div className="divide-y rounded-xl border bg-card">
           {[24, 20, 28, 16].map((name, i) => (
@@ -37,6 +25,19 @@ export default function SkeletonList() {
           ))}
         </div>
       </SkeletonProvider>
+      <div className="flex justify-center border-t pt-5">
+        <SegmentedControl
+          aria-label="İskelet görünümü"
+          mode="radio"
+          size="sm"
+          value={variant}
+          onValueChange={setVariant}
+          options={[
+            { value: "pulse", label: "Nabız" },
+            { value: "shimmer", label: "Parıltı" },
+          ]}
+        />
+      </div>
     </div>
   )
 }

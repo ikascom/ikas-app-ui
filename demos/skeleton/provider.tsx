@@ -22,19 +22,7 @@ export default function SkeletonProviderDemo() {
   const [variant, setVariant] = React.useState<SkeletonVariant>("shimmer")
 
   return (
-    <div className="flex w-full flex-col gap-4">
-      <SegmentedControl
-        aria-label="İskelet görünümü"
-        mode="radio"
-        size="sm"
-        className="self-start"
-        value={variant}
-        onValueChange={setVariant}
-        options={[
-          { value: "pulse", label: "Nabız" },
-          { value: "shimmer", label: "Parıltı" },
-        ]}
-      />
+    <div className="flex w-full flex-col gap-6">
       <SkeletonProvider variant={variant}>
         <div className="grid gap-4 md:grid-cols-2">
           <Card aria-busy>
@@ -51,6 +39,19 @@ export default function SkeletonProviderDemo() {
           <RecordTable label="Ürünler" columns={columns} rows={[]} getRowId={(p) => p.id} loading />
         </div>
       </SkeletonProvider>
+      <div className="flex justify-center border-t pt-5">
+        <SegmentedControl
+          aria-label="İskelet görünümü"
+          mode="radio"
+          size="sm"
+          value={variant}
+          onValueChange={setVariant}
+          options={[
+            { value: "pulse", label: "Nabız" },
+            { value: "shimmer", label: "Parıltı" },
+          ]}
+        />
+      </div>
     </div>
   )
 }

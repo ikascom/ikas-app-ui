@@ -20,18 +20,20 @@ export default function AnimatedBadgeStatuses() {
   return (
     <div className="flex w-full max-w-lg flex-col items-center gap-6">
       <div className="flex h-10 items-center text-[26px]">
-        <AnimatedBadge status={status} className="origin-left scale-[2]">
+        <AnimatedBadge status={status} className="scale-[2]">
           {labels[status]}
         </AnimatedBadge>
       </div>
-      <SegmentedControl
-        size="sm"
-        mode="radio"
-        aria-label="Durum"
-        value={status}
-        onValueChange={setStatus}
-        options={(Object.keys(labels) as AnimatedBadgeStatus[]).map((value) => ({ value, label: value }))}
-      />
+      <div className="flex justify-center self-stretch border-t pt-5">
+        <SegmentedControl
+          size="sm"
+          mode="radio"
+          aria-label="Durum"
+          value={status}
+          onValueChange={setStatus}
+          options={(Object.keys(labels) as AnimatedBadgeStatus[]).map((value) => ({ value, label: value }))}
+        />
+      </div>
     </div>
   )
 }

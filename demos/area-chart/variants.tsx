@@ -10,21 +10,7 @@ export default function AreaChartVariants() {
   const [variant, setVariant] = React.useState<AreaChartVariant>("gradient")
 
   return (
-    <div className="flex w-full flex-col gap-4">
-      <SegmentedControl
-        size="sm"
-        mode="radio"
-        aria-label="Dolgu"
-        value={variant}
-        onValueChange={setVariant}
-        options={[
-          { value: "gradient", label: "Gradient" },
-          { value: "hatched", label: "Taralı" },
-          { value: "dotted", label: "Noktalı" },
-          { value: "solid", label: "Düz" },
-          { value: "line", label: "Çizgi" },
-        ]}
-      />
+    <div className="flex w-full flex-col gap-6">
       {/* key replays the reveal so each variant enters the same way */}
       <AreaChart
         key={variant}
@@ -39,6 +25,22 @@ export default function AreaChartVariants() {
           { key: "previous", label: "Önceki dönem" },
         ]}
       />
+      <div className="flex justify-center border-t pt-5">
+        <SegmentedControl
+          size="sm"
+          mode="radio"
+          aria-label="Dolgu"
+          value={variant}
+          onValueChange={setVariant}
+          options={[
+            { value: "gradient", label: "Gradient" },
+            { value: "hatched", label: "Taralı" },
+            { value: "dotted", label: "Noktalı" },
+            { value: "solid", label: "Düz" },
+            { value: "line", label: "Çizgi" },
+          ]}
+        />
+      </div>
     </div>
   )
 }
