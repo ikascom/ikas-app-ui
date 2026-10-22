@@ -4,6 +4,7 @@ import ChartCardDonut from "./chart-card/donut"
 import ChartCardRevenue from "./chart-card/revenue"
 import DonutChartChannels from "./donut-chart/channels"
 import DonutChartPayments from "./donut-chart/payments"
+import MeterGauge from "./meter/gauge"
 import MeterLimits from "./meter/limits"
 import MeterRadial from "./meter/radial"
 
@@ -14,4 +15,5 @@ export const chartDemosC = {
   "donut-chart/payments": DonutChartPayments,
   "meter/limits": MeterLimits,
   "meter/radial": MeterRadial,
+  "meter/gauge": MeterGauge,
 } satisfies Record<string, () => React.ReactNode>

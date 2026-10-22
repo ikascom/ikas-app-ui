@@ -62,6 +62,9 @@ export default function LaunchpadFirstRun() {
 
   return (
     <Launchpad
+      layout="checklist"
+      marker="diamond"
+      progressType="ring"
       className="w-full max-w-xl"
       steps={steps}
       onComplete={() => toast.success("Kurulum tamamlandı")}

@@ -8,6 +8,7 @@ import { chartDemosC } from "./index-charts-c"
 import { patternDemos } from "./index-patterns"
 import { dateDemos } from "./index-dates"
 import { overlayDemos } from "./index-overlays"
+import { progressDemos } from "./index-progress"
 
 import BadgeVariants from "./badge/variants"
 import BadgeColors from "./badge/colors"
@@ -86,6 +87,7 @@ export const demos = {
   ...patternDemos,
   ...dateDemos,
   ...overlayDemos,
+  ...progressDemos,
   "badge/variants": BadgeVariants,
   "badge/colors": BadgeColors,
   "badge/order-statuses": BadgeOrderStatuses,

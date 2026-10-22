@@ -107,6 +107,23 @@
             "animation": "skeleton-shimmer 2s ease-in-out infinite"
           }
         },
+        "@keyframes progress-indeterminate": {
+          "from": {
+            "translate": "-105% 0"
+          },
+          "to": {
+            "translate": "285% 0"
+          }
+        },
+        "@keyframes progress-pulse": {
+          "50%": {
+            "opacity": "0.14"
+          }
+        },
+        "@utility animate-progress-indeterminate": {
+          "width": "36%",
+          "animation": "progress-indeterminate 1.4s var(--ease-in-out) infinite"
+        },
         "@keyframes chart-shimmer": {
           "from": {
             "translate": "-100% 0"
@@ -406,6 +423,12 @@
             },
             ".animate-skeleton-shimmer::after": {
               "display": "none"
+            },
+            ".animate-progress-indeterminate": {
+              "width": "100%",
+              "translate": "none",
+              "opacity": "0.35",
+              "animation": "progress-pulse 2.4s ease-in-out infinite"
             }
           }
         }
@@ -2233,9 +2256,13 @@
         "motion"
       ],
       "registryDependencies": [
+        "@ikas/animated-number",
         "@ikas/button",
         "@ikas/collapse",
         "@ikas/motion",
+        "@ikas/progress-bar",
+        "@ikas/step-kit",
+        "@ikas/swap-text",
         "@ikas/utils"
       ],
       "files": [
@@ -2288,6 +2315,7 @@
         "@ikas/chart-kit",
         "@ikas/motion",
         "@ikas/status",
+        "@ikas/swap-text",
         "@ikas/utils"
       ],
       "files": [
@@ -2370,6 +2398,33 @@
           "path": "registry/ikas/page.tsx",
           "type": "registry:component",
           "target": "@components/ikas/page.tsx"
+        }
+      ]
+    },
+    {
+      "name": "progress-bar",
+      "type": "registry:component",
+      "title": "Progress Bar",
+      "description": "Progress of a known-size task as a bar or segments, with indeterminate start and status.",
+      "categories": [
+        "feedback",
+        "motion"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/progress-bar",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/motion",
+        "@ikas/step-kit",
+        "@ikas/swap-text",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/progress-bar.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/progress-bar.tsx"
         }
       ]
     },
@@ -2547,6 +2602,79 @@
           "path": "registry/ikas/stat-card.tsx",
           "type": "registry:component",
           "target": "@components/ikas/stat-card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "step-kit",
+      "type": "registry:component",
+      "title": "Step Kit",
+      "description": "Shared step parts: marker shapes, connectors, drawn check and travel timing for steppers.",
+      "categories": [
+        "motion",
+        "utilities"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/step-kit",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/step-kit.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/step-kit.tsx"
+        }
+      ]
+    },
+    {
+      "name": "steps",
+      "type": "registry:component",
+      "title": "Steps",
+      "description": "Where the user is in an ordered flow: horizontal, vertical or compact, with errors.",
+      "categories": [
+        "navigation",
+        "motion"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/steps",
+      "registryDependencies": [
+        "@ikas/collapse",
+        "@ikas/step-kit",
+        "@ikas/swap-text",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/steps.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/steps.tsx"
+        }
+      ]
+    },
+    {
+      "name": "swap-text",
+      "type": "registry:component",
+      "title": "Swap Text",
+      "description": "Text that changes in place: the new line rises out of a soft blur.",
+      "categories": [
+        "motion"
+      ],
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/swap-text",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "@ikas/motion",
+        "@ikas/utils"
+      ],
+      "files": [
+        {
+          "path": "registry/ikas/swap-text.tsx",
+          "type": "registry:component",
+          "target": "@components/ikas/swap-text.tsx"
         }
       ]
     },

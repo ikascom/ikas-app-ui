@@ -29,6 +29,9 @@ export default function LaunchpadStates() {
   return (
     <div className="flex w-full max-w-xl flex-col gap-4">
       <Launchpad
+        layout="checklist"
+        marker="diamond"
+        progressType="ring"
         title="Küçültülmüş"
         steps={inProgress}
         activeId={activeId}
@@ -42,6 +45,9 @@ export default function LaunchpadStates() {
         </Button>
       ) : (
         <Launchpad
+          layout="checklist"
+          marker="diamond"
+          progressType="ring"
           title="Hepsi tamam"
           steps={finished}
           onDismiss={() => (setDismissed(true), toast("Kart kaldırıldı"))}

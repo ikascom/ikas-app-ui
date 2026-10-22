@@ -41,7 +41,11 @@ An app with several sections switches between them with `PageNav` (the first chi
 | An order the user sets (priority, a work list inside a card) | `SortableStack` (move by handle and keyboard, `SortableStackUndo`; save a persistent order with `onItemsChange`) | Up/down arrow buttons, making the whole row draggable, hand-written drag and drop |
 | Light/dark appearance choice | `ThemeSwitch` (`theme`, `onThemeChange`, `transition`) | A hand-written sun/moon button, a custom page transition |
 | Toggleable feature + its settings | `ToggleSection` | A settings form always visible next to the switch |
-| Onboarding steps | `Launchpad` (`eta` per step, `requires` when order matters) | "Do this first" banners scattered across the screen |
+| Onboarding steps | `Launchpad` (`eta` per step, `requires` when order matters); `layout="checklist"` + `onStepToggle` when the user ticks steps off | "Do this first" banners scattered across the screen |
+| Sequential wizard (3–6 steps) | `Steps` (`orientation="horizontal"`, `"compact"` when the header has no room, `"vertical"` for a long flow with descriptions); errors go in the step's `error` | Hand-numbered circles, settling for a "Step 2 of 5" line |
+| Work of known size (import, sync) | `ProgressBar` (`value`/`max`, `indeterminate` while the total is unknown, `variant="segments"` for a few equal steps) | A fake bar with made-up percentages, a spinner in the middle of the page |
+| Score, readiness score | `RadialMeter variant="gauge"` + `bands` | A ring that tells status by color alone |
+| Step marker shape | `StepMarkerProvider shape` once at the root (`diamond` by default; `circle`, `square`, `pill`) | A different shape on each component |
 | Install/update/remove a storefront script | `ScriptInstaller` | A hand-written install button, removal without confirmation |
 | Chart frame (title, value, range) | `ChartCard` | A custom card header for each chart |
 

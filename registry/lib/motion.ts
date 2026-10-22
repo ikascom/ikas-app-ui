@@ -12,8 +12,14 @@ export const SPRING: Transition = { type: "spring", stiffness: 350, damping: 35 
 /** ζ≈0.75, ~3% overshoot. Icons only, so they feel a little alive. */
 export const ICON_SPRING: Transition = { type: "spring", stiffness: 350, damping: 28 }
 
+/** ζ≈1, no overshoot, ~30% quicker than SPRING. Rows and panels closing: exits run faster than entries. */
+export const SPRING_EXIT: Transition = { type: "spring", stiffness: 520, damping: 46 }
+
 /** The reduced-motion branch. */
 export const INSTANT: Transition = { duration: 0 }
+
+/** Seconds between items that animate in sequence (connectors, segments). Keep runs under ~0.3s in total. */
+export const STAGGER = 0.06
 
 /** Things entering or leaving the screen. */
 export const EASE_OUT = [0.23, 1, 0.32, 1] as const

@@ -516,6 +516,27 @@
   }
 }
 
+/* Indeterminate progress: a bar travels the track (transform only). Reduced motion turns it into a soft full-width pulse. */
+@keyframes progress-indeterminate {
+  from {
+    translate: -105% 0;
+  }
+  to {
+    translate: 285% 0;
+  }
+}
+
+@keyframes progress-pulse {
+  50% {
+    opacity: 0.14;
+  }
+}
+
+@utility animate-progress-indeterminate {
+  width: 36%;
+  animation: progress-indeterminate 1.4s var(--ease-in-out) infinite;
+}
+
 /* @deprecated ChartLoading uses skeleton-shimmer now. Kept for one minor release for custom chart placeholders. */
 @keyframes chart-shimmer {
   from {
@@ -874,6 +895,12 @@ html[data-theme-transition="rise"]::view-transition-new(root) {
     }
     .animate-skeleton-shimmer::after {
       display: none;
+    }
+    .animate-progress-indeterminate {
+      width: 100%;
+      translate: none;
+      opacity: 0.35;
+      animation: progress-pulse 2.4s ease-in-out infinite;
     }
   }
 }
