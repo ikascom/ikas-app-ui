@@ -111,6 +111,7 @@ const meta = {
   sheet: { description: "Panel that slides in from a screen edge for side tasks and details.", categories: ["primitives", "overlays"] },
   skeleton: { description: "Placeholder block or wrapper for loading content; pulses or shimmers, set app-wide by a provider.", categories: ["primitives", "feedback"] },
   "use-delayed-loading": { description: "Delays a loading flag and holds it briefly so quick loads never flash.", categories: ["feedback", "utilities"] },
+  "island-toast": { description: "Dynamic-island toast stack: pills that open, fold behind each other and swipe away.", categories: ["feedback", "motion"] },
   sonner: { description: "Toaster for short confirmations: status types, surface or soft variant, optional countdown bar.", categories: ["primitives", "feedback"] },
   spinner: { description: "Loading indicator for buttons and pending sections; rotating, dots, bars, pulse and shape variants.", categories: ["primitives", "feedback"] },
   switch: { description: "Toggle switch for settings that turn on or off immediately.", categories: ["primitives", "forms"] },
@@ -272,6 +273,7 @@ function registryCss(css) {
 function themeItem() {
   const css = read("registry/theme.css")
   const theme = cssBlock(css, "@theme inline")
+  const light = cssBlock(css, ":root")
   return {
     name: "theme",
     type: "registry:theme",
@@ -284,10 +286,12 @@ function themeItem() {
       '@import "tw-animate-css"': {},
       '@import "shadcn/tailwind.css"': {},
       ...registryCss(css),
+      // The light values again under .light, so a subtree can stay light inside a dark page.
+      ".light": Object.fromEntries(Object.entries(light).map(([key, value]) => [`--${key}`, value])),
     },
     cssVars: {
       theme,
-      light: cssBlock(css, ":root"),
+      light,
       dark: cssBlock(css, ".dark"),
     },
   }

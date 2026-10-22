@@ -29,6 +29,7 @@ An app with several sections switches between them with `PageNav` (the first chi
 | A list or section failed to load | `RecordTable error` + `onRetry`; in a section, `EmptyState status="danger"` + `onRetry` | An empty table, plain red text |
 | Persistent feedback | `Banner` with `status` | Colored `<div>`s, emoji, alert() |
 | Transient feedback | `toast` from the `sonner` package; `Toaster` from `@/components/ui/sonner` once at the root | A banner for "Saved!" |
+| Transient feedback, island style (a single stack at the top) | `island()` from `@/components/ui/island-toast`; `IslandToaster` once at the root (`tone`, `position`). An app uses either this or `Toaster`, never both | Two toasters side by side, a color per toast |
 | Unsaved form changes | `UnsavedBar` | A Save button at the bottom of a long form |
 | Status | `Badge` with `status` (+ `dot` for live states) | Custom colored pill labels |
 | Changing status (pending → syncing → done) | `AnimatedBadge` (`status`, `media="dot"` + `pulse` for live) | A blinking `Badge`, custom keyframes |
@@ -142,6 +143,7 @@ the content stays visible but can't be clicked.
 
 - Don't hand-write springs or curves: use `@/lib/motion` (`SPRING`, `ICON_SPRING`, `EASE_*`, `springOrInstant`)
   or tokens like `ease-(--ease-out)` in CSS.
+- A bouncy spring belongs only to `IslandToaster`, via `ISLAND_SPRING`; don't use bounce in any other component.
 - Hover 150ms, content enter 150ms / exit 100ms, overlay 300/200ms. Exit is shorter than enter.
 - `transition-all` is banned. In Tailwind v4, for `translate-*` / `scale-*` list
   `translate` and `scale` in the transition property (not `transform`).

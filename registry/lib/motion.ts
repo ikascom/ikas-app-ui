@@ -35,3 +35,21 @@ export const springOrInstant = (reduce: boolean | null): Transition => (reduce ?
 /** Fade timings for content that appears inside an expanding container. */
 export const FADE_IN: Transition = { duration: 0.15, ease: EASE_OUT }
 export const FADE_OUT: Transition = { duration: 0.1, ease: EASE_OUT }
+
+/**
+ * Dynamic-island morphs only (IslandToaster), after the animations.dev recipe: springs with
+ * bounce, set per transition, more bounce for a smaller target. Nothing else in the app bounces;
+ * exits stay on SPRING_EXIT.
+ */
+export const ISLAND_SPRING = {
+  /** From beyond the edge into a small pill. */
+  enter: { type: "spring", duration: 0.5, bounce: 0.35 },
+  /** Pill to the open card: a large target, the least bounce. */
+  open: { type: "spring", duration: 0.5, bounce: 0.2 },
+  /** Open card back to the pill: a small target, more bounce. */
+  fold: { type: "spring", duration: 0.45, bounce: 0.3 },
+  /** Layers shifting in the stack, the list opening and closing. */
+  stack: { type: "spring", duration: 0.4, bounce: 0.15 },
+  /** Back into place after a swipe that did not dismiss: the drag applied force. */
+  release: { type: "spring", duration: 0.35, bounce: 0.25 },
+} satisfies Record<string, Transition>
