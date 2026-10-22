@@ -368,7 +368,7 @@ function Announcer({ toast }: { toast?: IslandToast }) {
 }
 
 type IslandToasterProps = {
-  /** dark: opaque ink in both themes, like Apple's island. light: white in both themes. */
+  /** dark: opaque ink in both themes. light: white in both themes. */
   tone?: "dark" | "light"
   /** Edge and side the stack sits on. Top grows down, bottom grows up. */
   position?: IslandPosition

@@ -2,7 +2,7 @@
 "ikas-app-ui": minor
 ---
 
-Progress and steps, in the motion language of the uiarc progress family and ikas's own motion tokens.
+Progress and steps, on ikas's own motion tokens.
 
 - New `@ikas/progress-bar`: a bar or segments (`segmentType`: skew, block, pill, notch, dot, diamond). One spring drives the fill and the number; the fill slides so its rounded end holds; at the end it turns green and a check draws in (segments turn green as a wave from the left). `indeterminate` travels the track and, when the total arrives, the fill starts where that bar is. Label and hint swap in place.
 - New `@ikas/steps`: horizontal, vertical (description and error swap under the current step, with its actions) and compact. Jumps fill the connectors one after another and the current step's halo lands last; changes are announced.

@@ -37,9 +37,8 @@ export const FADE_IN: Transition = { duration: 0.15, ease: EASE_OUT }
 export const FADE_OUT: Transition = { duration: 0.1, ease: EASE_OUT }
 
 /**
- * Dynamic-island morphs only (IslandToaster), after the animations.dev recipe: springs with
- * bounce, set per transition, more bounce for a smaller target. Nothing else in the app bounces;
- * exits stay on SPRING_EXIT.
+ * Dynamic-island morphs only (IslandToaster): springs with bounce, set per transition, more
+ * bounce for a smaller target. Nothing else in the app bounces; exits stay on SPRING_EXIT.
  */
 export const ISLAND_SPRING = {
   /** From beyond the edge into a small pill. */
