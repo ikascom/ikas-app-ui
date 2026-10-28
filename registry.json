@@ -1403,7 +1403,7 @@
         "feedback",
         "motion"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/toast",
       "dependencies": [
         "lucide-react",
         "motion"
@@ -1414,6 +1414,7 @@
         "@ikas/motion",
         "@ikas/spinner",
         "@ikas/status",
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -1643,6 +1644,7 @@
       ],
       "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "registryDependencies": [
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -1691,6 +1693,7 @@
       ],
       "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "registryDependencies": [
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -1953,6 +1956,7 @@
       "registryDependencies": [
         "@ikas/chart",
         "@ikas/chart-kit",
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -2007,6 +2011,7 @@
         "@ikas/chart",
         "@ikas/chart-kit",
         "@ikas/motion",
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -2088,6 +2093,7 @@
       "registryDependencies": [
         "@ikas/motion",
         "@ikas/skeleton",
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -2142,6 +2148,7 @@
         "@ikas/button",
         "@ikas/input-group",
         "@ikas/motion",
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -2560,6 +2567,7 @@
         "@ikas/motion",
         "@ikas/step-kit",
         "@ikas/swap-text",
+        "@ikas/theme",
         "@ikas/utils"
       ],
       "files": [
@@ -2836,7 +2844,8 @@
       ],
       "registryDependencies": [
         "@ikas/button",
-        "@ikas/motion"
+        "@ikas/motion",
+        "@ikas/theme"
       ],
       "files": [
         {
@@ -2900,7 +2909,7 @@
         "feedback",
         "utilities"
       ],
-      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit",
+      "docs": "https://builders.ikas.com/tr/docs/app-development/ui-kit/components/primitives",
       "files": [
         {
           "path": "registry/hooks/use-delayed-loading.ts",

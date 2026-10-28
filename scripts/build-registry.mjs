@@ -37,6 +37,8 @@ for (const name of ["accordion", "alert-dialog", "badge", "breadcrumb", "button"
 /** Items documented on a page with another path. */
 const docsPaths = {
   sonner: "components/toast",
+  "island-toast": "components/toast",
+  "use-delayed-loading": "components/primitives",
   status: "tokens",
   theme: "tokens",
   motion: "motion",
@@ -172,10 +174,23 @@ function packageName(spec) {
   return spec.split("/")[0]
 }
 
+/**
+ * Theme pieces that have no fallback: the `@utility` classes (with their keyframes),
+ * the placeholder and island colors, and the theme-switch page transitions. An item
+ * that uses one depends on @ikas/theme, so installing it also brings them into apps
+ * whose theme predates them.
+ */
+const THEME_PIECES = [
+  ...[...read("registry/theme.css").matchAll(/^@utility ([\w-]+)/gm)].map(([, name]) => new RegExp(`(?<![\\w-])${name}(?![\\w-])`)),
+  /(?<![\w-])(?:bg|text|border|fill|stroke)-(?:skeleton|island)(?![\w-])|--(?:skeleton|island)(?![\w-])/,
+  /themeTransition|data-theme-transition/,
+]
+
 function analyze(file) {
   const source = read(file)
   const dependencies = new Set()
   const registryDependencies = new Set()
+  if (THEME_PIECES.some((piece) => piece.test(source))) registryDependencies.add(`${NAMESPACE}/theme`)
   for (const [, spec] of source.matchAll(/(?:from|import)\s+["']([^"']+)["']/g)) {
     if (spec.startsWith("@/lib/")) registryDependencies.add(`${NAMESPACE}/${path.basename(spec)}`)
     else if (spec.startsWith("@/components/ui/") || spec.startsWith("@/components/ikas/") || spec.startsWith("@/hooks/"))
