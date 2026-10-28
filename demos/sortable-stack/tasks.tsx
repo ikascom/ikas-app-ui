@@ -59,7 +59,7 @@ export default function SortableStackTasks() {
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Bugünkü işler</CardTitle>
-            <CardDescription>Önce yapmak istediğini en üste taşı.</CardDescription>
+            <CardDescription>Önce yapmak istediğinizi en üste taşıyın.</CardDescription>
             <CardAction>
               <SortableStackUndo />
             </CardAction>

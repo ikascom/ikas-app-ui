@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 import { Launchpad, type LaunchpadStep } from "@/components/ikas/launchpad"
 
 const base: (Omit<LaunchpadStep, "status" | "actions"> & { action: string })[] = [
-  { id: "connect", label: "Pazaryeri hesabını bağla", description: "API anahtarını gir; bağlantı test edilir.", eta: "~1 dk", action: "Bağla" },
-  { id: "products", label: "Ürünleri seç", description: "Gönderilecek kategorileri işaretle.", eta: "~3 dk", action: "Ürünleri seç" },
+  { id: "connect", label: "Pazaryeri hesabını bağla", description: "API anahtarını girin; bağlantı test edilir.", eta: "~1 dk", action: "Bağla" },
+  { id: "products", label: "Ürünleri seç", description: "Gönderilecek kategorileri işaretleyin.", eta: "~3 dk", action: "Ürünleri seç" },
   { id: "price", label: "Fiyat kuralı ekle", description: "Komisyonu fiyata yansıt.", eta: "~2 dk", action: "Kural ekle" },
-  { id: "preview", label: "Önizle", description: "İlk 10 ürünü pazaryeri görünümünde kontrol et.", eta: "~2 dk", action: "Önizle", requires: ["products"] },
-  { id: "publish", label: "Yayınla", description: "Ürünleri pazaryerine gönder.", eta: "~5 dk", action: "Yayınla", requires: ["price"] },
+  { id: "preview", label: "Önizle", description: "İlk 10 ürünü pazaryeri görünümünde kontrol edin.", eta: "~2 dk", action: "Önizle", requires: ["products"] },
+  { id: "publish", label: "Yayınla", description: "Ürünleri pazaryerine gönderin.", eta: "~5 dk", action: "Yayınla", requires: ["price"] },
 ]
 
 /**

@@ -16,7 +16,7 @@ export default function EmptyStatePage() {
             <PlusIcon data-icon="inline-start" />
             Kampanya oluştur
           </Button>
-          <Button variant="outline">CSV’den içe aktar</Button>
+          <Button variant="outline">{"CSV'den içe aktar"}</Button>
         </>
       }
       footer={

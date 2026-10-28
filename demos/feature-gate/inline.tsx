@@ -17,20 +17,20 @@ export default function FeatureGateInline() {
         <SettingRow
           htmlFor="multi-language"
           title="Çoklu dil"
-          description="Mağazayı 3 dile kadar çevir."
+          description="Mağazayı 3 dile kadar çevirin."
           control={<Switch id="multi-language" defaultChecked />}
         />
         <SettingRow
           htmlFor="subscriptions"
           title="Abonelikli ürünler"
-          description="Tekrarlayan ödemeleri otomatik al."
+          description="Tekrarlayan ödemeleri otomatik alın."
           control={
             <FeatureGate locked variant="inline" title="Abonelikli ürünler" onUpgrade={() => toast("Planlar açılıyor")}>
               <Switch id="subscriptions" />
             </FeatureGate>
           }
         />
-        <SettingRow htmlFor="two-factor" title="İki adımlı doğrulama" description="Personel girişlerinde kod iste." control={<Switch id="two-factor" />} />
+        <SettingRow htmlFor="two-factor" title="İki adımlı doğrulama" description="Personel girişlerinde kod isteyin." control={<Switch id="two-factor" />} />
       </CardContent>
     </Card>
   )

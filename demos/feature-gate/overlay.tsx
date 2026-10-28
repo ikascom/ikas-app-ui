@@ -15,7 +15,7 @@ export default function FeatureGateOverlay() {
       <FeatureGate
         locked
         title="Denetim kayıtları"
-        description="Mağazandaki her değişikliği kimin yaptığını görmek için Pro plana geç."
+        description="Mağazanızdaki her değişikliği kimin yaptığını görmek için Pro plana geçin."
         onUpgrade={() => toast("Planlar açılıyor")}
         onCompare={() => toast("Plan karşılaştırması açılıyor")}
       >

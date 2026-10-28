@@ -76,7 +76,7 @@ export default function AuditLogsExample() {
     <Page width="wide">
       <PageHeader
         title="Denetim kayıtları"
-        description="Mağazandaki değişiklikleri kimin, ne zaman yaptığını gör."
+        description="Mağazanızdaki değişiklikleri kimin, ne zaman yaptığını görün."
         actions={
           <>
             <SegmentedControl
@@ -107,7 +107,7 @@ export default function AuditLogsExample() {
       <FeatureGate
         locked={locked}
         title="Denetim kayıtları"
-        description="Mağazandaki her değişikliği kimin yaptığını görmek için Pro plana geç."
+        description="Mağazanızdaki her değişikliği kimin yaptığını görmek için Pro plana geçin."
         onUpgrade={upgrade}
         onCompare={() => toast("Plan karşılaştırması açılıyor")}
       >

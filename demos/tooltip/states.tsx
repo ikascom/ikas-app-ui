@@ -40,7 +40,7 @@ export default function TooltipStates() {
             </Button>
           </span>
         </TooltipTrigger>
-        <TooltipContent>Önce en az bir satır seç</TooltipContent>
+        <TooltipContent>Önce en az bir satır seçin</TooltipContent>
       </Tooltip>
     </div>
   )

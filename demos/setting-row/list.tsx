@@ -19,7 +19,7 @@ export default function SettingRowList() {
         <SettingRow
           htmlFor="notify-stock"
           title="Düşük stok uyarıları"
-          description="Bir varyantın stoğu 5’in altına düştüğünde."
+          description="Bir varyantın stoğu 5'in altına düştüğünde."
           control={<Switch id="notify-stock" />}
         />
         <SettingRow

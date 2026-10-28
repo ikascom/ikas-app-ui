@@ -31,7 +31,7 @@ export default function FeatureGateUnlock() {
       <FeatureGate
         locked={plan === "free"}
         title="Denetim kayıtları"
-        description="Mağazandaki her değişikliği kimin yaptığını görmek için Pro plana geç."
+        description="Mağazanızdaki her değişikliği kimin yaptığını görmek için Pro plana geçin."
         onUpgrade={() => setPlan("pro")}
       >
         <ul className="divide-y text-sm">

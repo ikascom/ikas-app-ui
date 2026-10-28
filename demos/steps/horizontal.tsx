@@ -10,9 +10,9 @@ import { Steps, type StepsItem } from "@/components/ikas/steps"
 const base: StepsItem[] = [
   { id: "goal", label: "Hedef", description: "Kampanyanın amacını seç." },
   { id: "audience", label: "Kitle", description: "Kimlere gösterileceğini belirle." },
-  { id: "content", label: "İçerik", description: "Başlık ve görselleri ekle." },
+  { id: "content", label: "İçerik", description: "Başlık ve görselleri ekleyin." },
   { id: "budget", label: "Bütçe", description: "Günlük harcama sınırını gir." },
-  { id: "review", label: "Önizleme", description: "Yayından önce kontrol et." },
+  { id: "review", label: "Önizleme", description: "Yayından önce kontrol edin." },
 ]
 const shapes: { value: StepMarkerShape; label: string }[] = [
   { value: "diamond", label: "Elmas" },

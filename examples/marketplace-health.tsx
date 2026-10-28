@@ -155,7 +155,7 @@ export default function MarketplaceHealthExample() {
           <CardContent className="flex items-center gap-4">
             <RadialMeter value={94} size={72} strokeWidth={7} status="success" label="Eşitleme sağlığı" />
             <div className="flex flex-col gap-0.5">
-              <span className="text-[13px] text-muted-foreground">Son 24 saat, gönderimlerin %94’ü başarılı</span>
+              <span className="text-[13px] text-muted-foreground">{"Son 24 saat, gönderimlerin %94'ü başarılı"}</span>
               <span className="text-sm font-medium">İyi durumda</span>
             </div>
           </CardContent>

@@ -14,7 +14,7 @@ export default function FeatureGateBanner() {
         locked
         variant="banner"
         title="Gelişmiş SEO ayarları Pro planda"
-        description="Şimdilik yalnızca görüntüleyebilirsin."
+        description="Şimdilik yalnızca görüntüleyebilirsiniz."
         onUpgrade={() => toast("Planlar açılıyor")}
       >
         <FieldGroup className="p-4">

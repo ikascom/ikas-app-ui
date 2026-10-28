@@ -8,11 +8,11 @@ import { type StepMarkerShape } from "@/components/ikas/step-kit"
 import { Steps, type StepsItem } from "@/components/ikas/steps"
 
 const base: StepsItem[] = [
-  { id: "connect", label: "Hesabı bağla", description: "Pazaryeri API anahtarını gir." },
-  { id: "products", label: "Ürünleri seç", description: "Gönderilecek ürünleri filtrele." },
+  { id: "connect", label: "Hesabı bağla", description: "Pazaryeri API anahtarını girin." },
+  { id: "products", label: "Ürünleri seç", description: "Gönderilecek ürünleri filtreleyin." },
   { id: "price", label: "Fiyat kuralı", description: "Komisyonu fiyata yansıt." },
-  { id: "preview", label: "Önizle", description: "İlk 10 ürünü kontrol et." },
-  { id: "publish", label: "Yayınla", description: "Ürünleri pazaryerine gönder." },
+  { id: "preview", label: "Önizle", description: "İlk 10 ürünü kontrol edin." },
+  { id: "publish", label: "Yayınla", description: "Ürünleri pazaryerine gönderin." },
 ]
 const shapes: { value: StepMarkerShape; label: string }[] = [
   { value: "diamond", label: "Elmas" },

@@ -130,7 +130,7 @@ export default function IslandToastBasic() {
             ]}
           />
         </div>
-        <p className="text-[13px] text-muted-foreground">Üstüne gel: liste açılır. Öndekini kenara doğru kaydır ya da Esc ile kapat.</p>
+        <p className="text-[13px] text-muted-foreground">Üstüne gelin: liste açılır. Öndekini kenara doğru kaydırın ya da Esc ile kapatın.</p>
       </div>
     </div>
   )

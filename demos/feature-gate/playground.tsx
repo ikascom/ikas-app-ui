@@ -83,7 +83,7 @@ export default function FeatureGatePlayground() {
   const [swatches, setSwatches] = React.useState(starters)
   const [variant, setVariant] = React.useState<FeatureGateVariant>("overlay")
   usePalette(color)
-  const gate = { locked: true, color: "violet", title: "Webhook’lar", description: "Olayları dış sistemlerine anlık gönder.", onUpgrade: () => {} } as const
+  const gate = { locked: true, color: "violet", title: "Webhook'lar", description: "Olayları dış sistemlerinize anlık gönderin.", onUpgrade: () => {} } as const
 
   return (
     <div className="grid w-full max-w-3xl items-start gap-6 md:grid-cols-[16rem_1fr]">
@@ -115,7 +115,7 @@ export default function FeatureGatePlayground() {
         )}
         {variant === "banner" && (
           <Card className="overflow-hidden py-0">
-            <FeatureGate {...gate} variant="banner" title="Webhook’lar Pro planda" description="Şimdilik yalnızca görüntüleyebilirsin.">
+            <FeatureGate {...gate} variant="banner" title="Webhook'lar Pro planda" description="Şimdilik yalnızca görüntüleyebilirsiniz.">
               <Rows />
             </FeatureGate>
           </Card>
@@ -128,15 +128,15 @@ export default function FeatureGatePlayground() {
             <div className="divide-y px-6">
               <SettingRow
                 title="Sipariş bildirimleri"
-                description="Yeni siparişte e-posta gönder."
+                description="Yeni siparişte e-posta gönderin."
                 control={<Switch defaultChecked aria-label="Sipariş bildirimleri" />}
               />
               <SettingRow
-                title="Webhook’lar"
-                description="Olayları dış sistemlerine anlık gönder."
+                title="Webhook'lar"
+                description="Olayları dış sistemlerinize anlık gönderin."
                 control={
                   <FeatureGate {...gate} variant="inline">
-                    <Switch aria-label="Webhook’lar" />
+                    <Switch aria-label="Webhook'lar" />
                   </FeatureGate>
                 }
               />

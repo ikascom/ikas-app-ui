@@ -36,7 +36,7 @@ export default function FeatureGatePreview() {
   return (
     <Card className="w-full max-w-xl gap-0 overflow-hidden py-0">
       <CardHeader className="border-b py-3.5">
-        <CardTitle>Webhook’lar</CardTitle>
+        <CardTitle>{"Webhook'lar"}</CardTitle>
         <CardAction>
           <Badge>
             <EyeIcon />
@@ -47,8 +47,8 @@ export default function FeatureGatePreview() {
       <FeatureGate
         locked
         variant="preview"
-        title="Webhook’lar Pro planda"
-        description="Olayları dış sistemlerine anlık gönder."
+        title="Webhook'lar Pro planda"
+        description="Olayları dış sistemlerinize anlık gönderin."
         onUpgrade={() => toast("Planlar açılıyor")}
         preview={
           <ul className="divide-y">
@@ -72,7 +72,7 @@ export default function FeatureGatePreview() {
         <EmptyState
           media={<WebhookIcon />}
           title="Henüz webhook yok"
-          description="İlk webhook’u eklediğinde olaylar burada listelenir."
+          description="İlk webhook'u eklediğinizde olaylar burada listelenir."
           actions={<Button variant="outline">Webhook ekle</Button>}
         />
       </FeatureGate>

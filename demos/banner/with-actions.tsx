@@ -11,7 +11,7 @@ export default function BannerWithActions() {
   if (!visible) {
     return (
       <Button variant="outline" onClick={() => setVisible(true)}>
-        Banner’ı tekrar göster
+        {"Banner'ı tekrar göster"}
       </Button>
     )
   }
