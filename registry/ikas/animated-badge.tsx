@@ -6,7 +6,7 @@ import type { VariantProps } from "class-variance-authority"
 import { CircleIcon, InfoIcon, TriangleAlertIcon, XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { EASE_OUT, FADE_IN, FADE_OUT, ICON_SPRING, SPRING } from "@/lib/motion"
+import { EASE_OUT, FADE_IN, FADE_OUT, ICON_SPRING, SPRING, usePrefersReducedMotion } from "@/lib/motion"
 import { badgeVariants, type BadgeColor, type BadgeStatus } from "@/components/ui/badge"
 import { Spinner } from "@/components/ui/spinner"
 import { AnimatedCheckIcon } from "@/components/ikas/animated-check"
@@ -50,21 +50,6 @@ const glyphs: Record<Exclude<AnimatedBadgeStatus, "success" | "loading">, React.
   info: InfoIcon,
   warning: TriangleAlertIcon,
   danger: XIcon,
-}
-
-const reducedQuery = "(prefers-reduced-motion: reduce)"
-
-/** Live reduced-motion preference (motion's own hook keeps its first value). */
-function useReducedMotion() {
-  return React.useSyncExternalStore(
-    (onChange) => {
-      const media = window.matchMedia(reducedQuery)
-      media.addEventListener("change", onChange)
-      return () => media.removeEventListener("change", onChange)
-    },
-    () => window.matchMedia(reducedQuery).matches,
-    () => false,
-  )
 }
 
 const blur = "blur(2px)"
@@ -120,7 +105,7 @@ function AnimatedBadge({
   className,
   ...props
 }: AnimatedBadgeProps) {
-  const reduce = useReducedMotion()
+  const reduce = usePrefersReducedMotion()
   const resolved = color ?? statusColor[status]
   const layout = reduce ? false : true
   const slot = reduce ? false : ("position" as const)

@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useAnimate } from "motion/react"
 import { CheckIcon, LockKeyholeIcon, LockKeyholeOpenIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { EASE_OUT, FADE_IN, FADE_OUT, ICON_SPRING, INSTANT } from "@/lib/motion"
+import { EASE_OUT, FADE_IN, FADE_OUT, ICON_SPRING, INSTANT, usePrefersReducedMotion } from "@/lib/motion"
 import { Badge, type BadgeColor } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -56,21 +56,6 @@ const tints = {
   amber: "[--gate:var(--amber-subtle-foreground)] [--gate-subtle:var(--amber-subtle)] [--gate-border:var(--amber-border)]",
   red: "[--gate:var(--red-subtle-foreground)] [--gate-subtle:var(--red-subtle)] [--gate-border:var(--red-border)]",
 } satisfies Record<FeatureGateColor, string>
-
-const reducedQuery = "(prefers-reduced-motion: reduce)"
-
-/** Live reduced-motion preference (motion's own hook keeps its first value). */
-function useReducedMotion() {
-  return React.useSyncExternalStore(
-    (onChange) => {
-      const media = window.matchMedia(reducedQuery)
-      media.addEventListener("change", onChange)
-      return () => media.removeEventListener("change", onChange)
-    },
-    () => window.matchMedia(reducedQuery).matches,
-    () => false,
-  )
-}
 
 type Phase = "locked" | "opening" | "open"
 
@@ -225,7 +210,7 @@ function FeatureGate({
   children,
   className,
 }: FeatureGateProps) {
-  const reduce = useReducedMotion()
+  const reduce = usePrefersReducedMotion()
   const sequenced = variant === "overlay" || variant === "preview"
   const { shown, phase } = useUnlock(locked, reduce || !sequenced)
   const [swing, setSwing] = React.useState(0)

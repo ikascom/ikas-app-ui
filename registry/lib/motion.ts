@@ -1,3 +1,4 @@
+import * as React from "react"
 import type { Transition } from "motion/react"
 
 /**
@@ -31,6 +32,21 @@ export const EASE_REVEAL = [0.33, 1, 0.68, 1] as const
 export const EASE_DRAWER = [0.32, 0.72, 0, 1] as const
 
 export const springOrInstant = (reduce: boolean | null): Transition => (reduce ? INSTANT : SPRING)
+
+const reducedQuery = "(prefers-reduced-motion: reduce)"
+const subscribeReduced = (onChange: () => void) => {
+  const media = window.matchMedia(reducedQuery)
+  media.addEventListener("change", onChange)
+  return () => media.removeEventListener("change", onChange)
+}
+
+/**
+ * The reduced-motion setting, followed live: unlike motion/react's `useReducedMotion`, it
+ * re-renders when the setting changes while the page is open. False on the server.
+ */
+export function usePrefersReducedMotion() {
+  return React.useSyncExternalStore(subscribeReduced, () => window.matchMedia(reducedQuery).matches, () => false)
+}
 
 /** Fade timings for content that appears inside an expanding container. */
 export const FADE_IN: Transition = { duration: 0.15, ease: EASE_OUT }
