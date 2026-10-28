@@ -58,7 +58,7 @@ type SortableStackProps<T extends { id: string }> = {
   items?: T[]
   /** Starting items when uncontrolled. */
   defaultItems?: T[]
-  /** Called with the new order after every move and undo. Save it here if the order should persist. */
+  /** Called with the new order once a drag ends, and after each keyboard move and undo. Save it here if the order should persist. */
   onItemsChange?: (items: T[]) => void
   /** Row contents for the built-in layout (handle, content and undo) when `children` is omitted. */
   renderItem?: (item: T, index: number) => React.ReactNode
@@ -95,7 +95,10 @@ function SortableStack<T extends { id: string }>({
   itemClassName,
 }: SortableStackProps<T>) {
   const [internalItems, setInternalItems] = React.useState(defaultItems)
-  const items = controlledItems ?? internalItems
+  // The order while a drag is in progress; published once when it ends.
+  const [draft, setDraft] = React.useState<T[] | null>(null)
+  const source = controlledItems ?? internalItems
+  const items = draft ?? source
   const ids = items.map((item) => item.id)
   if (new Set(ids).size !== ids.length) throw new Error("SortableStack requires unique item ids.")
   if (children === undefined && !renderItem) throw new Error("SortableStack requires children or renderItem.")
@@ -135,7 +138,10 @@ function SortableStack<T extends { id: string }>({
       return item ? [item] : []
     })
     // Rows can be removed during a drag. Only publish a full permutation.
-    if (next.length === live.current.length && new Set(nextIds).size === next.length) change(next)
+    if (next.length !== live.current.length || new Set(nextIds).size !== next.length) return
+    if (dragStart.current === null) return change(next)
+    live.current = next
+    setDraft(next)
   }
 
   const move = (id: string, direction: MoveDirection) => {
@@ -183,10 +189,14 @@ function SortableStack<T extends { id: string }>({
       const before = dragStart.current
       dragStart.current = null
       setDragging(false)
-      const current = live.current
+      setDraft(null)
+      // Apply the dragged order to the latest items, in case rows came or went during the drag.
+      const rank = new Map(live.current.map((item, index) => [item.id, index]))
+      const current = [...source].sort((a, b) => (rank.get(a.id) ?? Infinity) - (rank.get(b.id) ?? Infinity))
       const index = current.findIndex((item) => item.id === id)
       const item = current[index]
       if (item && before?.some((oldId, at) => oldId !== current[at]?.id)) {
+        change(current)
         setPrevious(before)
         setAnnouncement(moved(item, index, current.length))
       }

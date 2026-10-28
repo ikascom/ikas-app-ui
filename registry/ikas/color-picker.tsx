@@ -6,7 +6,7 @@ import { CheckIcon, PipetteIcon, PlusIcon } from "lucide-react"
 import { Popover as PopoverPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
-import { EASE_IN_OUT, EASE_OUT, FADE_OUT, INSTANT, SPRING } from "@/lib/motion"
+import { EASE_IN_OUT, EASE_OUT, FADE_OUT, INSTANT, SPRING, usePrefersReducedMotion } from "@/lib/motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group"
@@ -31,7 +31,7 @@ type ColorPickerProps = {
   swatches?: string[]
   /** Initial saved colors when uncontrolled. */
   defaultSwatches?: string[]
-  /** Called when a color is saved, removed or moved. */
+  /** Called when a color is saved, removed or moved; once per drag, when the swatch is dropped. */
   onSwatchesChange?: (swatches: string[]) => void
   /** Most saved colors. Saving past it drops the oldest. */
   maxSwatches?: number
@@ -221,20 +221,6 @@ const FALLBACK: Hsv = { h: 220, s: 0.8, v: 0.95, a: 1 }
 /** Thumb radius in px. Track gradients start and end this far in, so the color under a thumb is the value it reports. */
 const THUMB = 8
 const CHECKER = "repeating-conic-gradient(var(--muted) 0 25%, var(--card) 0 50%) 0 0 / 8px 8px"
-const reducedQuery = "(prefers-reduced-motion: reduce)"
-
-function useReducedMotion() {
-  return React.useSyncExternalStore(
-    (onChange) => {
-      const media = window.matchMedia(reducedQuery)
-      media.addEventListener("change", onChange)
-      return () => media.removeEventListener("change", onChange)
-    },
-    () => window.matchMedia(reducedQuery).matches,
-    () => false
-  )
-}
-
 type EyeDropperApi = new () => { open: () => Promise<{ sRGBHex: string }> }
 const noSubscribe = () => () => {}
 /** True where the browser can pick a color from the screen. False during SSR and the first render. */
@@ -507,19 +493,21 @@ function ColorPicker({
   className,
 }: ColorPickerProps) {
   const uid = React.useId()
-  const reduce = useReducedMotion()
+  const reduce = usePrefersReducedMotion()
   const canPick = useEyeDropper()
 
   const [hsv, setHsv] = React.useState<Hsv>(() => parse(value ?? defaultValue) ?? FALLBACK)
-  // Follow a controlled value during render; keep the current hue when the new color is grey.
-  const [seen, setSeen] = React.useState(value)
-  if (value !== undefined && value !== seen) {
-    setSeen(value)
+  // A controlled value is the truth: follow it whenever the shown color differs, which also undoes a change
+  // the parent didn't take. Hue (and saturation on black) stay local, since a grey hex can't carry them.
+  if (value !== undefined) {
     const next = parse(value, hsv.h)
     if (next && toHex(next) !== toHex(hsv)) setHsv(next)
   }
   const [ownSwatches, setOwnSwatches] = React.useState(defaultSwatches)
-  const swatches = swatchesProp ?? ownSwatches
+  const savedSwatches = swatchesProp ?? ownSwatches
+  // The order while a swatch is dragged; saved once when it is dropped.
+  const [swatchOrder, setSwatchOrder] = React.useState<string[] | null>(null)
+  const swatches = swatchOrder ?? savedSwatches
 
   const [open, setOpen] = React.useState(false)
   const [triggerBox, setTriggerBox] = React.useState({ width: 192, height: 36, radius: 10 })
@@ -560,6 +548,12 @@ function ColorPicker({
     if (swatchesProp === undefined) setOwnSwatches(next)
     onSwatchesChange?.(next)
   }
+  function dropSwatch() {
+    if (!swatchOrder) return
+    setSwatchOrder(null)
+    const next = swatchOrder.filter((c) => savedSwatches.includes(c))
+    if (next.length === savedSwatches.length && next.some((c, i) => c !== savedSwatches[i])) setSwatches(next)
+  }
 
   const area = usePointerBox(areaRef, (x, y) => commit({ ...hsv, s: x, v: 1 - y }))
   const areaX = useGlide(hsv.s, area.dragging, reduce)
@@ -579,7 +573,7 @@ function ColorPicker({
     const next = parse(draft, hsv.h)
     if (!next) {
       setInvalid(true)
-      if (!reduce && !window.matchMedia(reducedQuery).matches) animate(shake, [0, -6, 5, -3, 0], { duration: 0.3, ease: EASE_OUT })
+      if (!reduce) animate(shake, [0, -6, 5, -3, 0], { duration: 0.3, ease: EASE_OUT })
       return false
     }
     commit(next)
@@ -898,7 +892,7 @@ function ColorPicker({
                     as="div"
                     axis="x"
                     values={swatches}
-                    onReorder={setSwatches}
+                    onReorder={setSwatchOrder}
                     role="listbox"
                     aria-label="Kaydedilen renkler"
                     aria-orientation="horizontal"
@@ -933,7 +927,10 @@ function ColorPicker({
                           onDragStart={() => {
                             draggedSwatch.current = true
                           }}
-                          onDragEnd={() => requestAnimationFrame(() => (draggedSwatch.current = false))}
+                          onDragEnd={() => {
+                            dropSwatch()
+                            requestAnimationFrame(() => (draggedSwatch.current = false))
+                          }}
                           onClick={() => {
                             if (draggedSwatch.current) return
                             const next = parse(color, hsv.h)

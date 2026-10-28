@@ -53,6 +53,7 @@ function Steps({
   const shape = useStepMarkerShape(marker)
   const travel = useStepTravel(current)
   const n = steps.length
+  if (n === 0) return null
   const done = current >= n
   const at = Math.min(current, n - 1)
   const statusOf = (i: number): StepStatus => (i < current ? "done" : i === current ? (steps[i].error ? "error" : "current") : "upcoming")

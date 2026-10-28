@@ -9,6 +9,9 @@ import { FADE_IN, FADE_OUT, ICON_SPRING, INSTANT } from "@/lib/motion"
 import { Button, type ButtonProps } from "@/components/ui/button"
 
 type Theme = "light" | "dark"
+
+/** The latest transition; an earlier one finishing late must not clear its attribute. */
+let latestRun = 0
 type ThemeTransition = "reveal" | "eclipse" | "split" | "rise" | "none"
 
 type ThemeSwitchProps = Omit<ButtonProps, "children" | "onClick" | "asChild" | "loading"> & {
@@ -72,9 +75,10 @@ function ThemeSwitch({
     root.style.setProperty("--theme-y", `${y}px`)
     root.style.setProperty("--theme-r", `${Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))}px`)
     root.dataset.themeTransition = transition
+    const token = ++latestRun
     const run = document.startViewTransition(() => flushSync(() => onThemeChange(next)))
     run.finished.finally(() => {
-      delete root.dataset.themeTransition
+      if (token === latestRun) delete root.dataset.themeTransition
     })
   }
 

@@ -46,6 +46,8 @@ function PageNav<T extends string>({
   const reduce = useReducedMotion()
   const refs = React.useRef<(HTMLButtonElement | null)[]>([])
   const tabs = onValueChange !== undefined
+  // A value that matches no enabled item still leaves one tab stop, so the keyboard can reach the bar.
+  const focusable = items.find((item) => item.value === value && !item.disabled)?.value ?? items.find((item) => !item.disabled)?.value
 
   function onKeyDown(event: React.KeyboardEvent, index: number) {
     const enabled = items.flatMap((item, i) => (item.disabled ? [] : [i]))
@@ -120,7 +122,7 @@ function PageNav<T extends string>({
                   type="button"
                   role="tab"
                   aria-selected={active}
-                  tabIndex={active ? 0 : -1}
+                  tabIndex={item.value === focusable ? 0 : -1}
                   disabled={item.disabled}
                   onClick={() => onValueChange?.(item.value)}
                   onKeyDown={(event) => onKeyDown(event, index)}

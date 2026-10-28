@@ -55,11 +55,24 @@ const subscribe = (listener: () => void) => {
   return () => listeners.delete(listener)
 }
 
+/** Mounted IslandToasters per `id`. A toast with no toaster to show it is dropped after a grace period. */
+const mounted = new Map<string | undefined, number>()
+/** Long enough for a toaster that mounts in the same render pass, or right after, to pick the toast up. */
+const ORPHAN_GRACE = 1000
+
+function sweep() {
+  const next = store.filter((t) => mounted.get(t.toasterId))
+  if (next.length === store.length) return
+  store = next
+  emit()
+}
+
 function upsert(type: IslandType, title: React.ReactNode, options: IslandOptions = {}) {
   const id = options.id ?? `island-${++counter}`
   const next: IslandToast = { ...options, id, type, title }
   store = store.some((t) => t.id === id) ? store.map((t) => (t.id === id ? next : t)) : [...store, next]
   emit()
+  if (!mounted.get(options.toasterId)) window.setTimeout(sweep, ORPHAN_GRACE)
   return id
 }
 
@@ -79,7 +92,9 @@ type PromiseMessages<T> = {
 /**
  * island("Kural silindi", { description, action }) shows a toast and returns its id.
  * island.success / info / warning / error / loading set the status; island.promise
- * shows loading and resolves the same toast to success or error.
+ * shows loading and resolves the same toast to success or error. It returns the promise
+ * it was given: awaiting it gives the data or throws, and ignoring it leaves no unhandled
+ * rejection, since the toast already handles both outcomes.
  */
 const island = Object.assign((title: React.ReactNode, options?: IslandOptions) => upsert("default", title, options), {
   success: (title: React.ReactNode, options?: IslandOptions) => upsert("success", title, options),
@@ -446,19 +461,22 @@ function IslandToaster({ tone = "dark", position = "top-center", visibleToasts =
   )
 
   // Each toast keeps its own clock. The front one opens itself after 150ms when it has a body,
-  // and folds 1.5s before it leaves.
+  // and folds 1.5s before it leaves; a resumed clock does the same with the time it has left.
+  const run = (t: IslandToast, timer: Timer) => {
+    timer.start = Date.now()
+    timer.dismiss = window.setTimeout(() => dismiss(t.id), timer.left)
+    if (t.description || t.action) {
+      timer.open.push(window.setTimeout(() => frontRef.current === t.id && setOpenId(t.id), 150))
+      timer.open.push(window.setTimeout(() => setOpenId((o) => (o === t.id ? null : o)), Math.max(timer.left - 1500, 300)))
+    }
+  }
   const arm = (t: IslandToast) => {
     stopTimer(timers.current.get(t.id))
-    const hasBody = Boolean(t.description || t.action)
-    const ms = t.duration ?? (hasBody ? duration * 1.5 : duration)
+    const ms = t.duration ?? (t.description || t.action ? duration * 1.5 : duration)
     const timer: Timer = { open: [], left: ms, start: Date.now() }
     timers.current.set(t.id, timer)
     if (t.type === "loading" || !Number.isFinite(ms) || paused.current) return
-    timer.dismiss = window.setTimeout(() => dismiss(t.id), ms)
-    if (hasBody) {
-      timer.open.push(window.setTimeout(() => frontRef.current === t.id && setOpenId(t.id), 150))
-      timer.open.push(window.setTimeout(() => setOpenId((o) => (o === t.id ? null : o)), Math.max(ms - 1500, 300)))
-    }
+    run(t, timer)
   }
 
   // Timers freeze while the list is open, a toast is being swiped or the tab is hidden, then resume with what was left.
@@ -474,9 +492,8 @@ function IslandToaster({ tone = "dark", position = "top-center", visibleToasts =
       timers.current.forEach((timer, key) => {
         const t = seen.current.get(key)
         if (!t || t.type === "loading" || !Number.isFinite(timer.left)) return
-        timer.start = now
         timer.left = Math.max(timer.left, 1200)
-        timer.dismiss = window.setTimeout(() => dismiss(key), timer.left)
+        run(t, timer)
       })
     paused.current = frozen
   }
@@ -522,6 +539,17 @@ function IslandToaster({ tone = "dark", position = "top-center", visibleToasts =
     const map = timers.current
     return () => map.forEach(stopTimer)
   }, [])
+
+  React.useEffect(() => {
+    mounted.set(id, (mounted.get(id) ?? 0) + 1)
+    return () => {
+      const left = (mounted.get(id) ?? 1) - 1
+      if (left) mounted.set(id, left)
+      else mounted.delete(id)
+      // Deferred, so a remount (Strict Mode, a moved toaster) keeps its toasts.
+      window.setTimeout(sweep, ORPHAN_GRACE)
+    }
+  }, [id])
 
   const openList = () => {
     if (hovering.current || !toasts.length) return
